@@ -1,0 +1,45 @@
+\newcommand{\palayout}[4]{ % #1=bibkey, #2=name
+    \thispagestyle{empty}
+  \begin{minipage}{0.9\linewidth}
+    \hiddenlabel{pa:#2}{\Alph{pac}}
+    \vspace{9cm}
+  \begin{center}
+    {\Large \citeti{#1}}\newline%
+    \null
+    ~\copyright~{#3}~\usebibentry{#1}{publisher}
+    \newline%
+  \end{center}
+  \bibentrywrap{#1}.
+  \end{minipage}
+}
+
+\newcounter{pac}
+\setcounter{pac}{1}
+
+\newcommand{\paperinclude}[5]{
+    \ThisURCornerWallPaper{1.0}{Papers/bg\thepac}
+    \palayout{#1}{#2}{#3}{\thepac}
+    \cleartooddpage[\thispagestyle{empty}]
+    \iftoggle{isprint}{%
+        \includepdf[pages={-},noautoscale,scale=1.0]{Papers/#4}
+    }{%
+        % \includepdf[pages={1}]{Papers/na}
+    }
+    \addtocounter{pac}{1}
+    \iftoggle{isprint}{%
+        \cleartoevenpage[\thispagestyle{empty}]
+        \cleartooddpage[\thispagestyle{empty}]
+    }{
+        \clearpg
+    }
+}
+
+\part*{Papers}
+\newpage
+\thispagestyle{empty}
+\chapter*{Papers}
+\label{ch:papers}
+
+\addcontentsline{toc}{chapter}{Paper A}
+\paperinclude{Bock12Fem}{paperA}{2012}{vis12-fem}
+

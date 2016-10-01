@@ -2,11 +2,11 @@
 \input{src/definitions}
 
 % Toggle print mode or e-mode
-\toggletrue{isprint}
-%\togglefalse{isprint}
+% \toggletrue{isprint}
+% \togglefalse{isprint}
 
-% \linenumbers
-\nolinenumbers
+\linenumbers
+% \nolinenumbers
 
 
 %\newcomment{commenttodo}
@@ -27,7 +27,6 @@
 
 \begin{document}
 \strictpagecheck
-
 \frontmatter
 \chapterstyle{preface}
 \input{src/title}
@@ -35,6 +34,8 @@
 \input{src/acknowledgements}
 \input{src/abstract}
 \input{src/abstract-se}
+\input{src/publications}
+\input{src/contributions}
 \input{src/toc}
 %\pagestyle{frontmatter}
 
@@ -46,11 +47,19 @@
 \pagenumbering{arabic}
 
 \clearpg
-%
-\chapter{Foo}
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+\input{src/motivation}
 \clearpg
-\chapter{Bar}
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+\input{src/introduction}
+\clearpg
+\input{src/application-overview}
+\clearpg
+\input{src/application-design}
+\clearpg
+\input{src/reflections}
+\clearpg
+\input{src/bibliography}
+\clearpg
+\input{src/papers}
+\clearpg
 
 \end{document}

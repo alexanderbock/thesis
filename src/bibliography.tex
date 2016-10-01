@@ -1,0 +1,19 @@
+\begingroup
+\makeatletter
+\let\@bibitem\saved@bibitem
+%% bibliography
+%%\bibliographystyle{abbrv}
+\iftoggle{isprint}{%
+\bibliographystyle{../abbrvnat-wo-url}
+}{%
+\bibliographystyle{../abbrvnat-w-doi}
+}
+%\bibliographystyle{unsrtnat}
+%%\bibliographystyle{plainnat}
+\bibliography{references}
+\endgroup
+
+%% clear to next odd page
+%\cleartoevenpage[\thispagestyle{empty}]
+\cleartooddpage[\thispagestyle{empty}]
+
