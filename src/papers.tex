@@ -1,23 +1,68 @@
-\newcommand{\palayout}[4]{ % #1=bibkey, #2=name
-    \thispagestyle{empty}
-  \begin{minipage}{0.9\linewidth}
-    \hiddenlabel{pa:#2}{\Alph{pac}}
-    \vspace{9cm}
-  \begin{center}
-    {\Large \citeti{#1}}\newline%
-    \null
-    ~\copyright~{#3}~\usebibentry{#1}{publisher}
-    \newline%
-  \end{center}
-  \bibentrywrap{#1}.
-  \end{minipage}
-}
-
 \newcounter{pac}
 \setcounter{pac}{1}
 
+\newlength{\ABpamWidth}
+\setlength{\ABpamWidth}{4cm}
+\newsavebox{\ABpaperbox}
+\newcommand{\ABpapermarker}[1]{%
+  \sbox\ABpaperbox{%
+    % \fontfamily{phv}\selectfont
+    \fontfamily{lmss}\selectfont%
+    % \renewcommand{\sfdefault}{ptm}%
+    % \sffamily%
+    % \resizebox{!}{#1}{\fboxsep=1pt%
+    %   \colorbox{niceblue}{\color{white}\bfseries%\sffamily
+    %     \thechapter}%
+    {\fboxsep=10pt%
+      \colorbox{niceblue}{\resizebox{!}{#1}{\color{white}\bfseries%\sffamily
+        \thepac}%
+    }}}%
+  \rotatebox{90}{%
+    \resizebox{%
+      \heightof{\usebox{\ABpaperbox}}+\depthof{\usebox{\ABpaperbox}}}%
+    {!}{%
+      \sffamily%% \fontfamily{lmss}\selectfont%  %% enable this for sans serif
+      \scshape\so \footnotesize Paper}}%
+  \hspace{7pt}%\quad%  %% distance between vertikal "chapter" and numbered box
+  \raisebox{\depthof{\usebox{\ABpaperbox}}}{\usebox{\ABpaperbox}}%
+}
+
+\newcommand{\ABpaper}[1]{%
+  \setlength{\ABpamWidth}{#1}%
+  \sbox\ABpaperbox{\ABpapermarker[#1]}%
+  \makebox[0pt][l]{% aka \rlap
+    %% slightly shifted to the right
+    \setlength{\ABpamWidth}{0.382\ABpamWidth}% default = 0.382, tight = 1.25
+    \addtolength{\ABpamWidth}{10pt}% %% account for the border of scaled box
+    \makebox[\ABpamWidth][r]{\usebox\ABpaperbox}%
+    %% centered at text border
+    %% \setlength{\dlf@chmWidth}{0.5\dlf@chmWidth}%
+    %% \makebox[\dlf@chmWidth][r]{\usebox\feline@chapter}%
+    %% aligned right at text border
+    % \makebox[0cm][r]{\usebox\feline@chapter}%
+    %% aligned left at text border
+    % \makebox[\dlf@chmWidth][r]{\usebox\feline@chapter}%
+  }}
+
+\newcommand{\palayout}[4]{ % #1=bibkey, #2=name
+    \thispagestyle{empty}
+    \hfill\makebox[2.5cm][r]{\ABpapermarker{2.5cm}}
+
+    \begin{minipage}{0.9\linewidth}
+        \hiddenlabel{pa:#2}{\Alph{pac}}
+        \vspace{9cm}
+    \begin{center}
+        {\Large \citeti{#1}}\newline%
+        \null
+        ~\copyright~{#3}~\usebibentry{#1}{publisher}
+        \newline%
+      \end{center}
+      \bibentrywrap{#1}.
+    \end{minipage}
+}
+
 \newcommand{\paperinclude}[5]{
-    \ThisURCornerWallPaper{1.0}{Papers/bg\thepac}
+    % \ThisURCornerWallPaper{1.0}{Papers/bg\thepac}
     \palayout{#1}{#2}{#3}{\thepac}
     \cleartooddpage[\thispagestyle{empty}]
     \iftoggle{isprint}{%
@@ -36,10 +81,33 @@
 
 \part*{Papers}
 \label{ch:papers}
-\newpage
+\clearpg
 \thispagestyle{empty}
 % \chapter*{Papers}
 
 \addcontentsline{toc}{chapter}{Paper A}
 \paperinclude{Bock12Fem}{paperA}{2012}{vis12-fem}
 
+\addcontentsline{toc}{chapter}{Paper B}
+\paperinclude{Bock13DBS}{paperB}{2013}{pavis13-dbs}
+
+\addcontentsline{toc}{chapter}{Paper C}
+\paperinclude{Bock14USAR}{paperC}{2014}{vmv14-usar}
+
+\addcontentsline{toc}{chapter}{Paper D}
+\paperinclude{Bock14bUSAR}{paperD}{2014}{ssrr14-usar}
+
+\addcontentsline{toc}{chapter}{Paper E}
+\paperinclude{Bock16USAR}{paperE}{2016}{cgf16-usar}
+
+\addcontentsline{toc}{chapter}{Paper F}
+\paperinclude{Bock15CME}{paperF}{2015}{vis15-corona}
+
+\addcontentsline{toc}{chapter}{Paper G}
+\paperinclude{Lindholm14ABuffer}{paperG}{2014}{cgf14-avf}
+
+\addcontentsline{toc}{chapter}{Paper H}
+\paperinclude{Dieckmann15Shock}{paperH}{2015}{jpp15-shocks}
+
+% \addcontentsline{toc}{chapter}{Paper B}
+% \paperinclude{Bock13DBS}{paperB}{2013}{pavis13-dbs}
