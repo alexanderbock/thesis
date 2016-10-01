@@ -54,7 +54,7 @@
     \begin{center}
         {\Large \citeti{#1}}\newline%
         \null
-        ~\copyright~{#3}~\usebibentry{#1}{publisher}
+        ~\copyright~{#3}%~\usebibentry{#1}{publisher}
         \newline%
       \end{center}
       \bibentrywrap{#1}.
@@ -62,28 +62,24 @@
 }
 
 \newcommand{\paperinclude}[5]{
-    % \ThisURCornerWallPaper{1.0}{Papers/bg\thepac}
-    \palayout{#1}{#2}{#3}{\thepac}
-    \cleartooddpage[\thispagestyle{empty}]
-    \iftoggle{isprint}{%
-        \includepdf[pages={-},noautoscale,scale=1.0]{Papers/#4}
-    }{%
-        % \includepdf[pages={1}]{Papers/na}
-    }
-    \addtocounter{pac}{1}
-    \iftoggle{isprint}{%
-        \cleartoevenpage[\thispagestyle{empty}]
-        \cleartooddpage[\thispagestyle{empty}]
-    }{
-        \clearpg
-    }
+     \palayout{#1}{#2}{#3}{\thepac}
+     \iftoggle{isprint}{
+         \cleartooddpage[\thispagestyle{empty}]
+         \includepdf[pages={-},noautoscale,scale=1.0]{Papers/#4}
+     }{}
+     \addtocounter{pac}{1}
+     \iftoggle{isprint}{
+         \cleartoevenpage[\thispagestyle{empty}]
+         \cleartooddpage[\thispagestyle{empty}]
+     }{
+         \clearpg
+     }
 }
 
 \part*{Papers}
 \label{ch:papers}
 \clearpg
 \thispagestyle{empty}
-% \chapter*{Papers}
 
 \addcontentsline{toc}{chapter}{Paper A}
 \paperinclude{Bock12Fem}{paperA}{2012}{vis12-fem}
@@ -109,5 +105,4 @@
 \addcontentsline{toc}{chapter}{Paper H}
 \paperinclude{Dieckmann15Shock}{paperH}{2015}{jpp15-shocks}
 
-% \addcontentsline{toc}{chapter}{Paper B}
-% \paperinclude{Bock13DBS}{paperB}{2013}{pavis13-dbs}
+%
