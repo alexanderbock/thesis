@@ -26,8 +26,6 @@
 \usepackage{fixltx2e}
 \usepackage{etoolbox}
 
-\usepackage[utf8]{inputenc}
-\usepackage[swedish,english]{babel}
 \usepackage{lmodern}
 
 \usepackage[square,numbers,sort]{natbib}
@@ -55,11 +53,7 @@
 \usepackage[svgnames]{xcolor}
 %\usepackage{transparent}
 
-%% color definitions for the thesis
-\usepackage{thesiscolors}
-
-%\usepackage{flipbooktheme}
-\usepackage[noflipbooks]{flipbooktheme}
+\RequirePackage[noflipbooks]{flipbooktheme}
 
 %% Wallpaper for paper dividers
 \usepackage{wallpaper}
@@ -71,7 +65,7 @@
 
 %\usepackage[draft]{stgtthesis}
 %\usepackage{stgtthesis}
-\usepackage{liuthesis}
+\RequirePackage{liuthesis}
 
 %% google suggested pxfonts instead of mathpazo
 %\usepackage{pxfonts}
@@ -124,8 +118,8 @@
 %% enable typesetting with full character protrusion and font expansion
 \usepackage{microtype}
 %% indicate overfull hboxes with a bar in the margin
-%\setlength{\overfullrule}{5pt}
-\setlength{\overfullrule}{0pt}
+\setlength{\overfullrule}{5pt}
+%\setlength{\overfullrule}{0pt}
 
 %% ensure that all subscripts are on the same height, even with superscripts
 \usepackage{subdepth}
@@ -145,9 +139,6 @@
 %%\usepackage{pgfplots}
 \usepackage{wrapfig}
 
-%% Math strike outs
-\usepackage{cancel}
-
 %% SI units and number formatting
 \usepackage[detect-weight,binary-units]{siunitx}
 %% setup si units
@@ -162,7 +153,7 @@
 % \sisetup{exponent-to-prefix=false}
 % \si[prefixes-as-symbols=false]{\kibi} byte % --> 2^{10} byte
 
-\usepackage[]{units}
+\usepackage{units}
 
 %\usepackage[caption=false,farskip=0pt]{subfig}
 
@@ -187,9 +178,8 @@
 
 \usepackage{colortbl}
 
-%% package for colored todo notes at the margin
+%% package for colored to do notes at the margin
 \usepackage[colorinlistoftodos,color=green!40]{todonotes}
-%\usepackage[disable,colorinlistoftodos]{todonotes}
 
 %% enables re-definitions of macros
 \usepackage{letltxmacro}
@@ -234,26 +224,20 @@
 
 %% provides a list of acronyms
 %\usepackage[printonlyused,withpage,smaller]{acronym}
-\usepackage[smaller]{acronym}
+\RequirePackage[smaller]{acronym}
 %% makes first letter upper case (used in acronym)
 \usepackage{mfirstuc}
 
 %% provides algorithm environment
-\usepackage[colored]{algorithm2e}
+\RequirePackage[colored]{algorithm2e}
 \setlength{\algomargin}{10mm}
 %\usepackage{float}
 %\newfloat{algorithm}{t}{lop}
 %\floatname{algorithm}{Algorithm}
 
-%% package for chemical formulas
-\usepackage[version=3]{mhchem}
-%\mhchemoptions{arrows=pgf}
-
 %% provides optional spaces at the end of macros depending on the next character
 \usepackage{xspace}
 
-%% allows to include tikz-plots generated with gnuplot (set term tikz)
-%\usepackage{gnuplot-lua-tikz}
 
 %% provides big braces at the side of a table
 %\usepackage{multirow,bigdelim}
@@ -269,10 +253,10 @@
 %\usepackage[switch]{lineno}
 
 %% load various definitions and commands for the thesis
-\usepackage{thesisdefs}
-\usepackage{thesismathdefs}
+%\usepackage{thesisdefs}
+%\usepackage{thesismathdefs}
 %% captions on the side of figures instead of below
-\usepackage{bysidecap}
+\RequirePackage{bysidecap}
 
 %% Include external pdf's
 \usepackage{pdfpages}
@@ -284,37 +268,54 @@
 
 \usepackage{tcolorbox}
 
-%% tikz libraries must be loaded globally to work 
-%% (include in figures produces errors, don't know why)
-%\usetikzlibrary{arrows,positioning,shadows,fit,shapes,calc,decorations.pathreplacing}
-\usetikzlibrary{calc}
-
-% \linenumbers
-\nolinenumbers
+\newtoggle{isprint}
 
 %Remove Page numers for parts in TOC
 \usepackage{tocloft}
 \addtocontents{toc}{\cftpagenumbersoff{part}}
 \renewcommand{\cftdot}{}
 
-%
-% Dummy figure fallback
-%
-%\newcommand{\includegraphicsmaybe}[1]{\IfFileExists{#1}{\includegraphics{#1}}{\includegraphics{Figures/fish}}}
-\newcommand{\noimage}{%
-  %\setlength{\fboxsep}{-\fboxrule}%
-  %\fbox{\phantom{\rule{150pt}{100pt}}}% Framed box
-    \includegraphics[width=0.24\linewidth]{Figures/fishy}
-}
-\makeatletter
-\patchcmd{\Gin@ii}
-  {\begingroup}% <search>
-  {\begingroup\renewcommand{\@latex@error}[2]{\noimage}}% <replace>
-  {}% <success>
-  {}% <failure>
-\makeatother
-
 %% prevent hyperref links on \citeauthor etc.
 \makeatletter
 \pretocmd{\NAT@citexnum}{\@ifnum{\NAT@ctype>\z@}{\let\NAT@hyper@\relax}{}}{}{}
 \makeatother
+
+%% adjust column width of page numbers in Table of Contents
+\makeatletter
+\renewcommand{\@pnumwidth}{2.55em} %% default 1.55em
+\renewcommand{\@tocrmarg}{3.55em}  %% default 2.55em
+\makeatother
+
+%%% widow and orphan lines (from memman.pdf, page 50)
+% set \clubpenalty, etc. to distinctive values for use
+% in tracing page breaks. These values are chosen so that
+% no single penalty will absolutely prohibit a page break, but
+% certain combinations of two or more will.
+\clubpenalty=9996
+\widowpenalty=9999
+\brokenpenalty=4991
+% Reiterate the default value of \redisplaypenalty, for
+% completeness.
+% Set postdisplaypenalty to a fairly high value to discourage a
+% page break between a display and a widow line at the end of a
+% paragraph.
+\predisplaypenalty=10000
+\postdisplaypenalty=1549
+% And then \displaywidowpenalty should be at least as high as
+% \postdisplaypenalty, otherwise in a situation where two displays
+% are separated by two lines, TeX will prefer to break between the
+% two lines, rather than before the first line.
+\displaywidowpenalty=1602
+
+%\setstocksize{297mm}{210mm}
+\settrims{0pt}{0pt}
+%% increase the text height slightly
+\settypeblocksize{1.05\textheight}{\textwidth}{*} 
+%% offset for the binding (shifts the text block outwards)
+\setbinding{6mm}
+%% ratio between outer and inner margin
+\setlrmargins{*}{*}{1.5}
+%% ratio between footer and header margin
+\setulmargins{*}{*}{1.4}
+
+\checkandfixthelayout
