@@ -1,0 +1,320 @@
+\documentclass[12pt,a4paper,twoside]{memoir} 
+%% draft option for highlighting overfull hboxes and discarding all images
+%\documentclass[12pt,a4paper,twoside,draft]{memoir} 
+
+%% to include selected figures in draft mode use
+%%    \includegraphics[draft=false]{image.pdf}
+
+\usepackage{silence} % So that we can filter out unwanted warnings and error messages
+% http://tex.stackexchange.com/questions/183149/cant-silence-a-pdftex-pdf-inclusion-multiple-pdfs-with-page-group-error
+% Not supported on all versions:
+% http://tex.stackexchange.com/questions/198586/conditional-based-on-the-version-of-pdflatex
+% % supress warning: pdfTeX warning: pdflatex.exe (file <FILENAME>.pdf): PDF inclusion: multiple pdfs ...
+\begingroup\expandafter\expandafter\expandafter\endgroup
+\expandafter\ifx\csname pdfsuppresswarningpagegroup\endcsname\relax
+\else
+  \pdfsuppresswarningpagegroup=1\relax
+\fi
+
+\usepackage{amsmath,bm}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{amsthm}
+%\usepackage[utopia]{mathdesign}
+%\DeclareMathAlphabet{\mathcal}{OMS}{cmsy}{m}{n}
+
+\usepackage{fixltx2e}
+\usepackage{etoolbox}
+
+\usepackage[utf8]{inputenc}
+\usepackage[swedish,english]{babel}
+\usepackage{lmodern}
+
+\usepackage[square,numbers,sort]{natbib}
+
+\makeatletter
+\let\saved@bibitem\@bibitem
+\makeatother
+
+%% allows for inclusion of the full bib entry in the text with \bibentry{bibtexkey}
+\usepackage{bibentry}
+%% tell bibentry to reuse information from the global bibliography
+\nobibliography*
+
+%Import usebib package and declare the fields that can be used.
+\usepackage{usebib}
+\newbibfield{Author} 
+\newbibfield{Title} 
+\newbibfield{Booktitle} 
+\newbibfield{Journal} 
+\newbibfield{Publisher} 
+%\bibinput{references}
+
+%\usepackage[scaled=.92]{helvet}
+
+\usepackage[svgnames]{xcolor}
+%\usepackage{transparent}
+
+%% color definitions for the thesis
+\usepackage{thesiscolors}
+
+%\usepackage{flipbooktheme}
+\usepackage[noflipbooks]{flipbooktheme}
+
+%% Wallpaper for paper dividers
+\usepackage{wallpaper}
+
+%% For page dividable boxes
+%\usepackage{mdframed}
+\usepackage[breakable]{tcolorbox} 
+\tcbuselibrary{skins}
+
+%\usepackage[draft]{stgtthesis}
+%\usepackage{stgtthesis}
+\usepackage{liuthesis}
+
+%% google suggested pxfonts instead of mathpazo
+%\usepackage{pxfonts}
+
+%% fonts to typeset mathematics to match Palatino, sc = small caps
+%\usepackage[sc]{mathpazo}
+%\linespread{1.05}         % Palatino needs more leading (space between lines)
+
+%% package for a wide range of symbols, e.g. \textcopyright and \textcircled
+\usepackage{textcomp}
+
+%% needed for \ding{<number>} symbols
+\usepackage{pifont}
+
+%% MnSymbol automatically loads amsmath, so load amsmath with options before MnSymbol
+%\usepackage{amsmath}
+%%\usepackage[fleqn]{amsmath}  %% position all equations a fixed distance from left
+%% [leqno, reqno] position equations number on the left / right
+%\usepackage{amssymb} %% do not use amssym or amsfonts in combination with MnSymbol
+%\usepackage{amssymb}
+%\usepackage{amsfonts}
+%\let\mathdollar\relax
+%\usepackage{MnSymbol} % Defines required \filledmedtriangleup
+%\let\mathdollar\relax
+
+%% used for theorems
+%\usepackage{amsthm}
+
+%\usepackage{MnSymbol,libertine,libertine-math}
+% \usepackage{MnSymbol}
+% \usepackage{libertine}
+% \usepackage{libertine-math}
+%%\renewcommand*\oldstylenums[1]{{\fontfamily{fxlj}\selectfont #1}}
+%\usefont{T1}{fxlj}{m}{n}\selectfont
+
+%% special handling for ligatures (when copied from the pdf)
+%\input{glyphtounicode}
+%\pdfglyphtounicode{f_f}{FB00}
+%\pdfglyphtounicode{f_f_i}{FB03}
+%\pdfglyphtounicode{f_f_l}{FB04}
+%\pdfglyphtounicode{f_i}{FB01}
+%\pdfgentounicode=1
+
+%% double stroke font for Real an Im stuff I guess
+\usepackage{dsfont}
+
+%% takes care of \"{o} vs. ö stuff
+\usepackage[T1]{fontenc}
+
+%% enable typesetting with full character protrusion and font expansion
+\usepackage{microtype}
+%% indicate overfull hboxes with a bar in the margin
+%\setlength{\overfullrule}{5pt}
+\setlength{\overfullrule}{0pt}
+
+%% ensure that all subscripts are on the same height, even with superscripts
+\usepackage{subdepth}
+
+\usepackage{geometry}
+
+\usepackage{enumitem}
+\setlist{leftmargin=*,parsep=0pt,itemsep=7pt,topsep=2pt,partopsep=0pt}
+\setlist[enumerate]{widest=0}
+
+\usepackage{quoting}
+\quotingsetup{vskip=0pt}
+
+\usepackage{tikz}
+
+\usepackage{graphicx}
+%%\usepackage{pgfplots}
+\usepackage{wrapfig}
+
+%% Math strike outs
+\usepackage{cancel}
+
+%% SI units and number formatting
+\usepackage[detect-weight,binary-units]{siunitx}
+%% setup si units
+\sisetup{list-final-separator={, and }}
+%% transfer settings to pgf package
+%\SendSettingsToPgf
+
+%% examples:
+% \SI[exponent-base=2]{e10}{\kibi\byte} % --> 2^{10}\;KiB
+% \sisetup{exponent-to-prefix}
+% \SI(5e3}{\g} % --> 5\;kg
+% \sisetup{exponent-to-prefix=false}
+% \si[prefixes-as-symbols=false]{\kibi} byte % --> 2^{10} byte
+
+\usepackage[]{units}
+
+%\usepackage[caption=false,farskip=0pt]{subfig}
+
+\usepackage[labelformat=simple]{subcaption}
+%% uncomment next line to get subrefs in parenthesis '1a' will become '1(a)'
+%% (Note: Since parens is the default label format you will get double parentheses in sub-captions when not specifiying a different label format, e.g. simple.)
+\renewcommand\thesubfigure{(\alph{subfigure})}
+% Set figure label font. There exist no option when loading the package.
+\captionsetup{labelfont={color=niceblue,bf}, textfont=sf,compatibility=false} % sf for sans serif
+%% include section in equation numbering
+%%\numberwithin{equation}{section}
+
+%% used for accronym table
+\usepackage{multicol}
+
+%% allows tables to fill \textwidth with X instead p{4cm}
+%\usepackage{tabularx}
+%\usepackage{longtable}
+%% combined tabularx with longtable
+\usepackage{ltxtable}
+%\usepackage{ltablex}
+
+\usepackage{colortbl}
+
+%% package for colored todo notes at the margin
+\usepackage[colorinlistoftodos,color=green!40]{todonotes}
+%\usepackage[disable,colorinlistoftodos]{todonotes}
+
+%% enables re-definitions of macros
+\usepackage{letltxmacro}
+
+\usepackage{url}
+\usepackage{lipsum}
+
+
+%% make footnotes appear at the bottom of the page 
+%% (and not at the last paragraph)
+%\usepackage[bottom]{footmisc}
+
+\usepackage[pdftex,
+    pagebackref=true,
+    colorlinks,linkcolor=niceblue,
+    anchorcolor=niceblue,
+    citecolor=niceblue,
+    urlcolor=niceblue,
+    bookmarks=true,
+    bookmarksnumbered=true,
+    linktocpage=true,
+%   pdfproducer=me,
+%   pdfcreator=blub,
+    pdfpagemode=UseNone]{hyperref}
+
+% Force linebreaks for doi links in listofpublications.tex
+% Cannot use doi package...
+%\usepackage{doi}
+\DeclareUrlCommand\doi{\def\UrlLeft##1\UrlRight{doi:\href{http://dx.doi.org/##1}{##1}}\urlstyle{rm}}
+
+\pdfminorversion=5
+
+%% Mouse-over pdf tootips!
+%\usepackage[createtips]{fancytooltips}
+%\usepackage[filename=bibtips,mouseover]{fancytooltips}
+%\usepackage{pdfcomment}
+
+%% links to tables, figures, etc. point to the top of the image
+%% instead to the caption
+%\usepackage[all]{hypcap}
+
+
+%% provides a list of acronyms
+%\usepackage[printonlyused,withpage,smaller]{acronym}
+\usepackage[smaller]{acronym}
+%% makes first letter upper case (used in acronym)
+\usepackage{mfirstuc}
+
+%% provides algorithm environment
+\usepackage[colored]{algorithm2e}
+\setlength{\algomargin}{10mm}
+%\usepackage{float}
+%\newfloat{algorithm}{t}{lop}
+%\floatname{algorithm}{Algorithm}
+
+%% package for chemical formulas
+\usepackage[version=3]{mhchem}
+%\mhchemoptions{arrows=pgf}
+
+%% provides optional spaces at the end of macros depending on the next character
+\usepackage{xspace}
+
+%% allows to include tikz-plots generated with gnuplot (set term tikz)
+%\usepackage{gnuplot-lua-tikz}
+
+%% provides big braces at the side of a table
+%\usepackage{multirow,bigdelim}
+
+%% needed for transparencies in pdfs (imported from inkscape)
+%\usepackage{transparent}
+
+%% package for displaying line numbers on the margin
+%% (numbering has to be enabled by \linenumbers)
+%% print numbers on inner border
+\usepackage[switch*]{lineno}
+%% print numbers on outer border
+%\usepackage[switch]{lineno}
+
+%% load various definitions and commands for the thesis
+\usepackage{thesisdefs}
+\usepackage{thesismathdefs}
+%% captions on the side of figures instead of below
+\usepackage{bysidecap}
+
+%% Include external pdf's
+\usepackage{pdfpages}
+
+%% relative font sizes
+\usepackage{relsize}
+
+\usepackage{import} % Used to import text-separated pdf not in the root folder
+
+\usepackage{tcolorbox}
+
+%% tikz libraries must be loaded globally to work 
+%% (include in figures produces errors, don't know why)
+%\usetikzlibrary{arrows,positioning,shadows,fit,shapes,calc,decorations.pathreplacing}
+\usetikzlibrary{calc}
+
+% \linenumbers
+\nolinenumbers
+
+%Remove Page numers for parts in TOC
+\usepackage{tocloft}
+\addtocontents{toc}{\cftpagenumbersoff{part}}
+\renewcommand{\cftdot}{}
+
+%
+% Dummy figure fallback
+%
+%\newcommand{\includegraphicsmaybe}[1]{\IfFileExists{#1}{\includegraphics{#1}}{\includegraphics{Figures/fish}}}
+\newcommand{\noimage}{%
+  %\setlength{\fboxsep}{-\fboxrule}%
+  %\fbox{\phantom{\rule{150pt}{100pt}}}% Framed box
+    \includegraphics[width=0.24\linewidth]{Figures/fishy}
+}
+\makeatletter
+\patchcmd{\Gin@ii}
+  {\begingroup}% <search>
+  {\begingroup\renewcommand{\@latex@error}[2]{\noimage}}% <replace>
+  {}% <success>
+  {}% <failure>
+\makeatother
+
+%% prevent hyperref links on \citeauthor etc.
+\makeatletter
+\pretocmd{\NAT@citexnum}{\@ifnum{\NAT@ctype>\z@}{\let\NAT@hyper@\relax}{}}{}{}
+\makeatother

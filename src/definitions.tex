@@ -1,0 +1,251 @@
+%New command for adaptive clearpageing
+%If @isprint@ mode clear to oddpage otherwise just clear the page
+\newcommand{\clearpg}{ 
+    \iftoggle{isprint}{%
+        \cleartooddpage[\thispagestyle{empty}]  %% clear to next odd page
+    }{
+        \clearpage
+    }
+}
+
+%% set pdf properties
+\hypersetup{%
+    pdftitle={\thesistitle},
+    pdfauthor={\thesisauthor},
+    pdfsubject={Dissertation, Link\"oping University}
+}
+
+
+
+% macros.tex
+
+%Algortihms
+%\usepackage{algorithm}
+%\usepackage{algpseudocode}
+%\algrenewcommand\algorithmicrequire{\textbf{Input:}}
+%\algrenewcommand\algorithmicensure{\textbf{Output:}}
+
+% Spacing
+
+% General Mathematical Expressions
+% Spacing
+\newcommand{\BU}{\vspace*{-10pt}}
+\newcommand{\BUS}{\vspace*{-8pt}}
+\newcommand{\BUSS}{\vspace*{-6pt}}
+\newcommand{\BUSSS}{\vspace*{-3pt}}
+
+% General Mathematical Expressions
+\newcommand{\mat}[1] {\boldsymbol{#1}} %{#1}
+%\newcommand{\vect}[1]{\boldsymbol{#1}}
+%\newcommand{\uvect}[1]{\boldsymbol{\hat{#1}}}
+\newcommand{\transp}[1]{{#1}^\mathsf{T}}
+\newcommand{\invtransp}[1]{{#1}^\mathsf{-T}}
+\newcommand{\inv}[1]{{#1}^{-1}}
+\newcommand{\scprod}[2]{#1\cdot#2}
+\newcommand{\inprod}[2]{\langle#1,#2\rangle}  % inner product
+\newcommand{\ip}[2]{\langle #1,#2 \rangle} % inner product
+\newcommand{\reel}{\mathbb{R}}
+\newcommand{\rthree}{\reel^3}
+\newcommand{\cmplx}{\mathbb{C}}
+\newcommand{\ints}{\mathbb{Z}}
+\newcommand{\conj}[1]{\overline{#1}}
+\newcommand{\supp}[1]{\text{supp}\left(#1\right)}   % The support of a function
+
+\newcommand{\range}[2]{#1, \, \dots, \, #2}      % Range = 1, ..., N
+
+\newcommand{\myd}{\textrm{d}}      % Differential for integrals etc. dx = \myd x
+
+\newcommand{\rv}[1]{\mathbf{#1}}  % Explicitly state that a variable is a stochastic variable by using bold face
+\newcommand{\rvG}[1]{\bm{#1}}  % Explicitly state that a greek variable is a stochastic variable by using bold face
+
+\newcommand{\setX}{\ensuremath{\mathsf{X}}}                      % State-space X
+\newcommand{\setY}{\ensuremath{\mathsf{Y}}}                      % Measurements X
+
+\newcommand{\Var}[1]{\operatorname{Var}\left[#1\right]}
+\newcommand{\E}[1]{\operatorname{E}\left[#1\right]}
+\newcommand{\Exp}[2]{\operatorname{E}_{#1}\left[#2\right]}
+
+\renewcommand{\Re}{\mathbb{R}}
+
+
+\newcommand{\indegrees}[1]{$#1\,^{\circ}$}
+\newcommand{\ednote}[1]{{\color{red}[[XXX #1 ]]}} %colour in .ps or pdf only
+
+%Comnmon computer graphics vectors
+\newcommand{\w}{\boldsymbol{\omega}}
+%\renewcommand{\omega}{\boldsymbol{\omega}}
+
+
+% Probability Distribtuions
+\newcommand{\N}{\mathcal{N}}   % Normal distribution
+\newcommand{\Npdf}[3]{\mathcal{N}\left(#1 \mid #2, #3\right)}
+\newcommand{\StudT}{\mathcal{S}}             % Student's t distribution
+\newcommand{\StudTdist}[3]{\mathcal{S}\left(#1, #2, #3\right)}
+
+
+% General Abbrevs.
+\newcommand{\SC}[1]{Section~\ref{#1}}
+\newcommand{\SCp}[1]{Section~\ref{#1} on page~\pageref{#1}}
+\newcommand{\EQ}[1]{Equation~\ref{#1}}
+\newcommand{\EQp}[1]{Equation~\ref{#1} on page~\pageref{#1}}
+\newcommand{\FG}[1]{Figure~\ref{#1}}
+\newcommand{\FGp}[1]{Figure~\ref{#1} on page~\pageref{#1}}
+\newcommand{\TA}[1]{Table~\ref{#1}}
+\newcommand{\TAp}[1]{Table~\ref{#1} on page~\pageref{#1}}
+
+% Challenge highlight
+\newcommand{\Challenge}[1]{
+\vspace{0.5cm}
+\definecolor{challengecolor}{rgb}{0.99,0.99,0.99}
+
+\begin{tcolorbox}[colframe=gray, colback=challengecolor, boxrule=1.0pt]
+\textbf{Challenge:} #1
+\end{tcolorbox}}
+
+%%
+%%
+%% Colors, Comments, Refs
+%%
+%%
+
+%
+% Colors
+%
+\newcommand{\blue}[1]{{\color{Blue}#1}}
+\newcommand{\gray}[1]{{\color{Gray}#1}}
+\newcommand{\green}[1]{{\color{Green}#1}}
+\newcommand{\lightgray}[1]{{\color{Gray!50}#1}}
+\newcommand{\pink}[1]{{\color{Magenta}#1}}
+\newcommand{\red}[1]{{\color{Red}#1}}
+\newcommand{\yellow}[1]{{\color{Orange}#1}}
+%
+% Working commands
+%
+\newcommand{\fix}[1]{\textit{\red{(#1)}}}
+\newcommand{\temp}[1]{\textit{\green{#1}}}
+\newcommand{\stolen}[1]{\pink{#1}}
+%
+% Reference commands
+%
+\newcommand{\subrefs}[2]{(\subref{fig:#1-#2})}
+\newcommand{\subrefi}[2]{(\ref{fig:#1-#2})}
+\newcommand{\frefs}[2]{\ref{fig:#1}\subrefs{#1}{#2}}
+\newcommand{\frefi}[2]{\ref{fig:#1}\subrefi{#1}{#2}}
+%
+\newcommand{\charef}[1]{Chapter~\ref{cha:#1}}
+\newcommand{\eqnref}[1]{Equation~\ref{eq:#1}}
+\newcommand{\figref}[1]{Figure~\ref{fig:#1}}
+\newcommand{\figrefsub}[2]{Figure~\frefs{#1}{#2}}
+\newcommand{\figrefink}[2]{Figure~\frefi{#1}{#2}}
+\newcommand{\secref}[1]{Section~\ref{sec:#1}}
+\newcommand{\tabref}[1]{Table~\ref{tab:#1}}
+\newcommand{\paref}[1]{\ref{pa:#1}}
+\newcommand{\paperef}[1]{Paper~\ref{pa:#1}}
+%
+\newcommand{\ppref}[1]{p.\ \pageref{#1}}
+\newcommand{\pppref}[2]{pp.\ \pageref{#1}--\pageref{#2}}
+\newcommand{\ccref}[1]{\ref{#1}}
+\newcommand{\ccpref}[1]{\ccref{#1}, \ppref{#1}}
+\newcommand{\ccppref}[2]{\ccref{#1} \myand\ \ref{#2}, \pppref{#1}{#2}}
+\newcommand{\ccpppref}[3]{\ccref{#1}, \ref{#2} \myand\ \ref{#3}, \pppref{#1}{#3}}
+%
+%\newcommand{\paref}[1]{\ref{pa:#1} \textit{(#1)}}
+%\newcommand{\paperef}[1]{Paper~\ref{pa:#1} \textit{(#1)}}
+\newcommand{\citeti}[1]{\usebibentry{#1}{title}}
+\newcommand{\citeit}[1]{\textit{\usebibentry{#1}{title}}}
+\newcommand{\citett}[1]{\citeit{#1}~\cite{#1}}
+\newcommand{\citeta}[1]{\citet{#1}, \citeit{#1}}
+
+\newcommand{\swe}[1]{\foreignlanguage{swedish}{#1}}
+
+%%
+%% Custom labels for InkScape .pfd's
+%%
+\makeatletter
+\newcommand{\hiddenlabel}[2]{%
+   \protected@write \@auxout {}{\string \newlabel {#1}{{#2}{\thepage}{#2}{#1}{}} }%
+   %\hypertarget{#1}{#2}
+     \hypertarget{#1}{\null}%
+}
+\newcommand{\customlabel}[2]{%
+   \protected@write \@auxout {}{\string \newlabel {#1}{{#2}{\thepage}{#2}{#1}{}} }%
+   %\hypertarget{#1}{#2}
+     \hypertarget{#1}{#2}%
+}
+\makeatother
+
+%% #1 fig size (\linewidth)
+%% #2 path
+%% #3 fname
+%\newcommand{\includeinkscape}[3][\linewidth]{%
+    %\graphicspath{{#2}}%
+    %\def\svgwidth{#1}%
+    %\input{#2#3.pdf_tex}%
+%}
+\newcommand{\includeinkscape}[4][]{%
+    \graphicspath{{#3}}%
+    \def\svgwidth{#2}%
+    {#1\input{#3#4.pdf_tex}}%
+}
+
+%%
+%%
+%% Misc. defines
+%%
+%%
+
+\newcommand{\like}{L}%\tilde{p}
+\newcommand{\prob}{P}
+\newcommand{\y}{y}
+
+\newcommand{\splitters}{%
+%\cleartooddpage[\thispagestyle{empty}]
+%\cleartoevenpage[\thispagestyle{empty}]
+%\cleartooddpage[\thispagestyle{empty}]
+}
+
+\newcommand{\myand}{{\scriptsize \&}}
+
+\newcommand{\imframe}[1]{{\setlength{\fboxsep}{0pt}\setlength{\fboxrule}{0.5pt}\fbox{#1}}}
+
+\newcommand{\quotee}[1]{\begin{flushright}\vspace{-3mm}#1\end{flushright}}
+
+\newcommand{\bibentrywrap}[1]{\begin{NoHyper}\bibentry{#1}\end{NoHyper}}
+
+
+%%
+%% 
+%% Placeholders
+%%
+%%
+
+\newcommand{\abc}{\pink{%
+    Abc abc abc abc abc   abc abc abc abc abc 
+    abc abc abc abc abc   abc abc abc abc abc 
+    abc abc abc abc abc   abc abc abc abc abc. 
+}}
+\newcommand{\Abc}{\abc \abc \abc}
+\newcommand{\ABC}{\Abc \par \Abc \par \Abc}
+
+
+%%
+%%
+%% Recon
+%%
+%%
+
+\newcommand{\e}{\mathsf{f}}
+\newcommand{\we}{P(\e \mid \y_i)}
+\newcommand{\wej}{P(\e_j \mid \y_i)}
+\newcommand{\Uncert}{{\Theta}}
+\newcommand{\Supp}{\mathcal{F}}
+\newcommand{\Valid}{\mathcal{V}}
+\newcommand{\sigmaMIN}{\sigma_\text{\tiny min}}
+\newcommand{\sigmaMAX}{\sigma_\text{\tiny max}}
+\newcommand{\sigmaPSF}{\sigma_\text{\tiny PSF}}
+\newcommand{\Kmin}{K_\text{\tiny min}}
+\newcommand{\Kmax}{K_\text{\tiny max}}
+\newcommand{\sigmaF}{\sigma_\e}
+\newcommand{\OmegaPSF}{{\Omega_\text{\tiny max}}}
+\newcommand{\OmegaF}{{\Omega_\text{\tiny \e}}}
+

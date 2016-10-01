@@ -1,0 +1,155 @@
+%% thesis design for Linköping University
+%% defines the layout of the title page according to 
+%% the promotion regulations of XXXX/XX/XX
+%%
+%% Copyright (c) 2011  Martin Falk <falk@vis.uni-stuttgart.de>
+%%                     Visualization Research Center (VISUS),
+%%                     University of Stuttgart, Germany
+%%                     http://www.vis.uni-stuttgart.de
+%%
+%% Revised by Stefan Lindholm <stefan.lindholm@liu.se> 2014
+%% 
+%%
+\NeedsTeXFormat{LaTeX2e} \ProvidesPackage{liuthesis}[2014/01/01 v0.3
+Link\"oping University thesis]
+%% Only works with the memoir class!!!!!!!!!!!!!!!
+\@ifclassloaded{memoir}{\let\endliuthesis\relax}{\let\endliuthesis\endinput
+  \PackageError{liuthesis}{This liuthesis package only works with the
+    memoir class}%
+  {\@ehd}}
+\endliuthesis
+
+
+
+%% allow for a draft mode of the thesis
+%% to hide the examination date
+\newif\ifthesisdraftmode \thesisdraftmodefalse
+
+%% use the following lines to enable or disable the draft mode
+\newcommand{\enablethesisdraftmode}{\thesisdraftmodetrue}
+\newcommand{\disablethesisdraftmode}{\thesisdraftmodefalse}
+
+\DeclareOption{draft}{\enablethesisdraftmode}
+\DeclareOption*{\PackageWarning{liuthesis}{Unknown `\CurrentOption'}}
+\ProcessOptions
+
+
+%% no indent at paragraph beginning, but small space before
+\setlength{\parindent}{0pt}
+%%\setlength{\parskip}{1ex plus 0.2ex minus 0.2ex}
+\setlength{\parskip}{1ex plus 0.1ex minus 0.4ex}
+%% prevent that the last line of a paragraph appears to be flushed right
+%\setlength{\parfillskip}{30\p@ \@plus 1fil}
+
+\newlength{\linespace}
+\setlength{\linespace}{\baselineskip} % current equivalent of \onelineskip
+
+%% the fiddle lengths (..ta.. for title/approval page, others for
+%% prelims)
+\newlength{\toptafiddle} \setlength{\toptafiddle}{2\linespace}
+\newlength{\bottafiddle} \setlength{\bottafiddle}{0pt}
+\newlength{\topfiddle} \setlength{\topfiddle}{\toptafiddle}
+\newlength{\botfiddle} \setlength{\botfiddle}{\onelineskip}
+
+
+%%%% for the title page and approval page.
+% your title
+\newcommand{\settitle}[1]{\def\thesistitle{#1} \title{#1}}
+% author name
+\newcommand{\setauthor}[1]{\def\thesisauthor{#1} \author{#1}}
+% birth place (optional)
+\newcommand{\setbirthplace}[1]{\def\thesisbirthplace{#1}}
+% faculty/department
+\newcommand{\setfaculty}[1]{\def\thesisfaculty{#1}}
+% institute/division
+\newcommand{\setinstitute}[1]{\def\thesisinstitute{#1}}
+% type of degree
+%%\newcommand{\rernat}{\def\thesisdegree{Doctor of Philosophy} \def\thesisdegreeabbrv{PhD.}}
+%%\newcommand{\ing}{\def\thesisdegree{Doctor of Philosophy} \def\thesisdegreeabbrv{PhD.}}
+\newcommand{\phden}{\def\thesisdegree{Doctor of Philosophy} \def\thesisdegreeabbrv{PhD.}}
+\newcommand{\phdsv}{\def\thesisdegree{Teknologie doktor} \def\thesisdegreeabbrv{Tekn. Dr.}}
+% defence date
+\newcommand{\setdefdate}[3]{
+	\def\thesisdefyear{#1}
+	\def\thesisdefmonth{#2}
+	\def\thesisdefday{#3}
+	\def\thesisdefdate{#3.\ #2 #1}
+}
+% publication year
+\newcommand{\setpubyear}[1]{\def\thesisdefyear{#1}}
+% supervisor
+\newcommand{\setsupervisor}[1]{\def\thesissupervisor{#1}}
+% one co-supervisor
+\newcommand{\setcosupervisor}[1]{\def\thesiscoadvisor{#1}}
+% two co-supervisors
+\newcommand{\setcosupervisors}[2]{\def\thesiscoadvisor{#1\\ &#2}}
+
+
+%%% some default values from the memoir package
+
+%% Use them like this, and if you don’t change them you will get
+%% unacceptable title and/or approval pages
+\settitle{An Incredible Piece of Work over which I have struggled day and night for far too long and now it is over}
+\setauthor{H. Diver}
+\setbirthplace{Atlantis}
+\setfaculty{Faculty of Space Metrics}
+\setinstitute{The Institute of General Awesomeness}
+\phden % goinf for a PhD.
+%% \phdsv % going for a Tek. Dr.
+%% \rernat % going for a Dr. rer. nat.
+%% \ing % going for a Dr.-Ing.
+\setdefdate{2018}{January}{1}
+\setpubyear{2021}
+\setsupervisor{S.~Holmes}
+% \setcosupervisor{A. Jones} % this one
+\setcosupervisors{A. Jones}{B. Doe} % or this one
+
+
+%\makeatletter
+%%% typesets the title page
+%%% this is the OLd german style
+%%% not to be used with LiU thesis
+\newcommand{\thetitlepage}{{%
+    \clearpage
+    \thispagestyle{empty} 
+    \centering \vspace*{-\toptafiddle}
+    \fontfamily{lmss}\selectfont
+    \large
+		Link\"oping Studies in Science and Technology. 
+		Dissertation no.\ \thesisno\\[3\onelineskip]
+    \begin{LARGE}
+      \textbf{\thesistitle}
+    \end{LARGE}\\[3\onelineskip]
+    % 
+    \begin{LARGE}
+      \thesisauthor \\[1.5\onelineskip]
+    \end{LARGE}
+    % 
+    \ifthesisdraftmode\else
+      \thesisfaculty{}\\
+			\thesisinstitute{}\\
+			Link\"oping University\\
+			SE-601 74 Norrk\"oping, Sweden\\
+			Norrk\"oping, October 2014
+    \fi% thesisdraftmode      
+    % 
+    \vfill
+    \begin{tabular}{ll}
+      Primary Supervisor: & \thesissupervisor\\
+      Co-supervisors:      & \thesiscoadvisor\\[0.5\onelineskip]
+      \ifthesisdraftmode\else
+         Defended on:\mbox{} & \thesisdefdate
+      \fi% thesisdraftmode
+    \end{tabular}
+    \vfill
+    % 
+    \thesisinstitute\\
+    Link\"oping University\\[1.5\onelineskip]
+    \thesisdefyear
+    \par
+    \enlargethispage{\bottafiddle} \clearpage}}
+% \makeatother
+
+%%%%%%%%%%%%%%% end of *.sty file
+\endinput
+%%%%%%%%%%%%%%%

@@ -1,0 +1,106 @@
+%% captions on the side of figures instead of below
+%% captions are placed on the inner side if in double-page mode
+%%
+%% Copyright (c) 2012  Martin Falk <falk@vis.uni-stuttgart.de>
+%%                     Visualization Research Center (VISUS),
+%%                     University of Stuttgart, Germany
+%%
+%% http://www.vis.uni-stuttgart.de
+%%
+%% $Id: bysidecap.sty 187 2012-10-25 16:13:39Z falkmn $
+%%
+%% Last modified:
+%%   2011/09/05  v0.1  initial version
+%%
+%% This file may be distributed and/or modified under the
+%% conditions of the LaTeX Project Public License, either
+%% version 1.2 of this license or (at your option) any later
+%% version. The latest version of this license is in:
+%%
+%% http://www.latex-project.org/lppl.txt
+%%
+%% and version 1.2 or later is part of all distributions of
+%% LaTeX version 1999/12/01 or later.
+%%
+\NeedsTeXFormat{LaTeX2e} 
+\ProvidesPackage{bysidecap}[2012/07/24 v0.1 Captions on the side of figures]
+%% Only works with the memoir class!!!!!!!!!!!!!!!
+\@ifclassloaded{memoir}{\let\endbysidecap\relax}{%
+  \let\endflipbooktheme\endinput
+  \PackageError{bysidecap}{The bysidecap package only works with the
+    memoir class}%
+  {\@ehd}}
+\endbysidecap
+
+%%\RequirePackage{}
+
+%% place caption on the right of the content on verso pages
+%% and on the left on recto pages
+\newlength{\bysidesep}
+\setlength{\bysidesep}{20pt}
+
+\newsavebox{\bysidebox}
+\newlength{\bysidewidth}
+
+\newcommand{\captionleft}[2]{%
+  \mbox{%
+  %% put caption into separate minipage
+  \begin{minipage}[b]{#1}#2\end{minipage}%
+  \hspace{\bysidesep}%
+  \nolinebreak[4]%
+  %% put content into a fitted parbox
+  \usebox{\bysidebox}%
+}}
+
+\newcommand{\captionright}[2]{%
+  \mbox{%
+  %% put content into a fitted parbox
+  \usebox{\bysidebox}%
+  \hspace{\bysidesep}%
+  %% put caption into separate minipage
+  \begin{minipage}[b]{#1}#2\end{minipage}%
+}}
+
+
+%% calculate the optimal caption width for 'byside captions'
+%% parameter is the width of the figure content, i.e. the image width
+\newcommand{\calcoptcaptionwidth}[1]{%
+  \ifcsname tmpCapLen\endcsname\else\newlength{\tmpCapLen}\fi%
+  \setlength{\tmpCapLen}{\textwidth}%
+  \addtolength{\tmpCapLen}{-\bysidesep}%
+  \addtolength{\tmpCapLen}{-#1}%
+%  \addtolength{\tmpCapLen}{-3pt}%
+}
+
+%% places caption and image content side-by-side,
+%% the caption is placed in the inside when two-sided
+%% usage: \byside[caption width]{image content}{caption}
+%%
+%% if no width is given, the remaining space is used for caption
+\makeatletter
+\newcommand{\byside}[3][\@empty]
+{%
+  \checkoddpage%
+  \ifoddpage\precaption{{\color{niceblue}$\!\filledmedtriangleright$\;}}%
+  \else\precaption{{\color{niceblue}$\filledmedtriangleleft\!$\;}}%
+  \fi%
+  \sbox{\bysidebox}{\ignorespaces#2\unskip}%  compute width of content
+  \settowidth{\bysidewidth}{\usebox{\bysidebox}}%
+  \ifx\@empty#1%  need to compute remaining length for caption width
+    \calcoptcaptionwidth{\bysidewidth}%
+    \ifoddpage\captionleft{\tmpCapLen}{\ignorespaces#3\unskip}%
+    \else\captionright{\tmpCapLen}{\ignorespaces#3\unskip}%
+    \fi%
+  \else%
+    \ifoddpage\captionleft{#1}{\ignorespaces#3\unskip}%
+    \else\captionright{#1}{\ignorespaces#3\unskip}%
+    \fi%
+  \fi%
+%  \precaption{}
+%  \precaption{{\color{niceblue}$\filledmedtriangleup$\,}}%
+}
+\makeatother
+
+%%%%%%%%%%%%%%% end of *.sty file
+\endinput
+%%%%%%%%%%%%%%%

@@ -1,0 +1,96 @@
+\input{src/preamble}
+\input{src/definitions}
+
+% Toggle print mode or e-mode
+\newtoggle{isprint}
+\toggletrue{isprint}
+%\togglefalse{isprint}
+
+
+%% adjust column width of page numbers in Table of Contents
+\makeatletter
+\renewcommand{\@pnumwidth}{2.55em} %% default 1.55em
+\renewcommand{\@tocrmarg}{3.55em}  %% default 2.55em
+\makeatother
+
+\newcomment{commenttodo}
+%\commentson{commenttodo}
+%\commentsoff{commenttodo}
+
+\hyphenation{met-a-phor tri-phos-phate phos-phor-y-late phos-phor-y-lat-ed mol-e-cule mol-e-cules me-tab-o-lism}
+
+%%% widow and orphan lines (from memman.pdf, page 50)
+% set \clubpenalty, etc. to distinctive values for use
+% in tracing page breaks. These values are chosen so that
+% no single penalty will absolutely prohibit a page break, but
+% certain combinations of two or more will.
+\clubpenalty=9996
+\widowpenalty=9999
+\brokenpenalty=4991
+% Reiterate the default value of \redisplaypenalty, for
+% completeness.
+% Set postdisplaypenalty to a fairly high value to discourage a
+% page break between a display and a widow line at the end of a
+% paragraph.
+\predisplaypenalty=10000
+\postdisplaypenalty=1549
+% And then \displaywidowpenalty should be at least as high as
+% \postdisplaypenalty, otherwise in a situation where two displays
+% are separated by two lines, TeX will prefer to break between the
+% two lines, rather than before the first line.
+\displaywidowpenalty=1602
+
+%% shifting the page break in a paragraph
+%%   (apply directly in the respective paragraph)
+%%
+%\looseness=-1 %% shift break one line up
+%\looseness=1  %% shift break one line down
+
+\newtoggle{excludeFiles}
+\toggletrue{excludeFiles}
+\togglefalse{excludeFiles}
+
+%\setstocksize{297mm}{210mm}
+\settrims{0pt}{0pt}
+%% increase the text height slightly
+\settypeblocksize{1.05\textheight}{\textwidth}{*} 
+%% offset for the binding (shifts the text block outwards)
+\setbinding{6mm}
+%% ratio between outer and inner margin
+\setlrmargins{*}{*}{1.5}
+%% ratio between footer and header margin
+\setulmargins{*}{*}{1.4}
+
+\checkandfixthelayout
+
+
+%%% BEGIN DOCUMETNT
+\begin{document}
+\strictpagecheck
+\frontmatter
+\chapterstyle{preface}
+\input{src/title}
+\input{src/copyright}
+\input{src/acknowledgements}
+\input{src/abstract}
+\input{src/abstract-se}
+\input{src/toc}
+\pagestyle{frontmatter}
+
+\mainmatter
+% activate custom page and styles
+\pagestyle{myruledpagestyle}
+\chapterstyle{daleif1} 
+%\pagenumbering{gobble}
+%\part{Background}
+\pagenumbering{arabic}
+
+\clearpg
+%
+\chapter{Foo}
+\lipsum[2-10]
+\clearpg
+\chapter{Bar}
+\lipsum[2-10]
+
+\end{document}

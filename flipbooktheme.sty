@@ -1,0 +1,490 @@
+%% flipbook theme for usage with memoir package
+%% defines colored sections and a chapter design 
+%%
+%% Copyright (c) 2011  Martin Falk <falk@vis.uni-stuttgart.de>
+%%                     Visualization Research Center (VISUS),
+%%                     University of Stuttgart, Germany
+%%
+%% http://www.vis.uni-stuttgart.de
+%%
+%% $Id: flipbooktheme.sty 153 2012-09-18 18:51:16Z falkmn $
+%%
+%% Last modified:
+%%   2011/09/05  v0.1  initial version
+%%
+%% This file may be distributed and/or modified under the
+%% conditions of the LaTeX Project Public License, either
+%% version 1.2 of this license or (at your option) any later
+%% version. The latest version of this license is in:
+%%
+%% http://www.latex-project.org/lppl.txt
+%%
+%% and version 1.2 or later is part of all distributions of
+%% LaTeX version 1999/12/01 or later.
+%%
+\NeedsTeXFormat{LaTeX2e} 
+\ProvidesPackage{flipbooktheme}[2011/09/05 v0.1
+Memoir-based theme with flipbooks for a thesis]
+%% Only works with the memoir class!!!!!!!!!!!!!!!
+\@ifclassloaded{memoir}{\let\endflipbooktheme\relax}{%
+  \let\endflipbooktheme\endinput
+  \PackageError{flipbooktheme}{The flipbooktheme package only works with the
+    memoir class}%
+  {\@ehd}}
+\endflipbooktheme
+
+\RequirePackage{xcolor,calc,graphicx,soul,xifthen}
+
+
+%% allow toggling of flipbooks
+\newif\ifflipbookL \flipbookLtrue
+\newif\ifflipbookR \flipbookRtrue
+
+%% use the following lines to enable or disable the flipbooks for 
+%% verso and recto pages
+\newcommand{\enableflipbooks}{\flipbookLtrue\flipbookRtrue}
+\newcommand{\disableflipbooks}{\flipbookLfalse\flipbookRfalse}
+
+%% verso
+\newcommand{\enableflipbookL}{\flipbookLtrue}
+\newcommand{\disableflipbookL}{\flipbookLfalse}
+%% recto
+\newcommand{\enableflipbookR}{\flipbookRtrue}
+\newcommand{\disableflipbookR}{\flipbookRfalse}
+
+
+\DeclareOption{flipbooks}{\enableflipbooks}
+\DeclareOption{noflipbooks}{\disableflipbooks}
+\DeclareOption*{\PackageWarning{flipbooktheme}{Unknown `\CurrentOption'}}
+\ProcessOptions
+
+
+
+%%% flipbook on verso pages (left/even)
+\newcounter{flipbookLeftLastPage}
+\newcounter{flipbookLeftFirstFrame}
+\newcounter{flipbookLeftLastFrame}
+
+\newcommand{\setflipbookLlastpage}[1]{\setcounter{flipbookLeftLastPage}{#1}}
+\newcommand{\setflipbookLfirstframe}[1]{\setcounter{flipbookLeftFirstFrame}{#1}}
+\newcommand{\setflipbookLlastframe}[1]{\setcounter{flipbookLeftLastFrame}{#1}\stepcounter{flipbookLeftLastFrame}}
+
+\newcommand{\setflipbookLfilename}[1]{\def\flipbookLeftFileName{#1}}
+
+%%% flipbook on recto pages (right/odd)
+\newcounter{flipbookRightFirstPage}
+\newcounter{flipbookRightFirstFrame}
+\newcounter{flipbookRightLastFrame}
+
+\newcommand{\setflipbookRfirstpage}[1]{\setcounter{flipbookRightFirstPage}{#1}}
+\newcommand{\setflipbookRfirstframe}[1]{\setcounter{flipbookRightFirstFrame}{#1}}
+\newcommand{\setflipbookRlastframe}[1]{\setcounter{flipbookRightLastFrame}{#1}\stepcounter{flipbookRightLastFrame}}
+
+\newcommand{\setflipbookRfilename}[1]{\def\flipbookRightFileName{#1}}
+
+%% flipbook on verso pages runs backward, i.e. first page is at the back of the book
+\setflipbookLlastpage{10}
+\setflipbookLfirstframe{42}
+\setflipbookLlastframe{45}
+
+%% flipbook on recto pages runs forward
+\setflipbookRfirstpage{3}
+\setflipbookRfirstframe{1}
+\setflipbookRlastframe{100}
+
+
+
+%% dummy counter
+\makeatother
+\newcounter{mycounter2}
+
+\newcommand{\flipbookpicl}{%
+\ifflipbookL%
+  \setcounter{mycounter2}{\value{flipbookLeftLastPage}}%
+  \addtocounter{mycounter2}{-\thepage}%
+    %% calculate image number ((startpage - current page) / 2 + flipbook begin)
+  \divide\value{mycounter2} by 2%
+  \advance\value{mycounter2} by \value{flipbookLeftFirstFrame}%
+  %% first check, if page >= start page of flipbook
+  \ifnum \value{mycounter2} < \value{flipbookLeftFirstFrame}%
+  \else%
+    \setlength{\unitlength}{1mm}%  measurements in millimeters
+    \ifnum \value{mycounter2} < \value{flipbookLeftLastFrame}%
+      \begin{picture}(0,0)(25,10)%
+        \put(0,0){\framebox(20,20){}}%  draw frame around picture
+%%        \put(1,10){image \arabic{mycounter2}}%
+%        \put(1,10){\flipbookLeftFileName\arabic{mycounter2}.png}%
+        \put(0,0){\includegraphics[width=2cm]{\flipbookLeftFileName\arabic{mycounter2}}}%
+      \end{picture}%
+    \fi%
+    \setlength{\unitlength}{1pt}%  reset measurements to default
+  \fi%
+\fi% flipbookL
+}%
+
+\newcommand{\flipbookpicr}{%
+\ifflipbookR%
+  \setcounter{mycounter2}{\thepage}%
+  \addtocounter{mycounter2}{-\value{flipbookRightFirstPage}}%
+  %% first check, if page >= start page of flipbook
+  \ifnum \value{mycounter2} > -1%
+    \setlength{\unitlength}{1mm}%  measurements in millimeters
+    %% calculate image number ((currentpage - startpage) / 2 + flipbook begin)
+    \divide\value{mycounter2} by 2%
+    \advance\value{mycounter2} by \value{flipbookRightFirstFrame}%
+    \ifnum \value{mycounter2} < \value{flipbookRightLastFrame}%
+      \begin{picture}(0,0)(-7,10)%
+        \put(0,0){\framebox(20,20){}}%  draw frame around picture
+%%        \put(1,10){\flipbookLeftFileName\arabic{mycounter2}.png}%
+        \put(0,0){\includegraphics[width=2cm]{\flipbookRightFileName\arabic{mycounter2}}}%
+      \end{picture}%
+      \fi%
+    \setlength{\unitlength}{1pt}%  reset measurements to default
+  \fi%
+\fi% flipbookR
+}
+\makeatletter
+
+
+%% backmatter
+%\makepagestyle{backmatterClear}
+%\makeevenfoot{backmatterClear}{}{}{}
+%\makeoddfoot{backmatterClear}{}{}{}
+
+\makepagestyle{backmatter}
+\makeevenhead{backmatter}{}{\chaptername}{}
+\makeoddhead{backmatter}{}{\chaptername}{}
+\makerunningwidth{backmatter}{1.0\textwidth}
+\makeheadposition{backmatter}{flushright}{flushleft}{flushright}{flushleft}
+\makeheadrule{backmatter}{1.0\textwidth}{\normalrulethickness}
+
+%% frontmatter
+\makepagestyle{frontmatterClear}
+\makeevenfoot{frontmatterClear}{}{\thepage}{}
+\makeoddfoot{frontmatterClear}{}{\thepage}{}
+
+\copypagestyle{frontmatter}{backmatter}
+\makeevenfoot{frontmatter}{}{\thepage}{}
+\makeoddfoot{frontmatter}{}{\thepage}{}
+
+
+%% for continuation pages of the ToC, LoF, LoT
+\copypagestyle{toc}{frontmatter}
+\makeevenhead{toc}{}{Contents}{}
+\makeoddhead{toc}{}{Contents}{}
+
+\renewcommand{\contentsname}{Table of Contents}
+\addtodef{\tableofcontents}{\clearpage\pagestyle{toc}}{}
+\renewcommand*{\aftertoctitle}{\thispagestyle{plain}}%
+
+%% list of figures
+\copypagestyle{lof}{frontmatter}
+\makeevenhead{lof}{}{Figures}{}
+\makeoddhead{lof}{}{Figures}{}
+
+\addtodef{\listoffigures}{\clearpage\pagestyle{lof}}{}
+\renewcommand*{\afterloftitle}{\thispagestyle{plain}}%
+
+%% list of tables
+\copypagestyle{lot}{frontmatter}
+\makeevenhead{lot}{}{Tables}{}
+\makeoddhead{lot}{}{Tables}{}
+
+\addtodef{\listoftables}{\clearpage\pagestyle{lot}}{}
+\renewcommand*{\afterlottitle}{\thispagestyle{plain}}%
+
+
+%% bibliography
+\addtodef{thebibliography}{\cleardoublepage}{}
+
+\newcommand{\marksep}[1][1ex]{\hskip#1{\color{niceblue}$\bullet$}\hskip#1}
+\newcommand{\pagenum}{{\color{niceblue}\thepage}}
+
+
+\makepagestyle{myruledpagestyle}
+\makeevenhead{myruledpagestyle}{\flipbookpicl{}\pagenum\hskip2ex\leftmark}{}{}
+\makeoddhead{myruledpagestyle}{}{}{\rightmark\hskip2ex\pagenum\flipbookpicr}
+
+%% add flipbook animation also to clear double pages and chapter pages
+\copypagestyle{cleared}{myruledpagestyle}
+\makeevenhead{cleared}{\flipbookpicl}{}{}
+\makeoddhead{cleared}{}{}{\flipbookpicr}
+\makeheadrule{cleared}{0.0pt}{0pt}
+\makeevenfoot{cleared}{}{}{}
+\makeoddfoot{cleared}{}{}{}
+
+\copypagestyle{chapter}{myruledpagestyle}
+\makeoddhead{chapter}{}{}{\flipbookpicr}
+\makeheadrule{chapter}{0.0pt}{0pt}
+
+%\makepagestyle{appendixpagestyle}
+\copypagestyle{appendixpagestyle}{myruledpagestyle}
+
+\makeatletter
+\makepsmarks{myruledpagestyle}{
+\nouppercaseheads
+  \def\chaptermark##1{\markboth{%
+        \ifnum \value{secnumdepth} > -1
+          \if@mainmatter
+            \chaptername\ \thechapter\marksep%
+          \fi
+        \fi
+        ##1}{}}
+  \def\sectionmark##1{\markright{%
+        \ifnum \value{secnumdepth} > 0
+          \thesection\marksep%
+        \fi
+        ##1}}
+%\createmark{chapter}{both}{nonumber}{}{}
+%\createmark{section}{right}{shownumber}{}{. \space}
+%\createplainmark{toc}{both}{\contentsname}
+% \createplainmark{lof}{both}{\listfigurename}
+% \createplainmark{lot}{both}{\listtablename}
+% \createplainmark{bib}{both}{\bibname}
+\createplainmark{index}{both}{\indexname}
+\createplainmark{glossary}{both}{\glossaryname}
+}
+\makeatother
+
+\makeatletter
+\makepsmarks{appendixpagestyle}{
+\nouppercaseheads
+  \def\chaptermark##1{\markboth{%
+        \ifnum \value{secnumdepth} > -1
+          \if@mainmatter
+            \appendixname\ \thechapter\marksep%
+          \fi
+        \fi
+        ##1}{}}
+  \def\sectionmark##1{\markright{%
+        \ifnum \value{secnumdepth} > 0
+          \thesection\marksep%
+        \fi
+        ##1}}
+}
+\makeatother
+
+
+%% add ruler, and set total width to 110%
+%\makerunningwidth{myruledpagestyle}{1.1\textwidth}
+%\makeheadposition{myruledpagestyle}{flushright}{flushleft}{flushright}{flushleft}
+%\makeheadrule{myruledpagestyle}{1.0\textwidth}{\normalrulethickness}
+
+
+\pagestyle{myruledpagestyle}
+
+\makeatletter
+\newlength{\dlf@chmWidth}
+\setlength{\dlf@chmWidth}{4cm}
+\newlength\dlf@normtxtw
+\setlength\dlf@normtxtw{\textwidth}
+\def\myhelvetfont{\def\sfdefault{mdput}}
+\newsavebox{\feline@chapter}
+\newcommand\feline@chapter@marker[1][4cm]{%
+  \sbox\feline@chapter{%
+    % \fontfamily{phv}\selectfont
+    \fontfamily{lmss}\selectfont%
+    % \renewcommand{\sfdefault}{ptm}%
+    % \sffamily%
+    % \resizebox{!}{#1}{\fboxsep=1pt%
+    %   \colorbox{niceblue}{\color{white}\bfseries%\sffamily
+    %     \thechapter}%
+    {\fboxsep=10pt%
+      \colorbox{niceblue}{\resizebox{!}{#1}{\color{white}\bfseries%\sffamily
+        \thechapter}%
+    }}}%
+  \rotatebox{90}{%
+    \resizebox{%
+      \heightof{\usebox{\feline@chapter}}+\depthof{\usebox{\feline@chapter}}}%
+    {!}{%
+      \sffamily%% \fontfamily{lmss}\selectfont%  %% enable this for sans serif
+      \scshape\so\@chapapp}}%
+  \hspace{5pt}%\quad%  %% distance between vertikal "chapter" and numbered box
+  \raisebox{\depthof{\usebox{\feline@chapter}}}{\usebox{\feline@chapter}}%
+}
+\newcommand\feline@chm[1][4cm]{%
+  \setlength{\dlf@chmWidth}{#1}%
+  \sbox\feline@chapter{\feline@chapter@marker[#1]}%
+  \makebox[0pt][l]{% aka \rlap
+    %% slightly shifted to the right
+    \setlength{\dlf@chmWidth}{0.382\dlf@chmWidth}% default = 0.382, tight = 1.25
+    \addtolength{\dlf@chmWidth}{10pt}% %% account for the border of scaled box
+    \makebox[\dlf@chmWidth][r]{\usebox\feline@chapter}%
+    %% centered at text border
+    %% \setlength{\dlf@chmWidth}{0.5\dlf@chmWidth}%
+    %% \makebox[\dlf@chmWidth][r]{\usebox\feline@chapter}%
+    %% aligned right at text border
+    % \makebox[0cm][r]{\usebox\feline@chapter}%
+    %% aligned left at text border
+    % \makebox[\dlf@chmWidth][r]{\usebox\feline@chapter}%
+  }}
+
+
+%% now the same with rounded corners (second param defines roundness)
+\newcommand\feline@chapter@markerRound[2][4cm]{%
+  \sbox\feline@chapter{%
+    % \fontfamily{phv}\selectfont
+    \fontfamily{lmss}\selectfont%
+    \tikz[anchor=south east,inner sep=10pt,rounded corners=#2] \node (test) [fill=niceblue] {\resizebox{!}{#1}{\color{white}\bfseries \thechapter}};%
+  }%
+  \rotatebox{90}{%
+    \resizebox{%
+      \heightof{\usebox{\feline@chapter}}+\depthof{\usebox{\feline@chapter}}}%
+    {!}{%
+      \sffamily%% \fontfamily{lmss}\selectfont%  %% enable this for sans serif
+      \scshape\so\@chapapp}}%
+  \hspace{5pt}%\quad%  %% distance between vertikal "chapter" and numbered box
+  \raisebox{\depthof{\usebox{\feline@chapter}}}{\usebox{\feline@chapter}}%
+}
+
+\newcommand\feline@chmround[2][4cm]{%
+  \setlength{\dlf@chmWidth}{#1}%
+  \sbox\feline@chapter{\feline@chapter@markerRound[#1]{#2}}%
+  \makebox[0pt][l]{% aka \rlap
+    %% slightly shifted to the right
+    \setlength{\dlf@chmWidth}{0.382\dlf@chmWidth}%
+    %\addtolength{\dlf@chmWidth}{10pt}% %% account for the border of scaled box
+    %\makebox[\dlf@chmWidth][r]{\usebox\feline@chapter}%
+    %% centered at text border
+    %\setlength{\dlf@chmWidth}{0.5\dlf@chmWidth}%
+    %\makebox[\dlf@chmWidth][r]{\usebox\feline@chapter}%
+    %% aligned right at text border
+    %\makebox[0cm][r]{\usebox\feline@chapter}%
+    %% aligned left at text border
+    \makebox[\dlf@chmWidth][r]{\usebox\feline@chapter}%
+  }}
+
+
+\makechapterstyle{daleif1}{
+\openright
+\renewcommand\chapnamefont{\normalfont\Large\scshape\raggedleft\so}
+\renewcommand\chaptitlefont{\normalfont\huge\bfseries\sffamily\scshape\color{niceblue}}
+\renewcommand\chapternamenum{}
+\renewcommand\printchaptername{}
+\renewcommand\printchapternum{\null\hfill\feline@chm[2.5cm]\par}
+\renewcommand\afterchapternum{\par\vskip\midchapskip}
+\renewcommand\printchaptertitle[1]{\chaptitlefont\raggedleft ##1}
+%% testing with chapter entries in lof and lot
+\renewcommand\afterchaptertitle{\par\nobreak\vskip \afterchapskip%
+  \global\newchapterloftrue%
+  \global\newchapterlottrue%
+  \global\newchapterloatrue%
+}
+}
+\makeatother
+
+%% chapter style for frontmatter
+\makechapterstyle{preface}{
+\setlength{\afterchapskip}{1.5\onelineskip}
+\openany
+\renewcommand\chapterheadstart{\thispagestyle{frontmatterClear}}
+\renewcommand\chapnamefont{\normalfont\Large\scshape\raggedleft\so}
+\renewcommand\chaptitlefont{\normalfont\huge\bfseries\sffamily\scshape\color{niceblue}}
+\renewcommand\chapternamenum{}
+\renewcommand\printchaptername{}
+\renewcommand\printchapternum{}
+\renewcommand\afterchapternum{}
+\renewcommand\printchaptertitle[1]{\chaptitlefont\raggedleft ##1\par\nobreak\vskip \afterchapskip}
+\renewcommand\afterchaptertitle{}  %% moved this to printchaptertitle since TOC and LOF ignore this parameter
+}
+
+%% chapter style for backmatter identical to frontmatter, except clear pages
+\makechapterstyle{backmatter}{
+\setlength{\afterchapskip}{1.5\onelineskip}
+\openright
+\renewcommand\chapterheadstart{\thispagestyle{cleared}}
+\renewcommand\chapnamefont{\normalfont\Large\scshape\raggedleft\so}
+\renewcommand\chaptitlefont{\normalfont\huge\bfseries\sffamily\scshape\color{niceblue}}
+\renewcommand\chapternamenum{}
+\renewcommand\printchaptername{}
+\renewcommand\printchapternum{}
+\renewcommand\afterchapternum{}
+\renewcommand\printchaptertitle[1]{\chaptitlefont\raggedleft ##1\par\nobreak\vskip \afterchapskip}
+\renewcommand\afterchaptertitle{}  %% moved this to printchaptertitle since TOC and LOF ignore this parameter
+}
+
+%% usage:
+%\chapterstyle{daleif1}
+
+
+%% colored sections
+
+%% using sans-serif
+%\setsecheadstyle{\Large\bfseries\sffamily\color{niceblue}}
+%\setsubsecheadstyle{\large\bfseries\sffamily\color{niceblue}}
+%\setsubsubsecheadstyle{\bfseries\sffamily\color{niceblue}}
+%% with serifs
+\setsecheadstyle{\Large\bfseries\color{niceblue}}
+\setsubsecheadstyle{\large\bfseries\color{niceblue}}
+\setsubsubsecheadstyle{\bfseries\color{niceblue}}
+\setparaheadstyle{\bfseries\color{niceblue}}
+
+
+%\newcommand{\ruledsection}[1]{%
+%  \noindent%
+%  \parbox[t]{\textwidth}{%
+%    \hrule\vskip1em
+%    \sffamily\Large\bfseries #1\vskip1em%
+%    \hrule%
+%  }
+%}
+
+%% modify captions
+\captionnamefont{\bfseries\color{niceblue}}
+\makeatletter
+\precaption{{\color{niceblue}%
+    \def\my@table{table}%
+    \ifx\my@table\@currenvir%
+    \raisebox{0.2ex}{$\filledmedtriangledown$}%
+    \else%
+    \raisebox{0ex}{$\filledmedtriangleup$}%
+    \fi\,}}
+\makeatother
+%% default delimiter
+\captiondelim{: }
+\captiondelim{ --- }
+
+
+
+%% --- footnotes ---
+
+%% default footnote
+\footmarkstyle{\textsuperscript{#1}}
+\setlength{\footmarkwidth}{1.8em}
+\setlength{\footmarksep}{-1.8em}
+\setlength{\footparindent}{1em}
+%\renewcommand{\foottextfont}{\footnotesize}
+
+%% indent the footnote text according to \footmarkwidth and flush left
+\footmarkstyle{\textsuperscript{#1}\hfill}
+\setlength{\footmarkwidth}{0.8em}
+\setlength{\footmarksep}{0em}
+
+
+
+%% --- document definitions ---
+
+%% set table of contents depth to show subsections
+\setsecnumdepth{subsection}
+\settocdepth{subsection}
+
+%% bold paragraph begin as subsubsubsection replacement
+\newcommand{\bfsubsection}[1]{\noindent{\bfseries\color{niceblue}#1\,\,\,}}
+
+
+% reduce space between items in itemize
+\let\olditemize=\itemize
+\renewenvironment{itemize}%
+{\olditemize%
+  \setlength{\parskip}{0.3ex}%
+  \setlength{\itemsep}{0.3ex}%
+  \setlength{\parsep}{0.3ex}}%
+{\endlist}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%% end of *.sty file
+\endinput
+%%%%%%%%%%%%%%%
