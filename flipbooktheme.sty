@@ -370,6 +370,21 @@ Memoir-based theme with flipbooks for a thesis]
   \global\newchapterlottrue%
   \global\newchapterloatrue%
 }
+
+\renewcommand*{\parttitlefont}{\normalfont\fontsize{40}{60}\bfseries\centering\sffamily\scshape\color{niceblue}}
+\renewcommand*{\partnumfont}{}
+\renewcommand*{\partnamefont}{}
+% this (without the \beforepartskip of the same form) force the part text higher onto the page.
+%\renewcommand{\afterpartskip}{\vspace*{\fill}}
+\renewcommand{\afterpartskip}{}
+\renewcommand\printpartnum{}
+\renewcommand{\partnamenum}{}
+\renewcommand\printpartname{%
+  \begin{adjustwidth}{}{-\chapindent}
+  \hfill
+  \raisebox{11mm}[0pt][0pt]{\partnamefont\partname~\thepart}%
+  \hspace*{1em}
+  \end{adjustwidth}\vspace*{-3.0\onelineskip}}
 }
 \makeatother
 
