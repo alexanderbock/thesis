@@ -1,28 +1,171 @@
 \chapter{Iterative Appliation Design (contributions)}
-\label{ch:contributions}
+\label{contributions}
 
 This chapter describes the contributions of all papers that are included in the thesis and them to the descriptions about application design as described in the previous chapter. The following sections first describe the separation of papers into topic areas and then elaborate on each of the topics.
 
 \section{Overview}
-\label{sec:overview}
+\label{contributions:overview}
 Due to the varied nature of application papers, this papers are separated into three topic areas:
 
-\textbf{Biological and Medical Visualization. } \paperef{paperA} and \paperef{paperB} deal with algorithmic and application design challenges regarding biological simulation and medical intervention support respectively~(\SC{sec:medbio}).
+\textbf{Biological and Medical Visualization. } \paperef{paperA} and \paperef{paperB} deal with algorithmic and application design challenges regarding biological simulation and medical intervention support respectively. \paperef{paperA} describes an algorithm that was developed to effieciently render non-linear finite element models; \paperef{paperB} describes an application system used in deep brain stimulation interventions.~(\SC{contributions:medbio})
 
-\textbf{Urban Search \& Rescue. } \paperef{paperC}, \paperef{paperD}, and \paperef{paperE} describe the collaborative work on designing a visualization system to support urban search \& rescue operators and rescuers~(\SC{sec:usar}).
+\textbf{Urban Search \& Rescue. } \paperef{paperC}, \paperef{paperD}, and \paperef{paperE} describe the collaborative work on designing a visualization system to support urban search \& rescue operators and rescuers. The system utilizes \nD{3} point cloud data as the basis for a pathfinding algorithm, whose results are presented to the expert user for a human-in-the-loop decision support.~(\SC{contributions:usar})
 
-\textbf{Astrophysical Phenomena. } The papers in this topic deal with visualization system that were performed to deal with astronomical and astrophysical phenomena. \paperef{paperF} and \paperef{paperH} describe visualization system that are applied to space weather and ion simulations respectively, where as \paperef{paperG} describes the required algorithm necessary to achieve these systems.
+\textbf{Astrophysical Phenomena. } The papers in this topic deal with visualization system that were performed to deal with astronomical and astrophysical phenomena. \paperef{paperF} and \paperef{paperH} describe visualization systems that are applied to space weather and ion simulations respectively, where as \paperef{paperG} describes the required algorithm necessary to achieve these systems.~(\SC{contributions:physics})
 
 Each of the topics provides a short introduction into the domain and, then, elaborate on the work that has been done in the respective papers.
 
+% For each contribution explain:
+%   Problem domain
+%   System that solves the problem
+%   Collaboration with the experts
+%   Evaluations
+%   Generalizability (future work?)
+
 \section{Biological and Medical Systems}
-\label{sec:medbio}
+\label{contributions:medbio}
+\begin{itemize}
+\item Describe background and previous work in biological visualization + systems
+\item Describe background and previous work in medical visualization + systems
+\item Medical visualization as one of the first expert domains
+\item Support for the operating theater
+\item General problems with medical visualization
+\begin{itemize}
+    \item Hard to convince people to use it:
+    \item Certification / limited time of the physicians
+\end{itemize}
+\end{itemize}
 
+\subsection{Finite Element Visualization}
+\label{contributions:medbio:fem}
+\begin{itemize}
+\item Other work: \cite{Liu12Fem}
+\item Rendering multi-variate non-linear finite element models
+\item Transformation from linear rays in world-space to curve rays in material space
+\item Simulation values are described in material space
+\item Transformation from world to material space is computationally expensive
+\item Solve by using precomputation step to compute proxy rays for each element
+\item Precomputation is allowable as the elements are usually not degenerate and smooth
+\item During rendering time, proxy rays are used to look up values in the finite elements and perform the ray marching
+\item Proxy ray computation
+\begin{itemize}
+    \item Create a uniform grid on the surfaces of each element
+    \item Compute rays from each grid cell to each other grid cell
+    \item Collect all proxy rays and store a limited number of control points used for Catmull-Rom spline interpolation 
+    \item Move them into a common coordinate system (one point into origo, linear scaling, rotating all splines such that P0, Pp, Pn lie in the yz plane [P0 and Pn already on z axis from normalization], Pp is the first non-collinear point). Store $\theta$ from the rotation
+    \item Perform clustering on the proxy rays \cite{abraham03clustering} with K-means \cite{hartigan75kmeans}
+    \item Metric for clustering is the area covered between two splines
+    \item Allow for potential different grid resolutions on entry v exit faces -> importance-based ray sampling
+\end{itemize}
+\item Rendering
+\begin{itemize}
+    \item Depth peeling \cite{mammen89DepthPeeling}
+    \item Lookup ray id and $\theta$
+    \item Bend and rotate closest ray into place
+    \item Perform ray marching along the proxy ray (arc parametrization to take into account the different lenghts in material and world space \cite{guenter90arclength})
+    \item Intersegment handling of sampling points (we do not want to start the sampling at the beginning, but have a continuous transition between elements)
+    \item Inter vs intra ray interpolation
+    \begin{itemize}
+        \item Inter: bilinear lookup between four closest ray matches and perform interpolation between spline results
+        \item Intra: Retrieving the opposite ray (entry->exit; exit->entry) and looking up at $t$ and $1-t$ and interpolate between
+    \end{itemize}
+\end{itemize}
 
+\end{itemize}
 
+\subsection{Deep Brain Stimulation Interventions}
+\label{contributions:medbio:dbs}
+\begin{itemize}
+\item Good aspect about DBS operations: A long planning phase for the operation is already scheduled; less impact on using an extra tool
+\item Deep Brain Stimulation operations \cite{Lindberg2002} \cite{Benabid2009}
+\item Subthalamic nucleus Size: \cite{Richter2004} Sometimes not detectable: \cite{Starr2002}
+\item Parkinson's Disease
+\item Previous systems
+\item Microelectrode Recordings \cite{Lenz1988}
+\item Multimodal fusion (CT, MRI, electrode measurements, X-Ray, Patient tests)
+\begin{itemize}
+    \item preoperative CT + MRI
+    \item interoperative bi-planar X-Ray aligned to the electrode (patients head is inserted in a stereotaxic frame that ensures a fixed-body transformation between patient and operating room)
+    \item MER electrode rendering
+\end{itemize}
+\item Desonification by showing the results instead of placing them on a loudspeaker
+\item Removing the mental registration between electrode location and electrode measurements
+\item two-step process
+\begin{itemize}
+    \item Planning phase outside the scope of the paper -> We implemented a tool to import desired path trajectory \cite{Shamir2010}
+    \item Recording phase: Initial guiding to the correct location showing the MER measurements
+    \item Placement phase: Presenting uncertainty from all measurements around the optimal placement location. Showing areas where the uncertain areas overlap -> Most likely the correct location
+\end{itemize}
+\item Limiting factor of the operation is the patient's ability to coorperate due to the long operating times (6-10 hours)
+\item Working with the domain experts
+\item Receiving their feedback and from them the data
+\item System components
+\begin{itemize}
+    \item Contextual Component
+    \begin{itemize}
+        \item A \nD{3} view that fuses all available modalities. Shows MR scans (with vertical separation), bi-planar XRays, electrode location,
+        \item Contextualization is an important aspect as left-right mismatches are a dangerous source of surgery error
+        \item Presenting the location (= depth) of the electrode
+        \item Recording measurements along the removed path (drawing \emph{beads} in the trajectory (shown in \cite{Haese2005} \cite{Miocinovic2007})). The color of each bead is determined by the MER classification.
+        \item Showing the normalized location of the electrode on the bottom of the view. Combining the general spatial information of the main view with a detailed distance-based information of the inset
+    \end{itemize}
+    \item 2D audio visualization
+    \begin{itemize}
+        \item emphasize the important areas of the oscillogram (spikes)
+        \item deemphasize the rest
+        \item brushing and linking between this and the 3D audio visualization
+    \end{itemize}
+    \item 3D audio visualization
+    \begin{itemize}
+        \item separate view (orientation of the electrodes linked with the main view)
+        \item Integrating MER data with the spatial information
+        \item Rendering each electrode, which will drag disc behind it if the measurements were above a threshold. Colors correspond to the beads
+        \item Disc size corresponds to the potential difference that was measured at that electrode
+        \item Perspective distortion is not that important as the frequency is more important than the amplitude
+    \end{itemize}
+    \item Target closeup
+    \begin{itemize}
+        \item Shows the overlapping uncertainties for the differnet modalities as ellipses. Ellipses are approximations
+        \item Shows X-ray determined location and distance determined location
+        \item MER signal determination as red-green color overlay
+        \item Optional overlay of MRI scan for this block
+        \item Geometric model of the pre-segmented target location colored by where the most overlap between uncertainty regions is
+    \end{itemize}
+    \item Placement guide
+    \begin{itemize}
+        \item Showing same information as in the Target closeup, but as composable line plots
+        \item Extruded lines to show uncertainty
+    \end{itemize}
+\end{itemize}
+\item Evaluation
+\begin{itemize}
+    \item 5 neurosurgeons
+    \item showcase video with following questionnaire
+
+\end{itemize}
+\item Generalizability
+\begin{itemize}
+    \item 3D audio visualization applicable for other data where spatial audio is recorded
+    \item Target closeup view for overlapping uncertainty ranges
+\end{itemize}
+\end{itemize}
 
 \section{Urban Search \& Rescue}
-\label{sec:usar}
+\label{contributions:usar}
 
 \section{Astrophysics}
-\label{sec:physics}
+\label{contributions:physics}
+
+\subsection{Space Weather Visualization}
+\label{contributions:physics:spaceweather}
+\cite{Bock14CME}
+
+\subsection{Ion Beam Simulations}
+\label{contributions:physics:ion}
+
+\subsection{OpenSpace}
+\label{contributions:physics:openspace}
+\cite{Bock15bOpenSpace}
+\cite{Bock15OpenSpace}
+
+Adding CG\&A in submission?
