@@ -1,27 +1,28 @@
-\chapter*{Contributions}
-\addcontentsline{toc}{chapter}{Contributions}
-\pdfbookmark[0]{Contributions}{contributions}
+\chapter{Iterative Appliation Design (contributions)}
+\label{ch:contributions}
 
-\subsubsection{Paper A:\\Coherency-Based Curve Compression for High-Order Finite Element Visualization}
-Presents a novel method to render non-linar finite element models in real time by computing and compressing potential rays in a preprocessing step. At rendering time, these proxy rays are used for ray marching as an approximation for solving the non-linear transformations. This methods leads to a performance improvement of 10-20$\times$ compared to a straight-forward GPU implementation.% This work was presented at IEEE VisWeek 2012.
+This chapter describes the contributions of all papers that are included in the thesis and them to the descriptions about application design as described in the previous chapter. The following sections first describe the separation of papers into topic areas and then elaborate on each of the topics.
 
-\subsubsection{Paper B:\\Guiding Deep Brain Stimulation Interventions by Fusing Multimodal Uncertainty Regions}
-In a participatory design with domain experts, this work presents a system that is used during Deep Brain Stimulation operations to place an electrode in the patient's subthalamic nucleus. The available modalities, preoperative CT/MRI scans, interoperative X-ray, measurements from probes, and patient responses, are fused into a multi-view system that presents the available uncertainty to the surgeon.% This work was presented at the IEEE Pacific Visualization Symposium 2013.
+\section{Overview}
+\label{sec:overview}
+Due to the varied nature of application papers, this papers are separated into three topic areas:
 
-\subsubsection{Paper C:\\Supporting Urban Search \& Rescue Mission Planning through \\Visualization-Based Analysis}
-Presents a decision support system to display a \nD{3} visualization of point cloud measurements in partially collapsed buildings. These point clouds can then be used for semi-automatic path finding to plan paths and access points to rescue trapped victims. A visualization system combining Scientific and Information Visualization techniques allow users to analyse the different path attributes. This paper describes the results of an online study with nine international participants.% This work was presented at the International Symposium of Vision, Modeling, and Visualization in 2014.
+\textbf{Biological and Medical Visualization. } \paperef{paperA} and \paperef{paperB} deal with algorithmic and application design challenges regarding biological simulation and medical intervention support respectively~(\SC{sec:medbio}).
 
-\subsubsection{Paper D:\\An Interactive Visualization System for Urban Search \& Rescue Planning}
-Presents an improved version of the decision support system in Paper C at a conference for rescue robotics. Different aspects of the online user study are presented, as well as implementations to be able to display it in immersive environments.% This work was presented at the International Symposium on Safety, Security, and Rescue Robotics in 2014.
+\textbf{Urban Search \& Rescue. } \paperef{paperC}, \paperef{paperD}, and \paperef{paperE} describe the collaborative work on designing a visualization system to support urban search \& rescue operators and rescuers~(\SC{sec:usar}).
 
-\subsubsection{Paper E:\\A Visualization-Based Analysis System for Urban Search \& Rescue Mission Planning Support}
-Based on the findings of Papers C and D, this work includes an adaptive sampling method that replaces the previous brute force sampling of the path search space for improved efficiency. Additional visualization techniques such as projective texturing and bump mapping are added to convey more information to the rescuer. Lastly, an eye-tracking study with four rescuers was conducted.% This work was published in Computer Graphics Forum in 2016.
+\textbf{Astrophysical Phenomena. } The papers in this topic deal with visualization system that were performed to deal with astronomical and astrophysical phenomena. \paperef{paperF} and \paperef{paperH} describe visualization system that are applied to space weather and ion simulations respectively, where as \paperef{paperG} describes the required algorithm necessary to achieve these systems.
 
-\subsubsection{Paper F:\\Visual Verification of Space Weather Ensemble Simulations}
-Presents a visualization system to be used by space weather analysts that enables comparisons of the solar conditions between in-situ measurements performed by satellites with time-varying simulations of the solar system. The system was designed in participatory design together with the experts at the Community Coordinated Modeling Center, located at NASA's Goddard Space Flight Center and enabled new discoveries about the structure of in-flight coronal mass ejections.% This work was presented at IEEE Vis in 2016.
+Each of the topics provides a short introduction into the domain and, then, elaborate on the work that has been done in the respective papers.
 
-\subsubsection{Paper G:\\Hybrid Data Visualization Based on Depth Complexity Histogram Analysis}
-Presents an algorithmic improvement on the A-Buffer implementation by better utilizing cache locality on the GPU, thus improving the rendering performance in mixed scenes containing both geometric and volumetric data. These optimizations are founded on image based analysis of the depth complexity of different scenes.% This work was published in Computer Graphics Forum in 2014.
+\section{Biological and Medical Systems}
+\label{sec:medbio}
 
-\subsubsection{Paper H:\\Shocks in Unmagnetized Plasma with a Shear Flow: Stability and Magnetic Field Generation}
-\question{Is this enough contribution to be one of the included papers?} Developing an application to perform volumetric rendering of multiple large datasets that are produced by two colliding ion beams. The ability to interactively render these volumes in \nD{3} enabled discoveries about the mixing behavior of ions at high speeds. %This work wsa published in the Journal of Plasma Physics.
+
+
+
+\section{Urban Search \& Rescue}
+\label{sec:usar}
+
+\section{Astrophysics}
+\label{sec:physics}

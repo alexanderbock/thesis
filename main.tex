@@ -5,25 +5,24 @@
 \toggletrue{isprint}
 % \togglefalse{isprint}
 
+\toggletrue{skippapers}
+% \togglefalse{skippapers}
+
 \linenumbers
 % \nolinenumbers
 
+%\pdfbookmark[0]{Publications}{publications}
+
+% https://www.jasondavies.com/wordcloud
+% \fref
+% \SC
+% \EQ
+% \paperef
+% \FGp
 
 %\newcomment{commenttodo}
 %\commentson{commenttodo}
 %\commentsoff{commenttodo}
-
-
-%% shifting the page break in a paragraph
-%%   (apply directly in the respective paragraph)
-%%
-%\looseness=-1 %% shift break one line up
-%\looseness=1  %% shift break one line down
-
-%\newtoggle{excludeFiles}
-%\toggletrue{excludeFiles}
-%\togglefalse{excludeFiles}
-
 
 \begin{document}
 \strictpagecheck
@@ -35,15 +34,11 @@
 \input{src/abstract}
 \input{src/abstract-se}
 \input{src/publications}
-\input{src/contributions}
 \input{src/toc}
-%\pagestyle{frontmatter}
 
 \mainmatter
 \pagestyle{myruledpagestyle}
 \chapterstyle{daleif1} 
-%\pagenumbering{gobble}
-%\part{Background}
 \pagenumbering{arabic}
 
 \clearpg
@@ -51,9 +46,9 @@
 \clearpg
 \input{src/introduction}
 \clearpg
-\input{src/application-overview}
+\input{src/applications}
 \clearpg
-\input{src/application-design}
+\input{src/contributions}
 \clearpg
 \input{src/reflections}
 \clearpg

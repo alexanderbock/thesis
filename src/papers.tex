@@ -1,21 +1,13 @@
 \newcounter{pac}
 \setcounter{pac}{1}
 
-\newlength{\ABpamWidth}
-\setlength{\ABpamWidth}{4cm}
 \newsavebox{\ABpaperbox}
 \newcommand{\ABpapermarker}[1]{%
   \sbox\ABpaperbox{%
-    % \fontfamily{phv}\selectfont
     \fontfamily{lmss}\selectfont%
-    % \renewcommand{\sfdefault}{ptm}%
-    % \sffamily%
-    % \resizebox{!}{#1}{\fboxsep=1pt%
-    %   \colorbox{niceblue}{\color{white}\bfseries%\sffamily
-    %     \thechapter}%
     {\fboxsep=10pt%
       \colorbox{niceblue}{\resizebox{!}{#1}{\color{white}\bfseries%\sffamily
-        \thepac}%
+        \Alph{pac}}%
     }}}%
   \rotatebox{90}{%
     \resizebox{%
@@ -26,23 +18,6 @@
   \hspace{7pt}%\quad%  %% distance between vertikal "chapter" and numbered box
   \raisebox{\depthof{\usebox{\ABpaperbox}}}{\usebox{\ABpaperbox}}%
 }
-
-\newcommand{\ABpaper}[1]{%
-  \setlength{\ABpamWidth}{#1}%
-  \sbox\ABpaperbox{\ABpapermarker[#1]}%
-  \makebox[0pt][l]{% aka \rlap
-    %% slightly shifted to the right
-    \setlength{\ABpamWidth}{0.382\ABpamWidth}% default = 0.382, tight = 1.25
-    \addtolength{\ABpamWidth}{10pt}% %% account for the border of scaled box
-    \makebox[\ABpamWidth][r]{\usebox\ABpaperbox}%
-    %% centered at text border
-    %% \setlength{\dlf@chmWidth}{0.5\dlf@chmWidth}%
-    %% \makebox[\dlf@chmWidth][r]{\usebox\feline@chapter}%
-    %% aligned right at text border
-    % \makebox[0cm][r]{\usebox\feline@chapter}%
-    %% aligned left at text border
-    % \makebox[\dlf@chmWidth][r]{\usebox\feline@chapter}%
-  }}
 
 \newcommand{\palayout}[4]{ % #1=bibkey, #2=name
     \thispagestyle{empty}
@@ -64,9 +39,13 @@
 \newcommand{\paperinclude}[5]{
      \palayout{#1}{#2}{#3}{\thepac}
      \iftoggle{isprint}{
+        \iftoggle{skippapers}{}
+        {
          \cleartooddpage[\thispagestyle{empty}]
          \includepdf[pages={-},noautoscale,scale=1.0]{Papers/#4}
-     }{}
+        }
+     }
+     {}
      \addtocounter{pac}{1}
      \iftoggle{isprint}{
          \cleartoevenpage[\thispagestyle{empty}]

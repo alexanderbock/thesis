@@ -1,2 +1,84 @@
 \chapter{Motivation}
 \label{ch:motivation}
+
+Why deal with visual content
+\begin{itemize}
+\item Gestalt theory
+\item Preattentive perception
+\item Benefits of visualization
+\end{itemize}
+
+Dangers
+\begin{itemize}
+\item Showing things incorrectly
+\item Showing incorrect things
+\end{itemize}
+
+All of the following is \textbf{very} preliminary:
+
+
+\todo{Anders: You can not express your views and opinions} Almost every applied scientific field has a founding principle without which the field as a whole loses its meaning. In Physics, every discovery must, at least in principle, be experimentally verifiable. Mathematical proofs have to be logically consistent. The same holds true to the field of Visualization, which could not exist without the collaboration between domain experts and visualization researchers. Unlike other scientific fields where interdisciplinary is a beneficial aspect of research, it is an essential component that every visualization research directly or indirectly can be traced to a knowledge consumer that is aided by said research. If this does not hold true for a piece of research, the boundary between Visualization research and Computer Graphics research is blurred.
+
+Throughout the work that has led to this thesis, I have collaborated with domain experts from many different fields, producing tailored visualization applications that both supported their discoveries as well as providing contributions to the field of visualization. The topic of this thesis is to provide an overview of the lessons learned when designing scientific visualization applications in close collaboration with domain experts from widely varying fields, exemplified in some of my collaborations over the past 6 years.
+
+In my experience, the interactions between visualization expert and domain expert usually progress along different phases and are typically cyclic in nature; each iteration building on the previous ones to work towards a final application. Most collaborative projects follow a similar structure and can be broadly grouped into two categories:
+
+1. Type I: Expert-initiated. In this case, a domain expert usually has a series of datasets and hypotheses, but they are lacking the knowledge or tools to gain insight from the data. They then contact a visualization researcher with a more-or-less concrete list of questions that they would like to answer or have answered.
+2. Type II: Visualization-initiated. In this case, a visualization expert is introduced to a domain scientist's data and discovers the possibility of applying visualization techniques without the domain expert having a specific a priori question. This usually occurs with data that is unique and interesting in some sense and, if successful, usually generated questions that the domain experts did not even think of asking before. However, this type of collaboration sometimes suffer from the "finding a problem" dilemma in which interesting data is present, but there is not much visualization research to be gained from dealing with the data
+
+The usual workflow of both types of collaborations is the following:
+1. Initial contact: Depending on the category of collaboration this is initiated by either the domain expert or the visualization researcher and consists of a cursory introduction into each others fields. The domain scientist provides a limited introduction into the they research topic and the visualization expert brainstorms various techniques that might prove beneficial.
+2. Data retrieval: The first step to every collaboration is the development of interfacing techniques. Usually, visualization researchers have access to a growing toolkit of visualization techniques int which the domain experts data has to be imported. In some cases, this might be trivial (for example, loading RAW data), whereas other cases might prove more difficult (for example, converting between grids)
+3. Feasibility study: Usually at this step, the visualization researcher has to assess whether there is any potential research in the collaboration. This step is probably one of the most challenging ones as the goals of the different parties might diverge. A novel visualization technique that might be beneficial to the visualization researcher might not be accepted by the domain scientist, complicating the collaboration. This step is furthermore complicated by the fact that some projects do not have an initial payoff in novel visualization techniques, but have the promise of future benefits once an initial collaboration is established. 
+4. Application design: In this step, the visualization researcher and the domain expert collaborate in varying degrees on designing the application. On the visualization side, this consists of attaining a cursory knowledge of the subject matter as well as developing the application itself. On the domain expert side it consists of providing knowledge about his field, experimenting with the software, and providing feedback.
+5. Publish results: The results of the collaboration are published in both the visualization field as well as the scientific domain of the expert.
+
+For a single project, phase 4 is usually repeated a number of times with constant feedback between the visualization expert and the domain scientist. These iterative refinement steps are useful as in most cases, the expectations of the application can be very different between the two parties and can be bridged by these feedback sessions.
+
+This 5 phase model naturally is only a broad description of a complicated social process, but can serve as the basis for the following discussions. Multiple questions arise in this context that have to be addressed:
+ 1. Does the project provide any foundation for good scientific visualization research?
+ 2. How to structure the interaction between researcher and domain expert? How much interaction is too much? How little is too little?
+ 3. When to break the cycle of iterative improvements? How to detect when a "good enough" result has been achieved in \#4?
+ 4. What are the benefits and drawbacks of including a sixth phase for "going the extra mile" when it comes to improving an application beyond the point of paper-usability? Should this be considered part of the Visualization research and should researchers get credited for it?
+
+
+ - Usefulness of convincing a domain expert of the usefulness of a visualization technique.
+ - Obviously, there are visualization techniques that are not intuitively understandable, but useful nontheless
+ - For example: Parallel coordinates plot [USAR evaluation]
+
+- What is visualization
+ - Sitting between computer graphics and the application domains
+ - "Computer Graphics with a purpose"
+ - Lots of cross-talk between computer graphics papers and visualization papers [A-Buffer paper]
+
+- Seeing visualization as a service rather than a stand-alone science
+ - Problems between delivering an application vs developing a fully fledged product
+ - Getting recognition when papers are published in domain fields
+ - Engineering efforts to make it more usable
+ - Visualization researchers cannot be the code monkeys of other fields
+
+- Ability to get recognition for public outreach
+ - "Publish and perish": Case that even though papers are published, having a public outreach might reach many more people
+ - [New Horizons]
+
+- User studies
+ - Domain expert needs to be involved in finding the peope that want to participate in a study
+ - How do you deal with the requirement of a user study in very limited field? [Space Weather]
+
+- Visualization as a teaching tool
+ - Targeting not domain scientists, but the public audience at large
+ - [3D Interaction gestures]
+
+- Design circles
+- Finding visualization challenges in seemingly trivial fields
+
+- Different types of applications
+  - Initial information gathering
+  - Applying the same techniques to more datasets
+
+- "In software engineering, validation is about whether one has built the right product, and verification is about whether one has built the product right." (Munzner, Nested Model)
+- The purpose of visualization is insight, not pictures” (McCormick et al. 1987)
+- Explaning multiviews, brushing, linking, etc (Tory 2003)
+- Volume rendering integral  (Max 1995)
+
+- Cultural component in understanding visualizations
