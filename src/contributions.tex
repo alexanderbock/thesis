@@ -93,18 +93,59 @@ A DBS procedure is split into three distinct phases. In the first phase, the \em
 \subsubsection{System}
 \label{contributions:medbio:dbs:system}
 \question{Should I use ``I'' or ``we'' in the text?}
-We created a system that can ingest the access path planned using other sophisticated tools, the various scans, the MER measurements, and the patient tests during the operation. the system enables the surgeon to inspect all available information for each of the two operational phases. The \emph{Contextual view} is available in both phases, whereas the \emph{2D audio visualization} and \emph{3D audio visualization} are only available in the recording phase and the \emph{Target closeup} and \emph{Placement guide} are only available in the placement phase. The rest of this section elaborates on the design decisions for the individual views.
+\begin{figure}
+\includegraphics[width=\linewidth]{figures/contributions/dbs/planning.png}
+\caption{This view shows the results of the use of a different planning tool to determine the entry point for the access path and the intented target location.}
+\label{contributions:medbio:dbs:planning}
+\end{figure}
+We created a system that can ingest the access path planned using other sophisticated tools (see~\fref{contributions:medbio:dbs:planning}), the various scans, the MER measurements, and the patient tests during the operation. the system enables the surgeon to inspect all available information for each of the two operational phases. The \emph{Contextual view} is available in both phases, whereas the \emph{2D audio visualization} and \emph{3D audio visualization} are only available in the recording phase and the \emph{Target closeup} and \emph{Placement guide} are only available in the placement phase. The rest of this section elaborates on the design decisions for the individual views.
 
 \question{How detailed should this be?}
-\paragraph{Contextual View} This \nD{3} view combines the preoperational CT and MRI scans together with the bi-planar X-rays, and the current electrode location. The selected access path is presented in this view as a carved out tunnel. Explicitly showing the access path serves two purposes, first, it reduces the chance of a dangerous left-right mismatch error that might otherwise occur. Second, it enables us to place colored beads inside the access path behind the electrode. The colors of these beads depend on an automatic classification of the incoming electrode signal. This method was adopted from related works~\cite{Haese2005, Miocinovic2007}.
+\begin{figure}
+\centering
+\begin{subfigure}[b]{0.49\linewidth}
+    \includegraphics[width=\linewidth]{figures/contributions/dbs/recording-3d-1.png}
+\end{subfigure}
+\hfill
+\begin{subfigure}[b]{0.49\linewidth}
+    \includegraphics[width=\linewidth]{figures/contributions/dbs/recording-3d-2.png}
+\end{subfigure}
+% \includegraphics[width=\linewidth]{figures/contributions/dbs/recording-3d.png}
+\caption{Presenting the \emph{Contextual View} that shows the multimodal fusion of all available datasets. The preoperative CT and MRI as well as the interoperative bi-planar X-ray scans are visible together with the animated location of the electrode. The colored beads along the access path show an automatic classification of the electrode measurements.}
+\label{contributions:medbio:dbs:contextual}
+\end{figure}
 
-\paragraph{2D audio visualization} This view shows an augmented visualiation similar to an oscilloscope that presents the measurements from the available electrodes. As only the amplitude and frequency are important, we emphasize measurements that exceed a user-definable threshold and deemphasize the values below the threshold. Furthermore, this view is linked with the \emph{3D audio visualization}, described below, such that when a specific electrode is selected in either view, it is highlighted in both views with a different color. This is used by the surgeon to be able to correlate the detailed measurements with the relative location of the electrode.
+\paragraph{Contextual View} This \nD{3} view combines the preoperational CT and MRI scans together with the bi-planar X-rays, and the current electrode location (see~\fref{contributions:medbio:dbs:contextual}). The selected access path is presented in this view as a carved out tunnel. Explicitly showing the access path serves two purposes, first, it reduces the chance of a dangerous left-right mismatch error that might otherwise occur. Second, it enables us to place colored beads inside the access path behind the electrode. The colors of these beads depend on an automatic classification of the incoming electrode signal. This method was adopted from related works~\cite{Haese2005, Miocinovic2007}.
 
-\paragraph{3D audio visualization} In this separate view, the relative locations of the different electrodes are displayed. The camera orientation is linked between this and the \emph{Contextual View} such that the mental registration between the two views is not broken. In this view, each electrodes' measurements that exceed a user-defined threshold are shown as discs that start at the electrode and move away from the electrode with increasing time. The size of the disc corresponds to the amplitude of the detected signal and thus shows the strength of the measured signal. The color of each disc is determined by the same classification algorithm that is used on the beads in the \emph{Contextual View}, but is simplified to show red if the electrode is outside of the STN and green if it is inside the STN. The surgeon can then, by correlating the frequency of discs and their amplitude verify that the classification was correct and that the electrodes are in the correct location.
+\paragraph{2D audio visualization} This view shows an augmented visualiation similar to an oscilloscope that presents the measurements from the available electrodes. As only the amplitude and frequency are important, we emphasize measurements that exceed a user-definable threshold and deemphasize the values below the threshold (see~\fref{contributions:medbio:dbs:sound:2d}). Furthermore, this view is linked with the \emph{3D audio visualization}, described below, such that when a specific electrode is selected in either view, it is highlighted in both views with a different color. This is used by the surgeon to be able to correlate the detailed measurements with the relative location of the electrode.
+\begin{figure}
+\centering
+    \begin{subfigure}[b]{0.49\linewidth}
+        \includegraphics[width=\linewidth]{figures/contributions/dbs/audio-signal.png}
+        \caption{The \nD{2} oscilloscope rendering of the electrode measurements presenting the accurate values.}
+        \label{contributions:medbio:dbs:sound:2d}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.49\linewidth}
+        \includegraphics[width=\linewidth]{figures/contributions/dbs/recording-3dsound.png}
+        \caption{The spatial \nD{3} rendering of the electrode rendering, showing their spatial location and rendering the high-amplitude measurements of the signal as colored discs.}
+        \label{contributions:medbio:dbs:sound:3d}
+    \end{subfigure}
+    \caption{This figure shows the two rendering methods for displaying the measurements recorded by the Microelectrode Recording sensors. Both a view containing the accurate values are available (a) as well as a view showing the spatial relation between the electrodes.}
+    \label{contributions:medbio:dbs:sound}
+\end{figure}
 
-\paragraph{Target closeup} After the potential electrode location has been determined, the surgeon uses this closeup view, centered around the segmented location of the STN, which combines all of the information that was gathered in the recording phase. Embedded in this view are the locations of the electrode as determined by the depth along the access path and as reconstructed by the biplanar X-ray scans. In addition it shows the MER signal results as a red-green overlay on the backside and presents options to add the patient test results as additional oval overlays. As all of these values have their own, unknown, uncertainty this view displays the overlap of the regions to inform the surgeon of the final placement that agrees with most measurements.
+\paragraph{3D audio visualization} In this separate view, the relative locations of the different electrodes are displayed (see~\fref{contributions:medbio:dbs:sound:3d}). The camera orientation is linked between this and the \emph{Contextual View} such that the mental registration between the two views is not broken. In this view, each electrodes' measurements that exceed a user-defined threshold are shown as discs that start at the electrode and move away from the electrode with increasing time. The size of the disc corresponds to the amplitude of the detected signal and thus shows the strength of the measured signal. The color of each disc is determined by the same classification algorithm that is used on the beads in the \emph{Contextual View}, but is simplified to show red if the electrode is outside of the STN and green if it is inside the STN. The surgeon can then, by correlating the frequency of discs and their amplitude verify that the classification was correct and that the electrodes are in the correct location.
 
-\paragraph{Placement guide} This view is based on the same information as the \emph{Target closeup}, but presents the information in a line plot, whose ordinate shows the likely hood of a correct placement for each measurement and the abcissa shows the depth along the access path. We display the uncertainty of each value by extruding the line with a transparent band.
+\begin{figure}
+\includegraphics[width=\linewidth]{figures/contributions/dbs/screenshot-target.jpg}
+\caption{The views that show the results of the different measurements performed during the recording phase. The \emph{Target closeup} (bottom view) contains the segmented location of the STN is visible as well as the results of the different tests at their spatial location. The \emph{Placement guide} shows the likelihood measurements according to their depth long the access path}
+\label{contributions:medbio:dbs:target}
+\end{figure}
+
+\paragraph{Target closeup} After the potential electrode location has been determined, the surgeon uses this closeup view, centered around the segmented location of the STN, which combines all of the information that was gathered in the recording phase (see~\fref{contributions:medbio:dbs:target} bottom). Embedded in this view are the locations of the electrode as determined by the depth along the access path and as reconstructed by the biplanar X-ray scans. In addition it shows the MER signal results as a red-green overlay on the backside and presents options to add the patient test results as additional oval overlays. As all of these values have their own, unknown, uncertainty this view displays the overlap of the regions to inform the surgeon of the final placement that agrees with most measurements. On demand, the surgeon can enable the rendering of the MRI scan around the STN.
+
+\paragraph{Placement guide} This view is based on the same information as the \emph{Target closeup}, but presents the information in a line plot, whose ordinate shows the likely hood of a correct placement for each measurement and the abcissa shows the depth along the access path (see~\fref{contributions:medbio:dbs:target} top). We display the uncertainty of each value by extruding the line with a transparent band.
 
 \subsubsection{Evaluation}
 \label{contributions:medbio:dbs:evaluation}
