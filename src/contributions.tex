@@ -75,9 +75,47 @@ Each of the topics provides a short introduction into the domain and, then, elab
 
 \subsection{Deep Brain Stimulation Interventions}
 \label{contributions:medbio:dbs}
+\question{Is this too much a retelling of the paper story? If so, what additional information should be in here?}
+In this work package, the task was to develop a medical visualization application for deep brain stimulation (DBS) intervention support in collaboration with physicians at the St.~Barbara Hospital in Hamm, Germany. Contrary to other medical domains, where the doctor's available preparation time for each patient is limited \todo{find citation for this} and thus procludes any complex interaction techniques on visualization applications, DBS interventions already have a long planning phase scheduled prior to the operation, thus enabling the usage of specialized tools.
+
+The application that was developed combines an enhanced multimodal \nD{3} volume rendering environment with the spatial visualization of electric measurements that are recording during the procedure in combination with patient tests. Spatially embedding the measurements reduces the cognitive load of the surgeon. The system shows the varying uncertainties in a single view, thus enabling the surgeon more insight during the procedure.
+
+\subsubsection{Background}
+\label{contributions:medbio:dbs:background}
+We investigated DBS interventions that were performed on patients' with Parkinson's Disease or other forms of tremors. During the interventions, a transmitting electrode is inserted into patients' brains that potentially inhibits some of the debilitating effects of these tremors~\cite{Lindberg2002}. A usual target region for the electrode is the patient's subthalamic nucleus~(STN), which has been shown to be a beneficial target~\cite{Benabid2009}. The problems with the STN is the relatively small size of a few millimeters~\cite{Richter2004}, the location deep inside the patient's brain, as well as the fact that in some patients it is not detectable in MRI scans~\cite{Starr2002} and thus hard to localize. Furthermore, a small deviation in the electrode's location will excite other parts of the patient's brain that can lead to memory or speech impairments.
+
+In addition to traditional imaging modalities, the system makes use of Microelectrode Recordings~(MER)~\cite{Lenz1988} that record the electrical activities of the brain. The MER system consists of a small group of devices that measure the brain's electric field around them. The relative amplitude and frequency of these fields correlate with the brain region the electrode is in~\cite{benazzouz2002intraoperative} and can thus enable the surgeon to determine whether the electrodes are in the correct locations inside the patient's brain. The results of the MER recordings are traditionally reviewed on loudspeakers that are placed in the operating room. Aside from the obvious drawbacks of a limited auditory channel, potential background noise, and limited echoic memory, a big issue is the mental separation between the spatial location of the electrodes and their feedback. 
+
+Problems that were not sufficiently solved by previous methods include the fusion of the available modalities. These modalities include pre-operative CT and MRI scans, interoperative X-Ray scans, the electrode measurements during the insertion, and patient tests after the final electrode has been activated. Making efficient use of all available information is important as the principal limiting factor for the maximum operation length is the patient's ability to cooperate, as a DBS intervention is very taxing to the patient as they have to be awake during the entire procedure which can last up to 10 hours.
+
+A DBS procedure is split into three distinct phases. In the first phase, the \emph{planning} phase, the surgeon plans the operation by locating and segmenting the most probable location of the STN using preoperative CT and MRI scans. Using other tools, an optimal access channel is then planned that evades important brain regions. In the second phase, the \emph{recording} phase, the patient is in the operating room with their head in a stereotaxic frame, that restricts the movement and thus allows for a fixed-body transformation between the patient and the operating room, used for registration. The MER sensors are inserted into the patient's brain along the preplanned access path until they have reached the planned depth. If the electrodes correctly identify the STN region, the depth along the access path is noted and the electrodes are retracted. In the third phase, the \emph{placement} phase, a transmitting electrode is inserted into the access path to the depth that was measured during the previous phase. Once the electrode is in place, it is activated and its output is tuned. Using interoperative bi-planar X-ray scans and markers on the stereotactic frame, the location of the electrode inside the patient's brain is verified. Then, utilizing patient tests that examine the patients long term memory ability and measuring the tremor, the location of the electrode is fine tuned until an acceptable response is achieved or the patient is no longer capable of coorperating.
+
+\subsubsection{System}
+\label{contributions:medbio:dbs:system}
+\question{Should I use ``I'' or ``we'' in the text?}
+We created a system that can ingest the access path planned using other sophisticated tools, the various scans, the MER measurements, and the patient tests during the operation. the system enables the surgeon to inspect all available information for each of the two operational phases. The \emph{Contextual view} is available in both phases, whereas the \emph{2D audio visualization} and \emph{3D audio visualization} are only available in the recording phase and the \emph{Target closeup} and \emph{Placement guide} are only available in the placement phase. The rest of this section elaborates on the design decisions for the individual views.
+
+\question{How detailed should this be?}
+\paragraph{Contextual View} This \nD{3} view combines the preoperational CT and MRI scans together with the bi-planar X-rays, and the current electrode location. The selected access path is presented in this view as a carved out tunnel. Explicitly showing the access path serves two purposes, first, it reduces the chance of a dangerous left-right mismatch error that might otherwise occur. Second, it enables us to place colored beads inside the access path behind the electrode. The colors of these beads depend on an automatic classification of the incoming electrode signal. This method was adopted from related works~\cite{Haese2005, Miocinovic2007}.
+
+\paragraph{2D audio visualization} This view shows an augmented visualiation similar to an oscilloscope that presents the measurements from the available electrodes. As only the amplitude and frequency are important, we emphasize measurements that exceed a user-definable threshold and deemphasize the values below the threshold. Furthermore, this view is linked with the \emph{3D audio visualization}, described below, such that when a specific electrode is selected in either view, it is highlighted in both views with a different color. This is used by the surgeon to be able to correlate the detailed measurements with the relative location of the electrode.
+
+\paragraph{3D audio visualization} In this separate view, the relative locations of the different electrodes are displayed. The camera orientation is linked between this and the \emph{Contextual View} such that the mental registration between the two views is not broken. In this view, each electrodes' measurements that exceed a user-defined threshold are shown as discs that start at the electrode and move away from the electrode with increasing time. The size of the disc corresponds to the amplitude of the detected signal and thus shows the strength of the measured signal. The color of each disc is determined by the same classification algorithm that is used on the beads in the \emph{Contextual View}, but is simplified to show red if the electrode is outside of the STN and green if it is inside the STN. The surgeon can then, by correlating the frequency of discs and their amplitude verify that the classification was correct and that the electrodes are in the correct location.
+
+\paragraph{Target closeup} After the potential electrode location has been determined, the surgeon uses this closeup view, centered around the segmented location of the STN, which combines all of the information that was gathered in the recording phase. Embedded in this view are the locations of the electrode as determined by the depth along the access path and as reconstructed by the biplanar X-ray scans. In addition it shows the MER signal results as a red-green overlay on the backside and presents options to add the patient test results as additional oval overlays. As all of these values have their own, unknown, uncertainty this view displays the overlap of the regions to inform the surgeon of the final placement that agrees with most measurements.
+
+\paragraph{Placement guide} This view is based on the same information as the \emph{Target closeup}, but presents the information in a line plot, whose ordinate shows the likely hood of a correct placement for each measurement and the abcissa shows the depth along the access path. We display the uncertainty of each value by extruding the line with a transparent band.
+
+\subsubsection{Evaluation}
+\label{contributions:medbio:dbs:evaluation}
+
+\subsubsection{Generalizability}
+\label{contributions:medbio:dbs:generalizability}
+
+
 \begin{itemize}
 \item Good aspect about DBS operations: A long planning phase for the operation is already scheduled; less impact on using an extra tool
-\item Deep Brain Stimulation operations \cite{Lindberg2002} \cite{Benabid2009}
+\item Deep Brain Stimulation operations  \cite{Benabid2009} \cite{Lindberg2002}
 \item Subthalamic nucleus Size: \cite{Richter2004} Sometimes not detectable: \cite{Starr2002}
 \item Parkinson's Disease
 \item Previous systems
@@ -90,7 +128,7 @@ Each of the topics provides a short introduction into the domain and, then, elab
 \end{itemize}
 \item Desonification by showing the results instead of placing them on a loudspeaker
 \item Removing the mental registration between electrode location and electrode measurements
-\item two-step process
+\item three-step process
 \begin{itemize}
     \item Planning phase outside the scope of the paper -> We implemented a tool to import desired path trajectory \cite{Shamir2010}
     \item Recording phase: Initial guiding to the correct location showing the MER measurements
