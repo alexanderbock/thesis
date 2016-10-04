@@ -1,41 +1,47 @@
 \chapter{Introduction}
 \label{ch:introduction}
 
-\begin{itemize}
-\item Visualization
-\item Applications
-\item Interplay between Visualization and applications from a scientific (= domain expert) point of view
-\item "introduces the concepts that i have used in my work"
-
-\end{itemize}
-
 \section{Visualization}
 \begin{itemize}
-\item It's all the same (solving the same problem with different tools)
+\item It's all the same (solving the same problem with different tools) \item \cite{card1999readings} \cite{tory2002model}
 \item SciVis
 \item InfoVis
 \item VAST
 \item Background to the contributions regarding scivis/vis/..
 \item ''\{Don't write a textbook\}''
-\item Telling a story that leads up to contribution 
-\item Shortest path for a new person to understand the contributions
-\item Performance is important even if GPUs are getting faster since the simulation people's computer are getting faster, too
 \item combination of automated systems and the human-in-the-loop \cite{munzner2014visualization} \cite{van2005value} -> Shows importance of domain expert integration
+\item More information in Real-Time Volume Graphics: \cite{engel2006real}
+\item Interaction
 \end{itemize}
 
-Unused citations:
+\section{Visualization Pipeline}
 \begin{itemize}
-\item \cite{tory2005evaluating}
-\item \cite{munzner2009nested}
-\item \cite{tory2004human}
-\item \cite{kirby2013visualization}
-\item \cite{van2006bridging}
-\item \cite{kosara2003thoughts}
-\item \cite{carpendale2008evaluating}
+\item OpenGL Graphics pipeline \cite{segal2016opengl}
+\item Add OpenGL pipeline (request from Martin?)
+\item Image of visualization pipeline (haber and mcnabb)
+\item Different parts in the pipeline where the user can modify the result: computational steering [Mulder et al., 1999],
+\end{itemize}
 
-\item \cite{lewis1993task} Think aloud protocol introduction to the HCI community
-\item \cite{ericsson1980verbal} Variation on the think aloud protocol to only mention actions rather than thoughts
-\item \cite{likert1932technique} Introduction of the Likert scale
-\item \cite{nielsen1994heuristic} Usability heuristics
-\item \cite{wang2000guidelines} Guidelines for multiview setups in information visualization
+\section{Data Acquisition and Formats}
+\begin{itemize}
+\item Present different kinds of modalities (CT, MRI, simulations, ...)
+\item Discrete v continuous data \cite{tory2002model}
+\item Different grids (Cartesian v spherical)
+\end{itemize}
+
+\section{Direct Volume Rendering}
+\begin{itemize}
+    \item Emission/absorption model \cite{sabella1988rendering}
+    \item Volume rendering integral \cite{max1995optical}
+    \item Mention other composing methods (MIP, MIDA, isosurface)
+    \item Object-order (texture slicing \cite{westermann1998efficiently}, splatting\cite{westover1990footprint}) v image-order rendering (volume raycasting \cite{levoy1988display})
+\end{itemize}
+
+\subsection{Transfer Functions}
+
+
+
+% \section{Visualization}
+\begin{itemize}
+\item Performance is important even if GPUs are getting faster since the simulation people's computer are getting faster, too
 \end{itemize}
