@@ -1,5 +1,5 @@
 \chapter{Iterative Appliation Design (contributions)}
-\label{contributions}
+\label{cha:contributions}
 
 This chapter describes the contributions of all papers that are included in the thesis and them to the descriptions about application design as described in the previous chapter. The following sections first describe the separation of papers into topic areas and then elaborate on each of the topics.
 
@@ -89,7 +89,7 @@ In addition to traditional imaging modalities, the system makes use of Microelec
 
 Problems that were not sufficiently solved by previous methods include the fusion of the available modalities. These modalities include pre-operative CT and MRI scans, interoperative X-Ray scans, the electrode measurements during the insertion, and patient tests after the final electrode has been activated. Making efficient use of all available information is important as the principal limiting factor for the maximum operation length is the patient's ability to cooperate, as a DBS intervention is very taxing to the patient as they have to be awake during the entire procedure which can last up to 10 hours.
 
-A DBS procedure is split into three distinct phases. In the first phase, the \emph{planning} phase, the surgeon plans the operation by locating and segmenting the most probable location of the STN using preoperative CT and MRI scans. Using other tools, an optimal access channel is then planned that evades important sensitive brain regions and selects the optimal location for the electrode to affect the STN~\cite{butson2007patient}. In the second phase, the \emph{recording} phase, the patient is in the operating room with their head in a stereotaxic frame, that restricts the movement and thus allows for a fixed-body transformation between the patient and the operating room, used for later registration. The MER sensors are inserted into the patient's brain along the preplanned access path until they have reached the planned depth. During this phase, the measurements of the electrodes are used to distinguish the different adjacent brain regions. If the electrodes correctly identify the STN region, the depth along the access path is noted and the electrodes' location is verified with bi-planar X-ray scans. After this verification, the electrodes are retracted. In the third phase, the \emph{placement} phase, a transmitting electrode is inserted into the access path to the same location that was measured during the previous phase. Once the electrode is in place, it is activated and its output is tuned. Using interoperative bi-planar X-ray scans and markers on the stereotactic frame, the location of the electrode inside the patient's brain is verified. Then, utilizing patient tests that examine the patients' ability, such as long term memory ability and measuring the tremor, the location of the electrode might be adjusted until an acceptable response is achieved or the patient is no longer capable of coorperating due to the length of the procedure.
+A DBS procedure is split into three distinct phases. In the first phase, the \emph{planning} phase, the surgeon plans the operation by locating and segmenting the most probable location of the STN using preoperative CT and MRI scans. Using other tools~\cite{Shamir2010}, an optimal access channel is then planned that evades important sensitive brain regions and selects the optimal location for the electrode to affect the STN~\cite{butson2007patient}. In the second phase, the \emph{recording} phase, the patient is in the operating room with their head in a stereotaxic frame, that restricts the movement and thus allows for a fixed-body transformation between the patient and the operating room, used for later registration. The MER sensors are inserted into the patient's brain along the preplanned access path until they have reached the planned depth. During this phase, the measurements of the electrodes are used to distinguish the different adjacent brain regions. If the electrodes correctly identify the STN region, the depth along the access path is noted and the electrodes' location is verified with bi-planar X-ray scans. After this verification, the electrodes are retracted. In the third phase, the \emph{placement} phase, a transmitting electrode is inserted into the access path to the same location that was measured during the previous phase. Once the electrode is in place, it is activated and its output is tuned. Using interoperative bi-planar X-ray scans and markers on the stereotactic frame, the location of the electrode inside the patient's brain is verified. Then, utilizing patient tests that examine the patients' ability, such as long term memory ability and measuring the tremor, the location of the electrode might be adjusted until an acceptable response is achieved or the patient is no longer capable of coorperating due to the length of the procedure.
 
 \subsubsection{System}
 \label{contributions:medbio:dbs:system}
@@ -155,82 +155,11 @@ In order to perform an initial evaluation of the system, we conducted a qualitat
 
 \subsubsection{Generalizability}
 \label{contributions:medbio:dbs:generalizability}
+As mentioned in \charef{visapp}, one opportunity for application papers to advance the field of visualization is by providing generalizable solutions. Judging the work package from this point of view, there are two parts that can provide useful in other application domains.
 
+\paragraph{Audio Visualization} The 3D audio visualization that is used to display the MER measurements in a spatial context can be extended to any kind of timevarying data that can be filtered by a binary filter and where the spatial location of the individual measurements is important.
 
-\begin{itemize}
-\item Good aspect about DBS operations: A long planning phase for the operation is already scheduled; less impact on using an extra tool
-\item Deep Brain Stimulation operations  \cite{Benabid2009} \cite{Lindberg2002}
-\item Subthalamic nucleus Size: \cite{Richter2004} Sometimes not detectable: \cite{Starr2002}
-\item Parkinson's Disease
-\item Previous systems
-\item Microelectrode Recordings \cite{Lenz1988}
-\item Multimodal fusion (CT, MRI, electrode measurements, X-Ray, Patient tests)
-\begin{itemize}
-    \item preoperative CT + MRI
-    \item interoperative bi-planar X-Ray aligned to the electrode (patients head is inserted in a stereotaxic frame that ensures a fixed-body transformation between patient and operating room)
-    \item MER electrode rendering
-\end{itemize}
-\item Desonification by showing the results instead of placing them on a loudspeaker
-\item Removing the mental registration between electrode location and electrode measurements
-\item three-step process
-\begin{itemize}
-    \item Planning phase outside the scope of the paper -> We implemented a tool to import desired path trajectory \cite{Shamir2010}
-    \item Recording phase: Initial guiding to the correct location showing the MER measurements
-    \item Placement phase: Presenting uncertainty from all measurements around the optimal placement location. Showing areas where the uncertain areas overlap -> Most likely the correct location
-\end{itemize}
-\item Limiting factor of the operation is the patient's ability to coorperate due to the long operating times (6-10 hours)
-\item Working with the domain experts
-\item Receiving their feedback and from them the data
-\item System components
-\begin{itemize}
-    \item Contextual Component
-    \begin{itemize}
-        \item A \nD{3} view that fuses all available modalities. Shows MR scans (with vertical separation), bi-planar XRays, electrode location,
-        \item Contextualization is an important aspect as left-right mismatches are a dangerous source of surgery error
-        \item Presenting the location (= depth) of the electrode
-        \item Recording measurements along the removed path (drawing \emph{beads} in the trajectory (shown in \cite{Haese2005} \cite{Miocinovic2007})). The color of each bead is determined by the MER classification.
-        \item Showing the normalized location of the electrode on the bottom of the view. Combining the general spatial information of the main view with a detailed distance-based information of the inset
-    \end{itemize}
-    \item 2D audio visualization
-    \begin{itemize}
-        \item emphasize the important areas of the oscillogram (spikes)
-        \item deemphasize the rest
-        \item brushing and linking between this and the 3D audio visualization
-    \end{itemize}
-    \item 3D audio visualization
-    \begin{itemize}
-        \item separate view (orientation of the electrodes linked with the main view)
-        \item Integrating MER data with the spatial information
-        \item Rendering each electrode, which will drag disc behind it if the measurements were above a threshold. Colors correspond to the beads
-        \item Disc size corresponds to the potential difference that was measured at that electrode
-        \item Perspective distortion is not that important as the frequency is more important than the amplitude
-    \end{itemize}
-    \item Target closeup
-    \begin{itemize}
-        \item Shows the overlapping uncertainties for the differnet modalities as ellipses. Ellipses are approximations
-        \item Shows X-ray determined location and distance determined location
-        \item MER signal determination as red-green color overlay
-        \item Optional overlay of MRI scan for this block
-        \item Geometric model of the pre-segmented target location colored by where the most overlap between uncertainty regions is
-    \end{itemize}
-    \item Placement guide
-    \begin{itemize}
-        \item Showing same information as in the Target closeup, but as composable line plots
-        \item Extruded lines to show uncertainty
-    \end{itemize}
-\end{itemize}
-\item Evaluation
-\begin{itemize}
-    \item 5 neurosurgeons
-    \item showcase video with following questionnaire
-
-\end{itemize}
-\item Generalizability
-\begin{itemize}
-    \item 3D audio visualization applicable for other data where spatial audio is recorded
-    \item Target closeup view for overlapping uncertainty ranges
-\end{itemize}
-\end{itemize}
+\paragraph{Uncertainty Ranges} The visualization of the uncertainty ranges in the \emph{Target closeup} view might also prove beneficial to other domain areas in whcih multiple uncertain sources are used to pinpoint a most likely location of a target region. Naturally, they do not have to be isotropic uncertainties, but any form of visual feedback between spatial locations and uncertainties can be useful.
 
 \section{Urban Search \& Rescue}
 \label{contributions:usar}
