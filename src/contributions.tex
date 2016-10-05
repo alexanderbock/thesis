@@ -39,16 +39,29 @@ Each of the topics provides a short introduction into the domain and, then, elab
 
 \subsection{Finite Element Visualization}
 \label{contributions:medbio:fem}
+In this project we developed an algorithm for real-time volume rendering of multi-variate non-linear finite element model~(FEM) simulation of a human heart. These simulations calculate the stress tensor at each location during a cardiac cycle. By comparing the results of a patient's response with the architypical heart, it becomes possible to detect structural defects before they manifest~\cite{young1992three, young1995tracking}. Traditionally, these models are visualized using iso-surfaces or glyphs~\cite{wunsche2003visualization}, but not using volume rendering. As was stated in \SC{introduction:volumerendering}, the value for each sampling point during the volume ray marching has to be fetched for a correct front-to-back compositing. This step becomes a bottleneck in the case of non-linear FEM datasets, as the data access becomes non-trivial, thus reducing rendering speeds to non-interactivity. \paperef{paperA} describes an algorithm that utilizes a precomputation step to cache a reduced set of possible rays that are then used at rendering time to efficiently access the data, resulting in a 15$\times$ performance gain, relative to straight-forward GPU implementations, which in turn, is an improvement of 2 to 4 orders of magnitude compared to a straight-forward CPU implementation~\cite{Liu12Fem}. 
+
+\subsubsection{Background}
+\label{contributions:medbio:fem:background}
+FEM methods are used extensively in a large number of fields, for example engineering, construction, or biology, as an approach to solve problems numerically. For these methods, the problem domain is separated into a finite number of cells over which the numerical simulation can be performed. For more information, we refer the reader to the book by Bathe and Wilson~\cite{bathe1976numerical}. For our purposes it suffices to know that each element is associated with at least two coordinate systems. The location and deformation of each element is specified in (usually Cartesian) \emph{world coordinates}, denoted by $\vec{x}$ in $\rthree$, whereas the values it contains are stored in a material coordinate system $\xi$ which, in most cases, is of a simple geometry such as cubes, triangles, or tetrahedra. The variates of study are defined in the material coordinate space and are interpolated using trilinear interpolation. The transformation between world coordinates and material coordinates can be arbitrarily complex and undoing these transformations is at the heart of the mission performance to be able to render these models interactively using volumetric rendering techniques.
+
+\subsubsection{Algorithm}
+\label{contributions:medbio:fem:algorithm}
+
+\subsubsection{Generalization}
+\label{contributions:medbio:fem:generalization}
+
+
 \begin{itemize}
-\item Other work: \cite{Liu12Fem}
 \item Rendering multi-variate non-linear finite element models
 \item Transformation from linear rays in world-space to curve rays in material space
 \item Simulation values are described in material space
-\item Transformation from world to material space is computationally expensive
+\item Transformation from world to material space is computationally expensive (multi-dimensional Newton method requires multiple iterations involving the Jacobian)
 \item Solve by using precomputation step to compute proxy rays for each element
 \item Precomputation is allowable as the elements are usually not degenerate and smooth
 \item During rendering time, proxy rays are used to look up values in the finite elements and perform the ray marching
 \item Proxy ray computation
+\item Voreen: \cite{meyer2009voreen}
 \begin{itemize}
     \item Create a uniform grid on the surfaces of each element
     \item Compute rays from each grid cell to each other grid cell
@@ -77,7 +90,7 @@ Each of the topics provides a short introduction into the domain and, then, elab
 \subsection{Deep Brain Stimulation Interventions}
 \label{contributions:medbio:dbs}
 \question{Is this too much a retelling of the paper story? If so, what additional information should be in here?}
-In this work package, the task was to develop a medical visualization application for deep brain stimulation (DBS) intervention support in collaboration with physicians at the St.~Barbara Hospital in Hamm, Germany. This system should be designed to support the brain surgeon during the surgery in order to achieve a higher precision and thus a higher probability of a positive outcome for the patient. In contrast to other medical domains, where the doctor's available preparation time for each patient is limited and thus procludes any complex interaction techniques on visualization applications, DBS interventions already have a long planning phase scheduled prior to the operation, thus enabling the usage of specialized tools and providing the ability for visualization to play an important role in this scenario.
+In we work package of \paperef{paperB}, the task was to develop a medical visualization application for deep brain stimulation (DBS) intervention support in collaboration with physicians at the St.~Barbara Hospital in Hamm, Germany. This system should be designed to support the brain surgeon during the surgery in order to achieve a higher precision and thus a higher probability of a positive outcome for the patient. In contrast to other medical domains, where the doctor's available preparation time for each patient is limited and thus procludes any complex interaction techniques on visualization applications, DBS interventions already have a long planning phase scheduled prior to the operation, thus enabling the usage of specialized tools and providing the ability for visualization to play an important role in this scenario.
 
 The application resulting from this collaboration combines an enhanced multimodal \nD{3} volumetric rendering environment with the spatial visualization of electric measurements that are recording the patient's brain activity during the procedure in combination with patient-specific ability tests. Spatially embedding the measurements with the volumetric information reduces the cognitive load of the surgeon during the surgeon, as this mental link does not have to be performed by the surgeon themself. Furthermore, the system shows the uncertainties of the different modalities in a single view, thus enabling the surgeon a comprehensive view and  more insight during the procedure.
 
@@ -155,7 +168,7 @@ In order to perform an initial evaluation of the system, we conducted a qualitat
 
 \subsubsection{Generalizability}
 \label{contributions:medbio:dbs:generalizability}
-As mentioned in \charef{visapp}, one opportunity for application papers to advance the field of visualization is by providing generalizable solutions. Judging the work package from this point of view, there are two parts that can provide useful in other application domains.
+As mentioned in \charef{visapp}, one opportunity for application papers to advance the field of visualization is by providing generalizable solutions. To this end, the entire system was implemented in the Voreen framework~\cite{meyer2009voreen}, which allows the reusability of individual components. Judging the work package from this point of view, there are two parts that can provide useful in other application domains.
 
 \paragraph{Audio Visualization} The 3D audio visualization that is used to display the MER measurements in a spatial context can be extended to any kind of timevarying data that can be filtered by a binary filter and where the spatial location of the individual measurements is important.
 
@@ -170,6 +183,7 @@ As mentioned in \charef{visapp}, one opportunity for application papers to advan
 \subsection{Space Weather Visualization}
 \label{contributions:physics:spaceweather}
 \cite{Bock14CME}
+\cite{lindholm14thesis}
 
 \subsection{Ion Beam Simulations}
 \label{contributions:physics:ion}
