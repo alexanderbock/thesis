@@ -95,7 +95,7 @@ Second, we compute only a finite number of proxy rays for each element by creati
 \end{subfigure}
 \end{figure}
 
-The first step for the clustering is to increase the similarity between proxy rays while maintaining the ability to uniquely reconstruct the final ray. For this, all rays are converted into a common coordinate system in which the first $P_0$ and the last $P_n$ control point are located on the $z$ axis. Then, all control points are rotated around the $z$ axis such that the first point $P_i$ that is not collinear with $P_0$ and $P_n$ is in the $yz$ plane. This rotation angle $\theta$ is retained. Lastly, all control points are scaled along the $z$ axis such that $P_n$ becomes equal to $(0,0,1)$. \fref{contribution:medbio:fem:splines} shows the results of these transformations on an example ray. Both the translation and the scaling can then later be undone during the rendering without storing additional information, as the entry and exit points (and their distance) are known.
+The first step for the clustering is to increase the similarity between proxy rays while maintaining the ability to uniquely reconstruct the final ray. For this, all rays are converted into a common coordinate system in which the first $P_1$ and the last $P_n$ control point are located on the $z$ axis. Then, all control points are rotated around the $z$ axis such that the first point $P_i$ that is not collinear with $P_1$ and $P_n$ is in the $yz$ plane. This rotation angle $\theta$ is retained. Lastly, all control points are scaled along the $z$ axis such that $P_n$ becomes equal to $(0,0,1)$. \fref{contribution:medbio:fem:splines} shows the results of these transformations on an example ray. Both the translation and the scaling can then later be undone during the rendering without storing additional information, as the entry and exit points (and their distance) are known.
 
 For the clustering of the splines, we make use of the variant of the  K-Means~\cite{hartigan75kmeans} algorithm due to its stability and ability to deal with values of arbitrary dimensions. For this, we adapt an idea from Abraham~\etal \cite{abraham03clustering} and perform the clustering on the control points of the Catmull-Rom splines directly. The metric for the clustering uses the area between two curves as approximated by a Riemann sum of triangles connecting the proxy rays, sampled at a high frequency (see~\fref{contribution:medbio:fem:metric}). For two proxy rays $a$ and $b$, and their $n$ sampled points $a_1, \dots a_n$ and $b_0, \dots b_n$ with $a_1 = b_1$, $a_n = b_n$, $\exists i\in[2, n-1] : a{_i}_x = 0$, and $\exists j\in[2, n-1] : b{_j}_x = 0$ due to the transformation performed in the last paragraph, the similarity metric is defined by:
 \begin{eqnarray}
@@ -106,14 +106,50 @@ d(a,b) &=& \frac{1}{2} \Big( \Vert a_1a_2 \times a_2b_2\Vert + \nonumber \\
 After applying the clustering, for each original point we now have a cluster identifier for the representative ray and the angle $\theta$ as computed above.
 
 \paragraph{Rendering}
-During the rendering step of the algorithm, the proxy geometries for all elements are rendered. The material space coordinates are mapped to the RGB channel, as described by Kr\"uger and Westermann~\cite{kruger2003acceleration}, and the element identifier is encoded in the transparency channel. We then render the entire scene in multiple passes, employing a modified depth peeling approach as described by Everitt~\cite{everitt2001interactive} for each of the passes. A usual problem problem with depth peeling is z-fighting, where the depth of multiple geometries are too close in screenspace to be discriminated. This is especially true for finite element models where the elements by construction have to touch each other. In order to remove the artifacts that would otherwise occur (see~\fref{contribution:medbio:fem:peeling}), we use the fact that faces of different elements have the same world coordinates and we can filter those elements by their respectiven normals.
+\begin{figure}
+    \centering
+    \includegraphics[width=0.5\linewidth]{figures/contributions/fem/heartfine.jpg}
+    \caption{The insets show potential rendering artifacts when applying the depth peeling algorithm to finite element methods.}
+    \label{contribution:medbio:fem:peeling}
+\end{figure}
+During the rendering step of the algorithm, the proxy geometries for all elements are rendered. The material space coordinates are mapped to the RGB channel, as described by Kr\"uger and Westermann~\cite{kruger2003acceleration}, and the face identifier and element identifier are encoded in the transparency channel. We then render the entire scene in multiple passes, employing a modified depth peeling approach as described by Everitt~\cite{everitt2001interactive} for each of the passes. A usual problem problem with depth peeling is z-fighting, where the depth of multiple geometries are too close in screenspace to be discriminated. This is especially true for finite element models where the elements by construction have to touch each other. In order to remove the artifacts that would otherwise occur (see~\fref{contribution:medbio:fem:peeling}), we use the fact that faces of different elements have the same world coordinates and we can filter those elements by their respectiven normals as we know that the two faces of the touching elements must of opposite normals.
 
 \begin{figure}
 \centering
-\includegraphics[width=0.5\linewidth]{figures/contributions/fem/heartfine.jpg}
-\caption{The insets show potential rendering artifacts when applying the depth peeling algorithm to finite element methods.}
-\label{contribution:medbio:fem:peeling}
+\begin{subfigure}[b]{0.4\textwidth}
+    \fbox{\includegraphics[width=0.99\textwidth]{figures/contributions/fem/arclength.pdf}}
+    \caption{The desire to uniformly sample the view ray in world space requires an arclength parametrization of the proxy ray.}
+    \label{contribution:medbio:fem:arclength}
+\end{subfigure}
+\hspace{2cm}
+\begin{subfigure}[b]{0.4\textwidth}
+    \fbox{\includegraphics[width=0.99\textwidth]{figures/contributions/fem/overshoot.pdf}}
+    \caption{Special border handling is required between elements, as a na\"{i}ve implementation would oversample the boundary.}
+    \label{contribution:medbio:fem:overshoot}
+\end{subfigure}
+\caption{Utilizing the proxy rays for ray marching in material space introduces two potential sources of non-uniform sampling in world space.}
 \end{figure}
+
+For each of the peeling rendering steps, we can then use the color information for each pair of fragments to retrieve the entry and exit points as well as the face and element ID. Using this information, we can retrieve the cluster ID and the angle $\theta$ of the proxy ray that belongs to the fragment pair. The previous transformations of the proxy ray can be undone in the following way: First, the proxy ray is scaled by the distance between the entry and exit points in world coordinates. Second, it is translated and rotated such that $P_1$ coincides with the entry pont and $P_n$ coincides with the entry point. Then, the proxy ray is rotated by $\theta$ around the axis connecting $P_0$ and $P_n$. The ray marching can then interpolate along the Catmull-Rom spline to retrieve the correct sampling value in material space. This ray marching cannot, however, take place in the material space as this would lead to a non-uniform sampling in world space (see~\fref{contribution:medbio:fem:arclength}). Therefore, the spline interpolation parameter $t \in [0,1]$ has to be converted into an arclength parametrization such that the sampling in material space becomes non-uniform to make the world space sampling uniform instead~\cite{guenter90arclength}. A second subtle error occurs at the boundary between elements and is exemplified in~\fref{contribution:medbio:fem:overshoot}. Restarting the ray marching at each element would also lead to a non-uniform sampling and thus rendering artifacts. For this reason, the remaining distance between the last sample and the exit point is stored at the end of the ray marching and this distance is used to offset the first sampling point in the following element, similar to the method employed by Ljung~\cite{ljung2006adaptive}.
+
+\begin{figure}
+\centering
+\begin{subfigure}[b]{0.4\textwidth}
+    \fbox{\includegraphics[width=0.99\textwidth]{figures/contributions/fem/heart-5.png}}
+    \caption{Using no inter-ray or intra-ray interpolation.}
+    \label{contribution:medbio:fem:raw}
+\end{subfigure}
+\hspace{2cm}
+\begin{subfigure}[b]{0.4\textwidth}
+    \fbox{\includegraphics[width=0.99\textwidth]{figures/contributions/fem/heart-5-rr-ii.png}}
+    \caption{Using inter-ray and intra-ray interpolation.}
+    \label{contribution:medbio:fem:interpolation}
+\end{subfigure}
+\caption{A volume rendering of the heart dataset using $5\times 5$ rays per face for each element showing the difference between the interpolation schemes.}
+\label{contribution:medbio:fem:interpolationexample}
+\end{figure}
+
+Lastly, we employ another technique to mitigate rendering artifacts that stem from a low sampling resolution of proxy rays. If, for example, each face uses only a $3 \times 3$ grid of points, the same proxy ray will be used for a large area of the face; similar to nearest neighbor interpolation. To remedy these artifacts, we effectively use bilinear interpolation on the control points of the four closest proxy rays and perform the ray marching along the spline generated by these interpolated control points. This interpolation method is called \emph{intra-ray interpolation}. A second interpolation method is called \emph{intra-ray interpolation}, where all rays with entry and exit points exchanged are fetched. These are then sampled with $t' = 1-t$ and the two results are averaged before sampling the volume. \fref{contribution:medbio:fem:interpolationexample} shows the difference on the heart dataset, where $5\times 5$ rays per face for each element were generated.
 
 \subsubsection{Results}
 \label{contributions:medbio:fem:results}
@@ -143,7 +179,7 @@ During the rendering step of the algorithm, the proxy geometries for all element
 \end{itemize}
 \item Rendering
 \begin{itemize}
-    \item Depth peeling \cite{mammen89DepthPeeling}
+    \item Depth peeling 
     \item Lookup ray id and $\theta$
     \item Bend and rotate closest ray into place
     \item Perform ray marching along the proxy ray (arc parametrization to take into account the different lenghts in material and world space \cite{guenter90arclength})
