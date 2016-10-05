@@ -43,7 +43,25 @@ In this project we developed an algorithm for real-time volume rendering of mult
 
 \subsubsection{Background}
 \label{contributions:medbio:fem:background}
-FEM methods are used extensively in a large number of fields, for example engineering, construction, or biology, as an approach to solve problems numerically. For these methods, the problem domain is separated into a finite number of cells over which the numerical simulation can be performed. For more information, we refer the reader to the book by Bathe and Wilson~\cite{bathe1976numerical}. For our purposes it suffices to know that each element is associated with at least two coordinate systems. The location and deformation of each element is specified in (usually Cartesian) \emph{world coordinates}, denoted by $\vec{x}$ in $\rthree$, whereas the values it contains are stored in a material coordinate system $\xi$ which, in most cases, is of a simple geometry such as cubes, triangles, or tetrahedra. The variates of study are defined in the material coordinate space and are interpolated using trilinear interpolation. The transformation between world coordinates and material coordinates can be arbitrarily complex and undoing these transformations is at the heart of the mission performance to be able to render these models interactively using volumetric rendering techniques.
+FEM methods are used extensively in a large number of fields, for example engineering, construction, or biology, as an approach to solve complex problems numerically. For these methods, the problem domain is separated into a finite number of cells over which the numerical simulation can be performed. For more information, we refer the reader to the book by Bathe and Wilson~\cite{bathe1976numerical}. For our purposes it suffices to know that each element is associated with at least two coordinate systems. The location and deformation of each element is specified in (usually Cartesian) \emph{world coordinates}, denoted by $\vec{x}$ in $\rthree$, whereas the values it contains are stored in a material coordinate system $\xi$ which, in most cases, is of a simple geometry such as cubes, triangles, or tetrahedra. The variates of study are defined in the material coordinate space and are interpolated using trilinear interpolation. The transformation between world coordinates and material coordinates can be arbitrarily complex and undoing these transformations is at the heart of the mission performance to be able to render these models interactively using volumetric rendering techniques.
+
+\begin{figure}
+\centering
+\begin{subfigure}[b]{0.3\linewidth}
+    \fbox{\includegraphics[width=\linewidth]{figures/contributions/fem/splines-xi-space.pdf}}
+\end{subfigure}
+\hfill
+\begin{subfigure}[b]{0.3\linewidth}
+    \fbox{\includegraphics[width=\linewidth]{figures/contributions/fem/splines-world-space.pdf}}
+\end{subfigure}
+\hfill
+\begin{subfigure}[b]{0.3\linewidth}
+    \fbox{\includegraphics[width=\linewidth]{figures/contributions/fem/viewingrays.pdf}}
+\end{subfigure}
+\label{contribution:medbio:fem:rays}
+\end{figure}
+
+When performing volume raycasting on the FEM, the individual rays for each pixel are defined in world coordinates and are straight lines. For each element that is intersected by a ray, each rays have to be converted into the material space for the value lookup. This transformation turns a straight ray into a curved ray (see~\fref{contribution:medbio:fem:rays}) which necessitates coordinate transformations during the ray marching. Due to the nonlinearity of these transformations, multidimensional iterative approaches such as the Newton method have to be emplode, further exasperating the performance loss.
 
 \subsubsection{Algorithm}
 \label{contributions:medbio:fem:algorithm}
