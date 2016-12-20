@@ -1,10 +1,20 @@
-\chapter{Introduction}
-\label{cha:introduction}
+\chapter{Introduction} \label{cha:intro}
+This chapter provides the necessary background required for the following two chapters.  Only topics are introduced that are required knowledge for the papers that are found at the end of this work.  First, a general overview of the field of Visualization is provided with its benefits, drawbacks, and dangers.  Second, the visualization pipeline is introduced and some of its relevant internal attributes are elaborated on.  The third section presents a small overview over interaction design and its requirements.  The last section elaborates on the fundamentals of user evaluations that seek to answer the question whether novel visualization or interaction techniques are more effective than previous methods.
+
+\section{Visualization} \label{cha:intro:v}
+Visualization is ``the use of computer-supported, interactive, visual representations of data to amplify cognition''~\cite{card1999readings}.  The field of visualization is often separated into at least three subdivisions, \emph{Scientific Visualization}, \emph{Information Visualization}, and \emph{Visual Analytics}.  This distinction is not emphasized in this work and it is very hard to delineate differences between the subdivisions in border cases.  In a sense it can be viewed as the three subdivions solving the same kinds of problems, displaying data to a human to facilitate insight, utilizing different tools.  However, it is still useful to mention the subdivisions for the sake of clarity. that is based on the work by Card~\etal~\cite{card1999readings} and especially 
+
+\textbf{Scientific Visualization } is characterized by the use of data sources with an inherent physical component.  Data traditionally attributed to Scientific Visualization comes in the form of, for example, simulations or datasets in which the spatial relationship is trivially given.
+
+\textbf{Information Visualization } usually deals with abstract data that does not possess an innate spatial component.  Techniques from this part are typically high-dimensional and multi-variate.
+
+\textbf{Visual Analytics } places heavier focus on the analytical reasoning and the interaction modes in order to produce insight into the data. 
+
+Other, more nuanced distinctions have been drawn by Tory~\etal~\cite{tory2002model}.  In their work, they provide a \emph{model-based taxonomy} that is based on the model of the data rather than the data itself.  Rather than using a taxonomy that is based on the description of the data, they propose a taxonomy that is based on the way the data is used inside the visualization system and differentiates between \emph{continous} and \emph{discrete} data.
+
 \begin{itemize}
   \item SciVis / InfoVis / VAST
   \begin{itemize}
-    \item it's all the same, but different flavors) [not too long]
-    \item (solving the same problem with different tools) \item \cite{card1999readings} \cite{tory2002model}
     \item The Value of Visualization v.Wijk \cite{van2005value}
     \begin{itemize}
       \item Referencing "The Death of visualization" paper
@@ -15,9 +25,12 @@
       \item Showing information incorrectly
       \item Cultural component in understanding visualizations
     \end{itemize}
-
-    %\item The purpose of visualization is insight, not pictures” (McCormick et al. 1987)
   \end{itemize}
+\end{itemize}
+
+\section{Visualization Pipeline} \label{cha:intro:vp}
+\begin{itemize}
+    %\item The purpose of visualization is insight, not pictures” (McCormick et al. 1987)
   \item Visualization pipeline
   \begin{itemize}
     \item OpenGL Graphics pipeline \cite{segal2016opengl}
@@ -44,8 +57,11 @@
     \end{itemize}
     \item Explaning multiviews, brushing, linking, etc (Tory 2003)
     \item More information in Real-Time Volume Graphics: \cite{engel2006real}
-
   \end{itemize}
+\end{itemize}
+
+\section{Human-in-the-Loop} \label{cha:intro:hitl}
+\begin{itemize}
   \item Combination of automated systems and human-in-the-loop; Shows importance of domain expert integration
   \begin{itemize}
     \item Interaction design
