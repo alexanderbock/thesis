@@ -1,51 +1,54 @@
 \chapter{Introduction}
 \label{cha:introduction}
-
-\section{Visualization}
 \begin{itemize}
-\item It's all the same (solving the same problem with different tools) \item \cite{card1999readings} \cite{tory2002model}
-\item SciVis
-\item InfoVis
-\item VAST
-\item Background to the contributions regarding scivis/vis/..
-\item ''\{Don't write a textbook\}''
-\item combination of automated systems and the human-in-the-loop \cite{munzner2014visualization} \cite{van2005value} -> Shows importance of domain expert integration
-\item More information in Real-Time Volume Graphics: \cite{engel2006real}
-\item Interaction
-\end{itemize}
+  \item SciVis / InfoVis / VAST
+  \begin{itemize}
+    \item it's all the same, but different flavors) [not too long]
+    \item (solving the same problem with different tools) \item \cite{card1999readings} \cite{tory2002model}
+    \item The Value of Visualization v.Wijk \cite{van2005value}
+    \begin{itemize}
+      \item Referencing "The Death of visualization" paper
+    \end{itemize}
+    \item Dangers of visualization \cite{lorensen2004death}
+    \begin{itemize}
+      \item Showing incorrect information
+      \item Showing information incorrectly
+      \item Cultural component in understanding visualizations
+    \end{itemize}
 
-\section{Visualization Pipeline}
-\begin{itemize}
-\item OpenGL Graphics pipeline \cite{segal2016opengl}
-\item Add OpenGL pipeline (request from Martin?)
-\item Image of visualization pipeline (haber and mcnabb)
-\item Different parts in the pipeline where the user can modify the result: computational steering [Mulder et al., 1999],
-\end{itemize}
+    %\item The purpose of visualization is insight, not pictures” (McCormick et al. 1987)
+  \end{itemize}
+  \item Visualization pipeline
+  \begin{itemize}
+    \item OpenGL Graphics pipeline \cite{segal2016opengl}
+    \item Image of visualization pipeline (haber and mcnabb)
 
-\section{Data Acquisition and Formats}
-\begin{itemize}
-\item Present different kinds of modalities (CT, MRI, simulations, ...)
-\item Discrete v continuous data \cite{tory2002model}
-\item Different grids (Cartesian v spherical)
-\end{itemize}
+    \item Multiple locations for modifying the results [Mulder et al., 1999]
+    \item Data acquisition
+    \begin{itemize}
+      \item Data types
+      \item Modalities (CT, MRI, simulations)
+      \item Different grids (cartesian v spherical)
+    \end{itemize}
+    \item Direct Volume Rendering
+    \begin{itemize}
+      \item Emission/absorption \cite{sabella1988rendering}
+      \item Volume rendering integral \cite{max1995optical}
+      \item Other techniques
+      \begin{itemize}
+        \item MIP / MIDA / isosurface
+        \item Object-order: texture slicing \cite{westermann1998efficiently}, splatting \cite{westover1990footprint}
+        \item Image-order: volume raycasting \cite{levoy1988display, drebin1988volume,sabella1988rendering} speedup: \cite{kruger2003acceleration} single pass rendering \cite{hadwiger2005real, stegmaier2005simple}
+      \end{itemize}
+      \item Raycasting v raytracing
+    \end{itemize}
+    \item Explaning multiviews, brushing, linking, etc (Tory 2003)
+    \item More information in Real-Time Volume Graphics: \cite{engel2006real}
 
-\section{Direct Volume Rendering}
-\begin{itemize}
-    \item Emission/absorption model \cite{sabella1988rendering}
-    \item Volume rendering integral \cite{max1995optical}
-    \item Mention other composing methods (MIP, MIDA, isosurface)
-    \item Object-order (texture slicing \cite{westermann1998efficiently}, splatting\cite{westover1990footprint})
-    \item image-order rendering (volume raycasting \cite{levoy1988display, drebin1988volume,sabella1988rendering} speedup: \cite{kruger2003acceleration} single pass rendering \cite{hadwiger2005real, stegmaier2005simple})
-    \item Raycasting v raytracing
-    \item shading \cite{phong1975illumination} Daniel STAR: \cite{jonsson14survey}
-    \item Early ray termination \cite{levoy1990efficient}
-\end{itemize}
-
-\subsection{Transfer Functions}
-
-
-
-% \section{Visualization}
-\begin{itemize}
-\item Performance is important even if GPUs are getting faster since the simulation people's computer are getting faster, too
+  \end{itemize}
+  \item Combination of automated systems and human-in-the-loop; Shows importance of domain expert integration
+  \begin{itemize}
+    \item Interaction design
+    \item \cite{munzner2014visualization} \cite{van2005value} -> Shows importance of domain expert integration
+  \end{itemize}
 \end{itemize}
