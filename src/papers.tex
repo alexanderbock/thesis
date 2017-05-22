@@ -14,7 +14,8 @@
       \heightof{\usebox{\ABpaperbox}}+\depthof{\usebox{\ABpaperbox}}}%
     {!}{%
       \sffamily%% \fontfamily{lmss}\selectfont%  %% enable this for sans serif
-      \scshape\so \footnotesize Paper}}%
+      % \scshape\so \footnotesize Paper}}%
+      {\scshape\so{\footnotesize Paper}}}}%
   \hspace{7pt}%\quad%  %% distance between vertikal "chapter" and numbered box
   \raisebox{\depthof{\usebox{\ABpaperbox}}}{\usebox{\ABpaperbox}}%
 }
@@ -36,7 +37,7 @@
     \end{minipage}
 }
 
-\newcommand{\paperinclude}[5]{
+\newcommand{\paperinclude}[4]{
      \palayout{#1}{#2}{#3}{\thepac}
      \iftoggle{isprint}{
         \iftoggle{skippapers}{}
