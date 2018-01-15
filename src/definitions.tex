@@ -26,6 +26,7 @@
 \colorlet{revisionReplaced}{niceorange}
 \colorlet{revisionDeleted}{nicered!50!white}
 
+\newcommand{\astar}{A$^\star$ }
 
 %New command for adaptive clearpageing
 %If @isprint@ mode clear to oddpage otherwise just clear the page
@@ -118,8 +119,8 @@
 \newcommand{\SCp}[1]{Section~\ref{#1} on page~\pageref{#1}}
 \newcommand{\EQ}[1]{Equation~\ref{#1}}
 \newcommand{\EQp}[1]{Equation~\ref{#1} on page~\pageref{#1}}
-\newcommand{\FG}[1]{Figure~\ref{#1}}
-\newcommand{\FGp}[1]{Figure~\ref{#1} on page~\pageref{#1}}
+\newcommand{\FG}[1]{\fref{#1}}
+\newcommand{\FGp}[1]{\fref{#1} on page~\pageref{#1}}
 \newcommand{\TA}[1]{Table~\ref{#1}}
 \newcommand{\TAp}[1]{Table~\ref{#1} on page~\pageref{#1}}
 
@@ -164,7 +165,7 @@
 %
 \newcommand{\charef}[1]{Chapter~\ref{cha:#1}}
 \newcommand{\eqnref}[1]{Equation~\ref{eq:#1}}
-\newcommand{\figref}[1]{Figure~\ref{fig:#1}}
+\newcommand{\figref}[1]{\fref{fig:#1}}
 \newcommand{\figrefsub}[2]{Figure~\frefs{#1}{#2}}
 \newcommand{\figrefink}[2]{Figure~\frefi{#1}{#2}}
 \newcommand{\secref}[1]{Section~\ref{sec:#1}}
