@@ -139,7 +139,7 @@ A straight-forward sampling of the $|F|$ faces of the $|E|$ elements of the mode
 \end{subfigure}
 \end{figure}
 
-The first step is to increase the similarity between proxy rays while maintaining the ability to uniquely reconstruct the final ray.  For this, all rays are rotated and stretched such that the first point $P_1$ is equal to $(0,0,0)$ and the last $P_n$ control point is equal to $(0,0,1)$.  Then, all control points are rotated by a rotation angle $\theta$ around the $z$ axis such that the first point $P_i$ that is not collinear with $P_1$ and $P_n$ is in the $yz$ plane.  \fref{contributions:fem:splines} shows the results of these transformations on an example ray.  Both the translation and the scaling can then later be undone during the rendering without storing additional information, as the entry and exit points (and their distance) are known.  Only the angle $\theta$ needs to be recorded for each $\emph{proxy ray}
+The first step is to increase the similarity between proxy rays while maintaining the ability to uniquely reconstruct the final ray.  For this, all rays are rotated and stretched such that the first point $P_1$ is equal to $(0,0,0)$ and the last $P_n$ control point is equal to $(0,0,1)$.  Then, all control points are rotated by a rotation angle $\theta$ around the $z$ axis such that the first point $P_i$ that is not collinear with $P_1$ and $P_n$ is in the $yz$ plane.  \fref{contributions:fem:splines} shows the results of these transformations on an example ray.  Both the translation and the scaling can then later be undone during the rendering without storing additional information, as the entry and exit points (and their distance) are known.  Only the angle $\theta$ needs to be recorded for each \emph{proxy ray}
 
 \begin{figure}
 \centering
@@ -147,7 +147,7 @@ The first step is to increase the similarity between proxy rays while maintainin
 \caption{A representation of the metric that is used in the K-Means clustering algorithm, approximating the area between the two rays by a sum of the triangle areas.}
 \label{contributions:fem:metric}
 \end{figure}
-
+\cite{meyer2009voreen}
 For the clustering of the splines, we make use of the variant of the K-Means~\cite{hartigan75kmeans} algorithm because of its stability and ability to deal with values of arbitrary dimensions.  For this, we adapt an idea from Abraham~\etal \cite{abraham03clustering} and perform the clustering on the control points of the Catmull-Rom splines directly.  The metric for the clustering uses the area between two curves as approximated by a Riemann sum of triangles connecting the proxy rays, sampled at a high frequency (see~\fref{contributions:medbio:fem:metric}).  For two proxy rays $a$ and $b$, and their $n$ sampled points $a_1, \dots a_n$ and $b_0, \dots b_n$ with $a_1 = b_1$, $a_n = b_n$, $\exists i\in[2, n-1] : a{_i}_x = 0$, and $\exists j\in[2, n-1] : b{_j}_x = 0$ due to the transformation performed in the last paragraph, the similarity metric is defined by:
 
 \begin{eqnarray}
@@ -220,59 +220,34 @@ Deep Brain Stimulation~(DBS)~is a form of medical intervention that targets, amo
 
 Microelectrode Recordings~(MER)~have been developed to augment traditional imaging modalities and make use of a cluster of recording electrodes that are capable of detecting the electric activities in the brain~\cite{lenz1988methods}.  The amplitude and frequency of the electric fields measured by the electrodes correlate with specific brain regions and than hus be used to determine whether the electrodes are in the correct location~\cite{benazzouz2002intraoperative}.  The results of the MER are traditionally reviewed by the surgeon on loudspeakers in the operating room.  Aside from the obvious drawbacks of a limited auditory channel, a limited echoic memory, and potential background noise, a big challenge is the surgeon's mental separation between the spatial location of the electrodes and the results of their measurements, requiring the surgeon to keep a mental model of the brain regions and comparing those to a standard atlas in their head.  This holds true for both the absolute location of the electrode cluster as well as the relative position of the electrodes inside the cluster.
 
-A DBS intervention is performed in three distinct phases.  In the first phase, the \emph{planning} phase, the surgeon plans the operation at his workstation by locating and segmenting the most probable location of the STN using preoperative~CT and MRI scans.  This information is used to plan an optimal access channel which evates important sensitive brain regions and selects the optimal location for the electrode to affect the~STN~\cite{butson2007patient}.  In the second phase, the \emph{recording} phase, the patient is in the operating room with their head fixed in a stereotaxic frame that restricts the patient's movement and thus allows for a fixed-body transformation and the operating room.  The MER electrode cluster is inserted into the patient's  brain along the preplanned access path until they have reached the predicted STN location.  During this phase, the measurements of the electrodes are used to discriminate the different brain regions and verify that the STN has been reached.  If the electrodes correctly identify the location of the STN, the electrodes' position along the access path is noted and their position relative to the stereotaxic frame is verified using bi-planar X-ray scans.  After this verification, the electrodes are retracted.  In the third phase, the \emph{placemenT} phase, the transmitting electrode is placed into the same location that was determined in the previous phase, which is also verified using bi-planar X-ray scans.  The exact placement and the output of the electrode is tuned using tests that examine the patient's ability, such as long term memory recall or measuring the amount of tremor.  This part of the procedure is very challenging as the patient has to be awake during the entire procedure which can last up to 10 hours.
+A DBS intervention is performed in three distinct phsaes.  In the first phase, the \emph{planning} phase, the surgeon plans the operation at his workstation by locating and segmenting the most probable location of the STN using preoperative~CT and MRI scans.  This information is used to plan an optimal access channel which evates important sensitive brain regions and selects the optimal location for the electrode to affect the~STN~\cite{butson2007patient}.  In the second phase, the \emph{recording} phase, the patient is in the operating room with a stereotaxic frame that provides mounts for the instruments is fixed to their head and which is visible on all scanning modalities and thus allow for a fixed-body transformation between the patient's head and the operating room.  The MER electrode cluster is inserted into the patient's  brain along the preplanned access path until they have reached the predicted STN location.  During this phase, the measurements of the electrodes are used to discriminate the different brain regions and verify that the STN has been reached.  If the electrodes correctly identify the location of the STN, the electrodes' position along the access path is noted and their position relative to the stereotaxic frame is verified using bi-planar X-ray scans.  After this verification, the electrodes are retracted.  In the third phase, the \emph{placemenT} phase, the transmitting electrode is placed into the same location that was determined in the previous phase, which is also verified using bi-planar X-ray scans.  The exact placement and the output of the electrode is tuned using tests that examine the patient's ability, such as long term memory recall or measuring the amount of tremor.  This part of the procedure is very challenging as the patient has to be awake during the entire procedure which can last up to 10 hours.
 
 
 
 \subsection{Application Requirements} \label{contributions:dbs:requirements}
-Previous methods do not provide the surgeon with a system that sufficiently fuses the available modalities.  Preoperative CT and MRI scans, interoperative X-ray scans, the electrode measurements during the insertion, and the final patient tests are all inspected separated and the surgeon has to maintain a mental correlation between all the data sources, leading to fatigue, delays, and potential errors.  
+Previous methods do not provide the surgeon with a system that sufficiently fuses the information available during the procedure.  Preoperative CT and MRI scans, interoperative X-ray scans, the electrode measurements during the insertion, and the final patient tests are all inspected separated and the surgeon has to maintain a mental correlation between all data sources, leading to fatigue, delays, and potential errors.  The collaboration partners desired a system that can ingest the access path planned using other sophisticated tools (see~\fref{contributions:dbs:planning}), the various scans (T$_1$ and T$_2$ MRI, CT, and X-Ray), the MER measurements, as well as the patient tests during the operation and display them in a linked application.  Furthermore, a more effective visual encoding of the MER and the patient tests was desired by the surgeons.
 
-The system described in \paperef{paperB} combines an enhanced multimodel \nD{3} volumetric rendering environment that includes
+There were a number of technical challenges that had to be met while designing the system described in \paperef{paperB};  1. An automated classification of the MER signals has to be displayed to the surgeon in context of the preoperative and interoperative CT, MRI, and X-ray scans.  2. A visual representation that enables the surgeon to interpret individual MER signals from the electrodes must be made available.  3. The system must contain a visual representation of the information gathered during the placement phase of the intervention, making it possible for the surgeon to visually correlate the information from the patient tests and X-ray scans.
 
+% Combining all available modalities into one system enables the surgeon to inspect all available information for both operational phases. The system consists of multiple linked views. The \emph{Contextual view} is available in both phases, whereas the \emph{2D audio visualization} and \emph{3D audio visualization} are only available in the recording phase and the \emph{Target closeup} and \emph{Placement guide} are only available in the placement phase. The rest of this section elaborates on the design decisions for the individual views.
 
-
-
-
-\subsubsection{System} \label{contributions:dbs:system}
+% The system described in \paperef{paperB} combines an enhanced multimodel \nD{3} volumetric rendering environment that includes
 
 
-
-% In we work package of \paperef{paperB}, the task was to develop a medical visualization application for deep brain stimulation (DBS) intervention support in collaboration with physicians at the St.~Barbara Hospital in Hamm, Germany. This system should be designed to support the brain surgeon during the surgery in order to achieve a higher precision and thus a higher probability of a positive outcome for the patient. In contrast to other medical domains, where the doctor's available preparation time for each patient is limited and thus procludes any complex interaction techniques on visualization applications, DBS interventions already have a long planning phase scheduled prior to the operation, thus enabling the usage of specialized tools and providing the ability for visualization to play an important role in this scenario.
-
-The application resulting from this collaboration combines an enhanced multimodal \nD{3} volumetric rendering environment with the spatial visualization of electric measurements that are recording the patient's brain activity during the procedure in combination with patient-specific ability tests. Spatially embedding the measurements with the volumetric information reduces the cognitive load of the surgeon during the surgeon, as this mental link does not have to be performed by the surgeon themself. Furthermore, the system shows the uncertainties of the different modalities in a single view, thus enabling the surgeon a comprehensive view and more insight during the procedure.
-
-\subsection{Background} \label{contributions:dbs:background}
-
-
-\subsection{System} \label{contributions:dbs:system}
-\begin{figure}
-\fbox{\includegraphics[width=\textwidth]{figures/contributions/dbs/planning.png}}
-\caption{This view shows the part of the system that is used to import the results of a different planning tool to determine the entry point for the access path and the intented target location.}
-\label{contributions:medbio:dbs:planning}
-\end{figure}
-
-In close collaboration with the surgeons, we created a system that can ingest the access path planned using other sophisticated tools (see~\fref{contributions:dbs:planning}), the various scans (T$_1$ and T$_2$ MRI, CT, and X-Ray), the MER measurements, as well as the patient tests during the operation. Combining all available modalities into one system enables the surgeon to inspect all available information for both operational phases. The system consists of multiple linked views. The \emph{Contextual view} is available in both phases, whereas the \emph{2D audio visualization} and \emph{3D audio visualization} are only available in the recording phase and the \emph{Target closeup} and \emph{Placement guide} are only available in the placement phase. The rest of this section elaborates on the design decisions for the individual views.
-
-\question{How detailed should this be?}
-\begin{figure}
-\centering
-\begin{subfigure}[b]{0.49\textwidth}
-    \fbox{\includegraphics[width=\textwidth]{figures/contributions/dbs/recording-3d-1.png}}
-\end{subfigure}
-\hfill
-\begin{subfigure}[b]{0.49\textwidth}
-    \fbox{\includegraphics[width=\textwidth]{figures/contributions/dbs/recording-3d-2.png}}
-\end{subfigure}
-% \includegraphics[width=\textwidth]{figures/contributions/dbs/recording-3d.png}
-\caption{Presenting the \emph{Contextual View} that shows the multimodal fusion of all available datasets. The preoperative CT and MRI as well as the interoperative bi-planar X-ray scans are visible together with the animated location of the electrode. The colored beads along the access path show an automatic classification of the electrode measurements.}
-\label{contributions:medbio:dbs:contextual}
-\end{figure}
 
 \subsection{Contextual View} \label{contributions:dbs:contextual}
-This \nD{3} view combines the preoperational CT and MRI scans together with the bi-planar X-rays and the current electrode location (see~\fref{contributions:medbio:dbs:contextual}). For improvide depth perception, we utilize a depth darkening effect as presented by Luft~\etal~\cite{luft2006image}. The selected access path is presented in this view as a carved out tunnel along which the electrode is moved during the operation. Explicitly showing the access path serves two purposes, first, it reduces the chance of a dangerous left-right mismatch error that might otherwise occur in the operation in which the electrode is accidentally inserted into the wrong hemisphere. Second, it enables us to place colored beads inside the access path behind the electrode. The colors of these beads depend on an automatic region classification of the incoming electrode signal. This method was adopted from related works~\cite{dhaese2005computer, miocinovic2007stereotactic}.
+\begin{figure}
+  \centering
+  \fbox{\includegraphics[width=0.75\textwidth]{figures/contributions/dbs/contextual.png}}
+  \caption{The contextual view provides the user with information about the location of the electrode relative to the patient's brain as well as the detected brain regions.}
+  \label{contributions:dbs:contextual}
+\end{figure}
 
-\subsection{2D audio visualization} \label{contributions:dbs:audio2d}
-This view shows an augmented visualization similar to an oscilloscope that presents the direct measurements from the available electrodes. As only the amplitude and frequency are important during the procedure, we emphasize measurements that exceed a user-defined threshold and deemphasize the values below the threshold (see~\fref{contributions:medbio:dbs:sound:2d}). By this technique we highlight the potentially important measurements and reducing the visual noise from the low intensity signals. This view is linked with the \emph{3D audio visualization}, described below, such that when a specific electrode is selected in either view, it is highlighted in both views with a different color. This can be used by the surgeon to be able to correlate the detailed measurements with the relative location of the electrode.
+This \nD{3} view combines the preoperational CT and MRI scans together with the bi-planar X-rays and the current electrode location (see~\fref{contributions:dbs:contextual}).  The view contains a multimodal volume rendering that shows the head and the brain using a T$_1$ and T$_2$-weighted MRI scans, the skull from the CT scan, and the interoperational X-ray scans as orthogonal planes.  The user can choose a clipping threshold for T$_1$ scan and a second clipping threshold for the T$_1$ and the CT scan, making it possible to inspect only the T$_2$ scan of the brain.  The clipping is performed using the skull stripping algorithm as described by Beyer~\etal~\cite{beyer2007high}.  The outermost volume layer contains a yellow band that shows the user the projected depth of the intended target.  From these datasets, the planned access path is clipped and a single representative electrode is rendered at the correct location along this path.  The electrode provides the necessary spatial relation to the string of beads that are inserted into the path for each successful detection of a brain area.  In addition it prevents a dangerous left-right mismatch error that might otherwise occur during the operation in which the electrode is accidentally inserted into the wrong hemisphere.  This bead metaphor was already used in similar systems when applied to non-human primates by Mio\v{c}inovi\'{c}~\etal~\cite{miocinovic2007stereotactic} and presents the user with a visual representation of the various brain region the electrode has passed through.  In order to improve the user's depth perception, the view usses a depth darkening effect that was presented by Luft~\etal~\cite{luft2006image}.  In addition to the electrode position as recorded by the instruments, this view also shows a reconstructed position of the electrode using the bi-planar X-ray scans which can be used by the surgeon to verify the correct placement position.  In addition to the visual position of the electrode, this view also contains a separate horizontal indicator that presents the location of the electrode as well as the detected brain regions to the user without occlusion.
+
+
+
+\subsection{Audio visualization} \label{contributions:dbs:audio}
 \begin{figure}
 \centering
     \begin{subfigure}[b]{0.49\textwidth}
@@ -290,20 +265,60 @@ This view shows an augmented visualization similar to an oscilloscope that prese
     \label{contributions:dbs:sound}
 \end{figure}
 
-\subsection{3D audio visualization} \label{contributions:dbs:audio3d}
-In this separate view, the relative locations of the different electrodes are displayed (see~\fref{contributions:dbs:sound:3d}). The camera orientation is linked between this and the \emph{Contextual View} such that the mental registration between the two views is not broken. In this view, each electrodes' measurements that exceed a user-defined threshold are shown as discs that start at the electrode and move away from the electrode's base with increasing time. The size of the disc corresponds to the amplitude of the detected signal and thus shows the strength of the measured signal. This allows the surgeon to view the two important values (amplitude and frequency) for each of the electrodes together with their spatial orientation. The color of each disc is determined by the same classification algorithm that is used on the beads in the \emph{Contextual View}, but is simplified to show red if the electrode is outside of the STN and green if it is inside the STN. The surgeon can then, by correlating the frequency of discs and their amplitude verify that the classification was correct and that the electrodes are in the correct location.
+The visual representation of the MER measurements is displayed to the user in two separate views.  The collaborators of the project used a microelectrode cluster that contains five electrodes, each of which is recording a separate signal from their specific location.  Thus, correlating the difference in measurements between electrodes provides information about the borders between brain regions, making it important to register the measurement locations.  A combination of two views presents the user with the for MER measurements and at the same time provides the spatial mapping between recording and electrode location.
 
+The first view shows an augmented visualization similar to an oscilloscope that presents the direct measurements from the electrodes.  As only the amplitude and frequency are important to the user during the procedure, we emphasize measurements that exceed a user-defined threshold and deemphasize the values below the threshold~(see~\fref{contributions:medbio:dbs:sound:2d}). This highlights the potentially important measurements and reduces the visual noise from the less important low intensity signals.  
+
+The second view displays a \nD{3} representation of the electrodes' orientations and their measurements~(see~\fref{contributions:dbs:sound:3d}).  The camera orientation is linked between this and the \emph{Contextual View} such that the mental registration between the two views is not broken.  In this view, each electrodes' measurements that exceed a user-defined threshold are shown as concentric discs that start at the electrode and move away from the base with increasing time.  The size of the disc corresponds to the amplitude of the detected signal and thus shows the strength of the measured signal.  This allows the surgeon to view the amplitude and frequency for each of the electrodes in their current spatial location.  The color of each disc is determined by the same classification algorithm that is used on the beads in the \emph{Contextual View}, but is simplified to show red if the electrode is outside of the STN and green if it is inside.
+
+
+
+
+\subsection{Target closeup} \label{contributions:dbs:target}
 \begin{figure}
 \fbox{\includegraphics[width=\textwidth]{figures/contributions/dbs/screenshot-target.jpg}}
 \caption{The views that show the results of the different measurements performed during the recording phase. The \emph{Target closeup} (bottom view) contains the segmented location of the STN is visible as well as the results of the different tests at their spatial location. The \emph{Placement guide} shows the likelihood measurements according to their depth along the access path}
 \label{contributions:dbs:target}
 \end{figure}
 
-\subsection{Target closeup} \label{contributions:dbs:target}
-After the potential electrode location has been determined, the surgeon uses this closeup view, centered around the segmented location of the STN, that combines all of the information that was gathered in the recording phase (see~\fref{contributions:dbs:target} bottom). Embedded in this view are the locations of the electrode as determined by the depth along the access path together with their reconstructed location using the biplanar X-ray scans. In addition it shows the MER signal results as a red-green overlay on the backside of the bounding box and presents options to add patient test results as additional half-transparent oval overlays. As all of these values have their own, unknown, uncertainty this view displays the overlap of the regions to inform the surgeon of a potential final placement that agrees with most measurements. On demand, the surgeon can enable the rendering of the MRI scan around the STN.
+After determining the potential electrode location this closeup view, centered around the segmented location of the STN, combines all information that is relevant to the surgeon for the final placement of the stimulating electrode~(see \fref{contributions:dbs:target}).  Embedded in this view are the locations of the electrode as determined by the instrument's depth along the access path, as well as the reconstructured location using the biplanar X-ray scans.  On demand, the surgeon can further enable the rendering of the MRI T$_2$-weighted MRI scan of the area.  In addition, it shows the recorded MER signal results as a red-green overlay on the backside of the bounding box and presents options to add the results of patient tests as additional transparent oval overlays.  All values show an estimate of their unknown uncertainty in this view that provide the surgeon with the information for a potential final placement that agrees with most measurements.
 
-\subsection{Placement guide} \label{contributions:dbs:placement}
-This view is based on the same information as the \emph{Target closeup}, but presents the information in a line plot, whose ordinate shows the likelyhood of a correct placement for each measurement and the abcissa shows the depth along the access path (see~\fref{contributions:dbs:target} top). We display an estimate of uncertainty for each value by extruding the line with a transparent band.
+
+
+
+
+% \subsection{Placement guide} \label{contributions:dbs:placement}
+% This view is based on the same information as the \emph{Target closeup}, but presents the information in a line plot, whose ordinate shows the likelyhood of a correct placement for each measurement and the abcissa shows the depth along the access path (see~\fref{contributions:dbs:target} top). We display an estimate of uncertainty for each value by extruding the line with a transparent band.
+
+
+
+
+\subsection{System} \label{contributions:dbs:system}
+\begin{figure}
+\fbox{\includegraphics[width=\textwidth]{figures/contributions/dbs/planning.png}}
+\caption{This view shows the part of the system that is used to import the results of a different planning tool to determine the entry point for the access path and the intented target location.}
+\label{contributions:dbs:planning}
+\end{figure}
+
+
+
+% \begin{figure}
+% \centering
+% \begin{subfigure}[b]{0.49\textwidth}
+%     \fbox{\includegraphics[width=\textwidth]{figures/contributions/dbs/recording-3d-1.png}}
+% \end{subfigure}
+% \hfill
+% \begin{subfigure}[b]{0.49\textwidth}
+%     \fbox{\includegraphics[width=\textwidth]{figures/contributions/dbs/recording-3d-2.png}}
+% \end{subfigure}
+% % \includegraphics[width=\textwidth]{figures/contributions/dbs/recording-3d.png}
+% \caption{Presenting the \emph{Contextual View} that shows the multimodal fusion of all available datasets. The preoperative CT and MRI as well as the interoperative bi-planar X-ray scans are visible together with the animated location of the electrode. The colored beads along the access path show an automatic classification of the electrode measurements.}
+% \label{contributions:dbs:contextual}
+% \end{figure}
+
+
+The application resulting from this collaboration combines an enhanced multimodal \nD{3} volumetric rendering environment with the spatial visualization of electric measurements that are recording the patient's brain activity during the procedure in combination with patient-specific ability tests. Spatially embedding the measurements with the volumetric information reduces the cognitive load of the surgeon during the surgeon, as this mental link does not have to be performed by the surgeon themself. Furthermore, the system shows the uncertainties of the different modalities in a single view, thus enabling the surgeon a comprehensive view and more insight during the procedure.
+
 
 \subsection{Evaluation} \label{contributions:dbs:evaluation}
 In order to perform an initial evaluation of the system, we conducted a qualitative user study with five neurosurgeons, which all had experience with conducing DBS interventions. Each of the participants watched the usage of the system during the planning, recording, and placement phase. The data for this test case was recording during an operation performed by one of the coauthors. Then, each participant answered a questionnaire that used eight of the questions suggested by Martelli~\etal for evaluating computer-aided surgery systems~\cite{martelli2003criteria} with an additional free form text field for comments.
