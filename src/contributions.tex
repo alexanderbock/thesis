@@ -321,7 +321,7 @@ The application resulting from this collaboration combines an enhanced multimoda
 
 
 \subsection{Evaluation} \label{contributions:dbs:evaluation}
-In order to perform an initial evaluation of the system, we conducted a qualitative user study with five neurosurgeons, which all had experience with conducing DBS interventions. Each of the participants watched the usage of the system during the planning, recording, and placement phase. The data for this test case was recording during an operation performed by one of the coauthors. Then, each participant answered a questionnaire that used eight of the questions suggested by Martelli~\etal for evaluating computer-aided surgery systems~\cite{martelli2003criteria} with an additional free form text field for comments.
+In order to perform an initial evaluation of the system, we conducted a qualitative user study with five neurosurgeons, which all had experience with conducing DBS interventions. Each of the participants watched the usage of the system during the planning, recording, and placement phase. The data for this test case was recording during an operation performed by one of the coauthors. Then, each participant answered a questionnaire that used eight of the questions suggested by Martelli~\etal for evaluating computer-aided surgery systems~\cite{martelli2003criteria} with an additional free form text field for comments.  For each question, the participants could choose their reply on a 3-point Liekert scale.  The feedback from the experts was overall positive, with even the least positive participant agreeing to the majority of statements.
 
 % \subsection{Generalizability} \label{contributions:dbs:generalizability}
 % As mentioned in \charef{visapp}, one opportunity for application papers to advance the field of visualization is by providing generalizable solutions. To this end, the entire system was implemented in the Voreen framework~\cite{meyer2009voreen}, which allows the reusability of individual components. Judging the work package from this point of view, there are two parts that can provide useful in other application domains.
@@ -662,18 +662,18 @@ In order to support arbitrary ordering of, potentially, transparent geometry and
 The application consists of three separate views, the \emph{Ensemble View}~(see \SC{contributions:astro:spaceweather:system:ensemble}), the \emph{Timeline View}~(see \SC{contributions:astro:spaceweather:system:timline}), and the \emph{Spatial View}~(see \SC{contributions:astro:spaceweather:system:spatial}).  The \emph{Ensemble View} uses the glyph-based representation of ensemble members (see \SC{contributions:astro:spaceweather:glyphs}) and provides the user with an immediate view of the general trend of simulation accuracy.  The user can select individual ensemble members, which can then be inspected in the next view.  The \emph{Timeline View} shows the extracted velocities for each instrument for each spacecraft (see \SC{contributions:astro:spaceweather:opticalflow}) over time.  The user can inspect the extracted velocities at each time using the mouse and when selecting a time step, its datasets are loaded into the last view.  The \emph{Spatial View} makes use of the rendering algorithms described earlier (see \SC{contributions:astro:spaceweather:rendering}) in order to present a detailed view of the solarsystem's state at the selected time for the selected ensemble member.  Naturally, the locations and images of the satellites will be the same for all ensemble members, but the simluation results will be different.
 
 
-\subsubsection{Evaluation} \label{contributions:astro:spaceweather:evaluation}
-\begin{itemize}
-    \item Weak point of the paper; no evaluation
-    \item Everyone using exactly this system was involved in creating the system
-    \item Example for benefit of close collaboration
-\end{itemize}
+% \subsubsection{Evaluation} \label{contributions:astro:spaceweather:evaluation}
+% \begin{itemize}
+%     \item Weak point of the paper; no evaluation
+%     \item Everyone using exactly this system was involved in creating the system
+%     \item Example for benefit of close collaboration
+% \end{itemize}
 
 
-\subsubsection{Generalization} \label{contributions:astro:spaceweather:generalization}
-\begin{itemize}
-    \item Generalization to any time-varying, volumetric ensemble simulation where an error function can be determined
-\end{itemize}
+% \subsubsection{Generalization} \label{contributions:astro:spaceweather:generalization}
+% \begin{itemize}
+%     \item Generalization to any time-varying, volumetric ensemble simulation where an error function can be determined
+% \end{itemize}
 
 \begin{landscape}
 \begin{figure}
@@ -702,37 +702,131 @@ The application consists of three separate views, the \emph{Ensemble View}~(see 
 
 
 \subsection{OpenSpace} \label{contributions:astro:openspace}
-The \emph{OpenSpace} project was started in 2014 with the goal of created a freely available open-source software that can leverage synergies between three aspects of visualization in the context of astronomical visualization.  These aspects are the availability of the tool as a research tool for domain scientists for hypothesis generation and validation, its usage as a research platform for development of novel visualization research, and as a means to support the public dissemination of scientific discoveries.  By combining all three of these aspects into a single software platform, it becomes possible to shorten the deployment cycle of new visualization methods into the hands of domain scientists and the general public alike.  At the same time, it allows the domain scientists an avenue to quickly disseminate their research findings to the general public as well.  An additional benefit of providing all of these developments in a single platform is the ability to display distinct discoveries in their proper context, for example by showing the articulations of a surface rover on Mars in its correct environment, which was reconstructed from the images of orbiting satellites, or being able to present the movements of a space craft in the solar system while providing the image of the milky way and correctly aligned stars in the background as a reference point for the experts and to  increase immersion for the general public.
+The \emph{OpenSpace} project was started in 2014 with the goal of created a freely available open-source software that can leverage synergies between three aspects of visualization in the context of astronomical visualization.  These aspects are the availability of the tool as a research tool for domain scientists for hypothesis generation and validation, its usage as a research platform for development of novel visualization research, and as a means to support the public dissemination of scientific discoveries.  By combining all three of these aspects into a single software platform, it becomes possible to shorten the deployment cycle of new visualization methods into the hands of domain scientists and the general public alike.  At the same time, it allows the domain scientists an avenue to quickly disseminate their research findings to the general public as well.  An additional benefit of providing all of these developments in a single platform is the ability to display individual discoveries in their proper context, for example by showing the articulations of a surface rover on Mars in its correct environment, which was reconstructed from the images of orbiting satellites, or being able to present the movements of a space craft in the solar system while providing the image of the milky way and correctly aligned stars in the background as a reference point for the experts and to  increase immersion for the general public.
 
 In order to support this effort, the software targets a variety of display systems, such as home computers, virtual reality headsets, and multi-pipeline display systems like planetarium domes or powerwalls.  This flexibility is one of the enabling factors to shorten the deployment cycle between the three pillars of the application as reasearchers, in most cases, do not have to invest any time to convert their data or algorithms to switch between any of the display modalities.
 
-This ongoing effort were published in Papers~\ref{pa:paperG}, \ref{pa:paperH}, and \ref{pa:paperI} and is described in the rest of this section.  \paperef{paperG} describes the development of a dynamic scene graph that enables the display of objecst across large scales (see \SC{contributions:astro:openspace:dsg}).  \paperef{paperH} describes efforts on creating a system for a high-fidelity rendering system of planetary surfaces that support up to micrometer resolutions in order to be able to display geo-spatial discoveries in their correct spatial context (see \SC{contributions:astro:openspace:globebrowsing}).  Finally, \paperef{paperI} presents a higher level overview of the entire system to date.
+The papers that were published in this ongoing effort are described in the rest of the section.  \paperef{paperG} describes the development of a dynamic scene graph that enables the display of objects across large scales (see \SC{contributions:astro:openspace:dsg}), \paperef{paperH} describes efforts on creating a system for a high-fidelity rendering system of planetary surfaces that support up to micrometer resolutions in order to be able to display geo-spatial discoveries in their correct spatial context (see \SC{contributions:astro:openspace:globebrowsing}), and \paperef{paperI} presents a higher level overview of the entire system at the time of writing.
 
-\subsubsection{Dynamic Scene Graph} \label{contributions:astro:openspace:dsg}
+% What is the domain // what is the current use // what are the current problems // what are the technical challenges // how did i meet these technical challenges // how did it work
+
+
+\subsubsection{Dynamic Scene Graph} \label{contributions:astro:dsg}
 One major feature of OpenSpace is the ability to display every available dataset in a single common reference frame in their correct context.  This necessitates the ability to express the location objects across enormous scale differences and provide the ability to render these simultaneously.  One example of this is the ability to render an Earth-orbiting satellite while also seeing the Cosmic Microwave Background radiation as the edge of the Observable Universe, a scene that coveres a scale difference of $10^26\,$m.  The usefulness of portraying these scale differences can be seen in the \emph{Powers of Ten} animation by Eames and Eames~\cite{morrison1982powers}.
 
-One intrinsic difficulty of handling these vast scale differences is embedded into the traditional way of organizing a scene through a \emph{scene graph} by contructing a directed, acylcic graph that described a hierarchy of individual nodes where each node's position is expressed relative to its parent's position.  The camera position is expressed relative to the root node of the scene graph, which provides a problem if the camera is pointed at an object that is far away from the coordinate origin as the construction of the view matrix in this case might lead to catastrophic cancellation.
+\paragraph{Scientific Problem} \label{contributions:astro:dsg:problem}
+\begin{figure}
+\centering
+\includegraphics[width=0.75\textwidth]{figures/empty.png}
+\caption{This image illustrates an example where catastrophic cancellation can occur.  If both large and small numbers are involved in addition and substraction of IEEE~854 floating point numbers, small components might completely disappear.}
+\label{contributions:astro:dsg:cc}
+\end{figure}
 
-\paperef{G} addresses the issue 
-\begin{itemize}
-    \item Floating point precision error
-    \item Take interval arithmetic from appendix of the paper
-    \item Camera attached to a single object and traverse the scene graph from there
-    \item Alternative way of thinking:  Dynamically rearrange the scene graph so that the camera-attached object is always at the root, including to invert transformations
-\end{itemize}
+One intrinsic challenge of handling these vast scale differences is embedded into the traditional way of organizing a scene through a \emph{scene graph} by contructing a directed, acyclic graph that described a hierarchy of individual nodes where each node's position is expressed relative to its parent's position.  During an unoptimized traversal of the scene graph, the relative positions are orientations for each node and its ancestors are accumulated in order to transform the object into the coordinate system defined by the root node.  The camera, on the other hand, is only expressed as a single offset vector and orientation relative to the root node.  This provides a problem if the camera is pointed at an object that is far away from the coordinate origin as the construction of the view matrix in this case might lead to catastrophic cancellation~(see \fref{contributions:astro:dsg:cc})~\cite{cuyt2001remarkable}.  32 bit floating point numbers standardized in IEEE~854 have a machine epsilon of $2^{-24} \approx 6 \cdot 10^{-8}$, which places an upper limit on the minimum expressable distance between subsequent numbers.  For any number $n$, any number $\left[ n - n \cdot 2^{-24}, n + n \cdot 2^{-24}\right] \setminus{n}$ is ill-defined and will be rounded to a representable value.  As an example, the distance from the Sun to the center of the Milky Way (a plausible coordinate system origin) is 8\,kpc or $\approx 2.5 \cdot 10^{20}\,$m.  One method of defining the size of the solar system is the distance to the heliopause, the area in which the Sun's solar wind is no longer dominant, which provides a size of 120\,AU or $\approx 1.8 \cdot 10^{13}$.  Given these values and a na\"ive scene graph implementation, the bounded distance between floating point values at the Solar System would be $2.5 \cdot 10^{20}\,\textrm{m} / 6 \cdot 10^{-8} = 1.5 \cdot 10^{13}$, which means that there would only be a single valid floating point number for everything that is located in our solar system.
 
-\subsubsection{Planetary Rendering} \label{contributions:astro:openspace:globebrowsing}
-\begin{itemize}
-    \item Arbitrary planetary surfaces (triaxial ellipsoid)
-    \item Get references from The Book
-    \item Algorithm based on chunked Level-of-detail by Cozzi and Ring \cite{cozzi20113d} and Ulrich \cite{ulrich2002rendering}
-    \item Color layers, height layers, water masks, night layers, overlay layers
-    \item Possibility for temporal datasets for all layers
-    \item Display of planetary surface detail Earth + Moon + Mars
-    \item Public presentation (NASA Goddard, Ben Cook) in Hayden
-    \item Bathymetry data (Hackathon)
-    \item Glacial movement data (integrating radar measurements with global heightmap)
-\end{itemize}
+% \paragraph{Requirements} \label{contributions:astro:openspace:dsg:requirements}
+
+\paragraph{Algorithm} \label{contributions:astro:dsg:algorithm}
+\begin{figure}
+\centering
+\begin{subfigure}[b]{0.4\textwidth}
+    \fbox{\includegraphics[width=0.99\textwidth]{figures/empty.png}}
+    \caption{The traditional scene graph evaluation for an exemplary node.}
+    \label{contributions:astro:dsg:sceengraph:traditional}
+\end{subfigure}
+\hspace*{1cm}
+\begin{subfigure}[b]{0.4\textwidth}
+    \fbox{\includegraphics[width=0.99\textwidth]{figures/empty.png}}
+    \caption{The same node evaluated with the dynamic scene graph.}
+    \label{contributions:astro:dsg:sceengraph:dsg}
+\end{subfigure}
+\caption{The traditional and the dynamic traversal methods appied to a sample scene graph.}
+\label{contributions:astro:dsg:sceengraph}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics[width=0.75\textwidth]{figures/empty.png}
+\caption{A rendering of the Voyager 1 space craft in the year XXX at XXX\, km from the Earth.}
+\label{contributions:astro:dsg:voyager}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics[width=0.75\textwidth]{figures/contributions/dsg/scenegraph.pdf}
+\caption{An exemplary scene graph layout of the solar system (1) with the Sun (2), the Earth system (3), Earth (4), and the Moon (5). The bottom figure shows two traversal paths for all nodes for two camera locations \texttt{A} and \texttt{B}.}
+\label{contributions:astro:dsg:scenegraph}
+\end{figure}
+
+\paperef{G} presents a modification to the traversal algorithm employed in standard scene graph methods that enables a much larger range of values to be represented in the same scene.  Instead of being fixed to the root node of the scene graph, the camera is instead always attached to the closest scene graph node, which is called the \emph{attachment node}.  The traditional traversal is then replaced with a dynamic algorithm that can traverse the scene graph in both directions in order to project every object into the local coordinate system of the attached node (see \fref{contributions:astro:dsg:scenegraph}).  \fref{contributions:astro:dsg:voyager} shows the result of this in a real-world example of the Voyager space craft at a distance of approximately XXX\,km from the Earth.  The only additional restriction on the relative scene graph node transformations is that they can be inverted, which is trivially achievable for all regular transformations.
+
+The traversal of the scene graph works by finding the shortest path between each scene graph node and the current attached node in the graph.  The final transformation uses the stored relative transformations for each movement in the graph towards the leaves, and the inverse of a transformation for each movement towards the root.  \fref{contributions:astro:dsg:scenegraph} shows an example of these traversals with the blue arrows representing the stored transformations and the red arrows being inverted.  Using the shortest path utilizes only the minimal subgraph and thus avoids any unnecessary large, and potentially destructive, transformations to other parts of the scene graph.  In the example, rendering the location of Earth to either camera position does not require the knowledge of where the Earth is located relative to the Sun, thus removing any catastrophic cancellation that might occur due to that transformation.  An alternative way of implementing the algorithm is using a traditional scene graph traversal, but the scene graph is rearranged every time the attached node changes such that the attached node becomes the root of the scene graph, which includes inverting transformations between nodes, where necessary.
+
+\begin{figure}
+\centering
+\includegraphics[width=0.75\textwidth]{figures/contributions/dsg/attachment-switch.pdf}
+\caption{The camera's attachment node before and after a switch of nodes.}
+\label{contributions:astro:dsg:switch}
+\end{figure}
+
+A critical component that the dynamic scene graph requires in addition to traditional scene graph implementations is logic for handling the attachment of the camera.  \fref{contributions:astro:dsg:switch} shows an example of an attachment node switch when moving from node \textt{N} to its parent \texttt{M} where in infinite precision math, $\textbf{v} = \textbf{n}-\textbf{w}$.  This switch happens at a distance $d$ from the current attachment node.  In IEEE 854 floating point math, this limits the relative transformations between parents as imprecisions here will lead to a camera jitter when switching between attachment nodes if too many details of the focus object are visible at the distance $d$ --- if $d$ is large, then the object will only be represented by a single pixel, any jittering of the camera will not be visible.  In the case of OpenSpace, the default value for $d$ is 10 $\cross$ the object's bounding box, which provides reasonable results.
+
+While this mechanism solves the problem of rendering objects that are close to the camera, as the traversal in the scene graph does not involve large numbers, it does not inherently solve the challenge of rendering small objects that are far away as small variations in the object's geometry are still subject to catastrophic cancellation.  However, this situation rarely occurs in practice as small, distance objects will not be visible with normal field-of-view parameters.
+
+
+
+\subsubsection{Planetary Rendering} \label{contributions:astro:gb}
+\begin{figure}
+\centering
+\includegraphics[width=0.75\textwidth]{figures/contributions/gb/earth.png}
+\caption{A global rendering of the Suomi-NPP's VIIRS instrument.}
+\label{contributions:astro:gb:earth}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics[width=0.75\textwidth]{figures/contributions/gb/mars.png}
+\caption{High resolution terrain model on Mars showing structures up to 25\,cm resolution.}
+\label{contributions:astro:gb:mars}
+\end{figure}
+
+There has been a vast amount of information that has been gathered not just about Earth, but other planetary bodies in the solar system as well.  High-resolution images of terrain features are available for thee Earth, the Moon, Mercury, Mars, Pluto, and Charon.  Aside from showing visually appealing renderings of planets, these images are essential to provide other scientific discoveries in their proper context, for example the movement of rovers on Mars.  The rendering system presented in \paperef{paperH} was developed to provide this contextualization for all planetary bodies in the solar system by using adaptive, multiresolution data streaming to retrieve image data from online data sources and make it possible to render planetary scale and contextualized micrometer images simultaneously.
+
+
+\paragraph{Scientific Problem} \label{contributions:astro:gb:problem}
+Many institutions provide high-resolution imagery data as free online repositories on the internet.  For example, NASA's Global Imagery Browse Services provides over 200 different image products showing different global aspects of Earth, many of which are updated at least daily.  An example of this is the Suomi NPP's VIIRS instrument (see \fref{contributions:astro:gb:earth}), which provides a daily image of the entire Earth.
+
+NOAA science on a sphere
+
+High-resolution structrues on Mars\fref{contributions:astro:gb:mars}
+
+Arbitrary planetary surfaces (triaxial ellipsoid) (for example Vesta)
+
+\paragraph{Image Access} \label{contributions:astro:gb:access}
+GDAL
+
+
+\paragraph{Rendering} \label{contributions:astro:gb:rendering}
+lgorithm based on chunked Level-of-detail by Cozzi and Ring \cite{cozzi20113d} and Ulrich \cite{ulrich2002rendering}
+Chunk rendering  (model space , camera space)
+Different layers (Color layers, height layers, water masks, night layers, overlay layers)
+Culling
+Time-varying data
+
+
+
+
+
+% \begin{itemize}
+%     \item 
+%     \item Get references from The Book
+%     \item 
+%     \item Possibility for temporal datasets for all layers
+%     \item Display of planetary surface detail Earth + Moon + Mars
+%     \item Public presentation (NASA Goddard, Ben Cook) in Hayden
+%     \item Bathymetry data (Hackathon)
+%     \item Glacial movement data (integrating radar measurements with global heightmap)
+% \end{itemize}
 
 \subsubsection{Space Craft Missions} \label{contributions:astro:openspace:spacecraft}
 \begin{itemize}
