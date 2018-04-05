@@ -1,6 +1,6 @@
 % What is the domain // what is the current use // what are the current problems // what are the technical challenges // how did i meet these technical challenges // how did it work
 
-\chapter{Iterative Appliation Design (contributions)}
+\chapter{Iterative Application Design (contributions)}
 \label{cha:contributions}
 
 This chapter describes the contributions of the papers that are included in this thesis in four different application domains.  This first section describes the separation of papers into the topic areas and the subsequent sections contain each a description of the problem domain and then elaborate on the contributions of the papers included in the topic.
@@ -124,20 +124,20 @@ The following two sections describe the method used in the curve clustering and 
 
 A straight-forward sampling of the $|F|$ faces of the $|E|$ elements of the model using $n$ points per face results in $r_t = \left( n^2 \cdot |F| \right) ^2 \cdot |E|$ proxy rays.  Without a further reduction this number is prohibitely large for usage on the GPU.  However, since there is a potential for a high degree of similarity between rays due to symmetries and bounded ray complexity, we can utilize a clustering algorithm to reduce the number of representative \emph{proxy rays} necessary during the rendering without introducing large errors.
 
-\begin{figure}
-\centering
-\begin{subfigure}[b]{0.4\textwidth}
-    \fbox{\includegraphics[width=0.99\textwidth]{figures/contributions/fem/splinetransformation.pdf}}
-    \caption{Increasing the similarity between splines by converting them into a common coordinate system.}
-    \label{contributions:fem:splines}
-\end{subfigure}
-\hspace{2cm}
-\begin{subfigure}[b]{0.4\textwidth}
-    \fbox{\includegraphics[width=0.99\textwidth]{figures/contributions/fem/metric.pdf}}
-    \caption{A representation of the metric that is used in the K-Means clustering algorithm, approximating the area between the two rays by a sum of the triangle areas.}
-    \label{contributions:fem:metric}
-\end{subfigure}
-\end{figure}
+% \begin{figure}
+% \centering
+% \begin{subfigure}[b]{0.4\textwidth}
+%     \fbox{\includegraphics[width=0.99\textwidth]{figures/contributions/fem/splinetransformation.pdf}}
+%     \caption{Increasing the similarity between splines by converting them into a common coordinate system.}
+%     \label{contributions:fem:splines}
+% \end{subfigure}
+% \hspace{2cm}
+% \begin{subfigure}[b]{0.4\textwidth}
+%     \fbox{\includegraphics[width=0.99\textwidth]{figures/contributions/fem/metric.pdf}}
+%     \caption{A representation of the metric that is used in the K-Means clustering algorithm, approximating the area between the two rays by a sum of the triangle areas.}
+%     \label{contributions:fem:metric}
+% \end{subfigure}
+% \end{figure}
 
 The first step is to increase the similarity between proxy rays while maintaining the ability to uniquely reconstruct the final ray.  For this, all rays are rotated and stretched such that the first point $P_1$ is equal to $(0,0,0)$ and the last $P_n$ control point is equal to $(0,0,1)$.  Then, all control points are rotated by a rotation angle $\theta$ around the $z$ axis such that the first point $P_i$ that is not collinear with $P_1$ and $P_n$ is in the $yz$ plane.  \fref{contributions:fem:splines} shows the results of these transformations on an example ray.  Both the translation and the scaling can then later be undone during the rendering without storing additional information, as the entry and exit points (and their distance) are known.  Only the angle $\theta$ needs to be recorded for each \emph{proxy ray}
 
@@ -171,7 +171,7 @@ During the rendering step of the algorithm, the proxy geometries for all element
 
 \begin{wrapfigure}{o}{0.4\textwidth}
 \centering
-\fbox{\includegraphics[width=0.99\textwidth]{figures/contributions/fem/arclength.pdf}}
+\fbox{\includegraphics[width=0.39\textwidth]{figures/contributions/fem/arclength.pdf}}
 \caption{The desire to uniformly sample the view ray in world space requires an arclength parametrization of the proxy ray.}
 \label{contributions:fem:arclength}
 \end{wrapfigure}
@@ -180,7 +180,7 @@ For each of the peeling rendering steps, we can then use the color information f
 
 \begin{wrapfigure}{o}{0.4\textwidth}
 \centering
-\fbox{\includegraphics[width=0.99\textwidth]{figures/contributions/fem/overshoot.pdf}}
+\fbox{\includegraphics[width=0.39\textwidth]{figures/contributions/fem/overshoot.pdf}}
 \caption{Special border handling is required between elements, as a na\"{i}ve implementation would oversample the boundary.}
 \label{contributions:fem:overshoot}
 \end{wrapfigure}
@@ -487,7 +487,7 @@ There are a number of technical challenges that are involved in providing an int
 
 \textbf{Point cloud visualization. }  The results of the original point cloud binning is a new, regularly spaced point cloud where the center of each voxel is represented by a single \nD{3} position and one global value for the voxel size.  This new point cloud is rendered by the GPU through the use of a geometry shader that creates an axis-aligned box for each of the incoming points.  In order to deal with occluding structures, for example roofs, the IC can interactively modify clipping planes that remove parts of the point cloud before rendering.  \fref{contributions:usar:rendering} shows different rendering stages and options that are applied to the visualization; to increase the spatial awareness, we apply a Phong shading based on the face of the cube using a camera-fixed setup of multiple light sources~\ref{phong1975illumination} and decided to employ two image-space enhancement methods.  The first method is a contour-enhancement that increases local contrast in areas of high depth changes~\etal \cite{luft2006image}.  It is a post-processing step that uses the depth buffer of the rendering, applies an unsharp masking on the value and then uses the result to visually enhance areas of the image with a high depth value gradient.  This allows the IC to intuitively gain a better understanding of the scene by emphasizing boundaries.  The second method that is also a image-based post-processing is a depth-based attenuation.  The farther a voxel is from the camera the darker it will be rendered, thus providing an intuitive distance cue for the IC.  As an optional method, we provide a simulated depth image resembling the output of range imaging cameras with which the IC is already familiar.
 
-\textbf{Projective Texturing. }  An additional method to increase immersion the system uses a projective texturing to provide access to images from robots and provide more detailed information about the building~\cite{everitt2001projective}.  Provided the robot's orientation and location, information that is readily available, the images or videos are projected onto the voxels~\cite{zhao2005alignment}.  This method enables the optional inclusion of details where the IC requires them, without overloading the user with information.
+\textbf{Projective Texturing. }  An additional method to increase immersion the system uses a projective texturing to provide access to images from robots and provide more detailed information about the building~\cite{segal1992fast, everitt2001projective}.  Provided the robot's orientation and location, information that is readily available, the images or videos are projected onto the voxels~\cite{zhao2005alignment}.  This method enables the optional inclusion of details where the IC requires them, without overloading the user with information.
 
 \textbf{Bump Mapping. }  Even though it is possible to represent the occupancy values, which provide feedback about the data reliability, using color information, we found that in most situations the color information is used to display the location of hazardous environments instead.  Therefore, we use bump mapping that modifies the the face normals based on a structured noise pattern with periodic boundary conditions.  The displacement depends directly on the occupancy values.  Due to the oepration of the drones, the occupancy values consist mostly of radial patterns with decreasing occupancy towards the outside, thus leading to an automatic visual fading.
 
@@ -566,7 +566,7 @@ These scenarios can be mostly mitigated if operators are informed of incoming CM
 \subsubsection{Application Requirements} \label{contributions:astro:spaceweather:requirements}
 The work in \paperef{paperF} was performed in order to provide the scientists with better tools to analyze these ensemble simulations of past CME events in detail in order to inform the development of the simulation models and increase the accuracy of their predictive use.  Previously, this analysis was done using seperate tools~(see Figures~\ref{contributions:astro:spaceweather:enlil} and~\ref{contributions:astro:spaceweather:ensemble})~that prevent the scientists from easily determining the root causes of simulation errors as multiple, unconnected views had to be employed.  The goal for this application is to create a single system that combines all information about the ensemble simulations and provides the domain experts with the tools to easily determine the quality of the ensemble simulations and inspect their volumetric simulations in order to view the \nD{3} structure of the CME.
 
-This approach is based on having access to ground-truth measurements of the arrival time, speed, and geoeffectivity recorded on or close to Earth as well as being able to derive values from the simulations and compare these on different granularities.  The predictive strength of the simulation depends on the difference between the simulated quantity and the ground truth.  The arrival time and geoeffectivity are only known for a single measurements, but the CME is visible in the optical telescopes on-board the observing space craft, making it feasible to compare the velocity of the CME at multiple points during transit.
+This approach is based on having access to ground-truth measurements of the arrival time, speed, and geoeffectivity recorded on or close to Earth as well as being able to derive values from the simulations and compare these on different granularities.  The predictive strength of the simulation depends on the difference between the simulated quantity and the ground truth.  The arrival time and geoeffectivity are only known for a single measurements, but the CME is visible in the optical telescopes on-board the observing spacecraft, making it feasible to compare the velocity of the CME at multiple points during transit.
 
 This leads to a series of challenges that the system presented in \paperef{paperF} addresses.  The system must present the user with the ability to quickly inspect the relationship between simulation input parameters and the prediction accuracy of each ensemble member.  This requires an intuitive visual representation of the \nD{4} input parameter space (\textbf{C1}).  The user must be capable to inspect the evolution of individual ensemble members over time.  This particularly requires the comparison of reconstructed velocity information with the simulated velocity over a large number of timesteps and taking into account the different time resolutions of available data.  This requires the extraction of comparable velocities from available satellite images as well as the ensemble simulations (\textbf{C2}).  For single timesteps of individual ensemble members, it must be possible for the user to view a representation of the volumetric data in its correct relation to the satellites, the Sun, and Earth, making it necessary to accurately position astronomical positions with respect to the simulation data and be able to render transparent geometries combines with multi-volume rendering (\textbf{C3}).
 
@@ -702,7 +702,7 @@ The application consists of three separate views, the \emph{Ensemble View}~(see 
 
 
 \subsection{OpenSpace} \label{contributions:astro:openspace}
-The \emph{OpenSpace} project was started in 2014 with the goal of created a freely available open-source software that can leverage synergies between three aspects of visualization in the context of astronomical visualization.  These aspects are the availability of the tool as a research tool for domain scientists for hypothesis generation and validation, its usage as a research platform for development of novel visualization research, and as a means to support the public dissemination of scientific discoveries.  By combining all three of these aspects into a single software platform, it becomes possible to shorten the deployment cycle of new visualization methods into the hands of domain scientists and the general public alike.  At the same time, it allows the domain scientists an avenue to quickly disseminate their research findings to the general public as well.  An additional benefit of providing all of these developments in a single platform is the ability to display individual discoveries in their proper context, for example by showing the articulations of a surface rover on Mars in its correct environment, which was reconstructed from the images of orbiting satellites, or being able to present the movements of a space craft in the solar system while providing the image of the milky way and correctly aligned stars in the background as a reference point for the experts and to  increase immersion for the general public.
+The \emph{OpenSpace} project was started in 2014 with the goal of created a freely available open-source software that can leverage synergies between three aspects of visualization in the context of astronomical visualization~\cite{bock17openspace}.  These aspects are the availability of the tool as a research tool for domain scientists for hypothesis generation and validation, its usage as a research platform for development of novel visualization research, and as a means to support the public dissemination of scientific discoveries.  By combining all three of these aspects into a single software platform, it becomes possible to shorten the deployment cycle of new visualization methods into the hands of domain scientists and the general public alike.  At the same time, it allows the domain scientists an avenue to quickly disseminate their research findings to the general public as well.  An additional benefit of providing all of these developments in a single platform is the ability to display individual discoveries in their proper context, for example by showing the articulations of a surface rover on Mars in its correct environment, which was reconstructed from the images of orbiting satellites, or being able to present the movements of a spacecraft in the solar system while providing the image of the milky way and correctly aligned stars in the background as a reference point for the experts and to  increase immersion for the general public.
 
 In order to support this effort, the software targets a variety of display systems, such as home computers, virtual reality headsets, and multi-pipeline display systems like planetarium domes or powerwalls.  This flexibility is one of the enabling factors to shorten the deployment cycle between the three pillars of the application as reasearchers, in most cases, do not have to invest any time to convert their data or algorithms to switch between any of the display modalities.
 
@@ -747,7 +747,7 @@ One intrinsic challenge of handling these vast scale differences is embedded int
 \begin{figure}
 \centering
 \includegraphics[width=0.75\textwidth]{figures/empty.png}
-\caption{A rendering of the Voyager 1 space craft in the year XXX at XXX\, km from the Earth.}
+\caption{A rendering of the Voyager 1 spacecraft in the year XXX at XXX\, km from the Earth.}
 \label{contributions:astro:dsg:voyager}
 \end{figure}
 
@@ -758,7 +758,7 @@ One intrinsic challenge of handling these vast scale differences is embedded int
 \label{contributions:astro:dsg:scenegraph}
 \end{figure}
 
-\paperef{G} presents a modification to the traversal algorithm employed in standard scene graph methods that enables a much larger range of values to be represented in the same scene.  Instead of being fixed to the root node of the scene graph, the camera is instead always attached to the closest scene graph node, which is called the \emph{attachment node}.  The traditional traversal is then replaced with a dynamic algorithm that can traverse the scene graph in both directions in order to project every object into the local coordinate system of the attached node (see \fref{contributions:astro:dsg:scenegraph}).  \fref{contributions:astro:dsg:voyager} shows the result of this in a real-world example of the Voyager space craft at a distance of approximately XXX\,km from the Earth.  The only additional restriction on the relative scene graph node transformations is that they can be inverted, which is trivially achievable for all regular transformations.
+\paperef{G} presents a modification to the traversal algorithm employed in standard scene graph methods that enables a much larger range of values to be represented in the same scene.  Instead of being fixed to the root node of the scene graph, the camera is instead always attached to the closest scene graph node, which is called the \emph{attachment node}.  The traditional traversal is then replaced with a dynamic algorithm that can traverse the scene graph in both directions in order to project every object into the local coordinate system of the attached node (see \fref{contributions:astro:dsg:scenegraph}).  \fref{contributions:astro:dsg:voyager} shows the result of this in a real-world example of the Voyager spacecraft at a distance of approximately XXX\,km from the Earth.  The only additional restriction on the relative scene graph node transformations is that they can be inverted, which is trivially achievable for all regular transformations.
 
 The traversal of the scene graph works by finding the shortest path between each scene graph node and the current attached node in the graph.  The final transformation uses the stored relative transformations for each movement in the graph towards the leaves, and the inverse of a transformation for each movement towards the root.  \fref{contributions:astro:dsg:scenegraph} shows an example of these traversals with the blue arrows representing the stored transformations and the red arrows being inverted.  Using the shortest path utilizes only the minimal subgraph and thus avoids any unnecessary large, and potentially destructive, transformations to other parts of the scene graph.  In the example, rendering the location of Earth to either camera position does not require the knowledge of where the Earth is located relative to the Sun, thus removing any catastrophic cancellation that might occur due to that transformation.  An alternative way of implementing the algorithm is using a traditional scene graph traversal, but the scene graph is rearranged every time the attached node changes such that the attached node becomes the root of the scene graph, which includes inverting transformations between nodes, where necessary.
 
@@ -769,7 +769,7 @@ The traversal of the scene graph works by finding the shortest path between each
 \label{contributions:astro:dsg:switch}
 \end{figure}
 
-A critical component that the dynamic scene graph requires in addition to traditional scene graph implementations is logic for handling the attachment of the camera.  \fref{contributions:astro:dsg:switch} shows an example of an attachment node switch when moving from node \textt{N} to its parent \texttt{M} where in infinite precision math, $\textbf{v} = \textbf{n}-\textbf{w}$.  This switch happens at a distance $d$ from the current attachment node.  In IEEE 854 floating point math, this limits the relative transformations between parents as imprecisions here will lead to a camera jitter when switching between attachment nodes if too many details of the focus object are visible at the distance $d$ --- if $d$ is large, then the object will only be represented by a single pixel, any jittering of the camera will not be visible.  In the case of OpenSpace, the default value for $d$ is 10 $\cross$ the object's bounding box, which provides reasonable results.
+A critical component that the dynamic scene graph requires in addition to traditional scene graph implementations is logic for handling the attachment of the camera.  \fref{contributions:astro:dsg:switch} shows an example of an attachment node switch when moving from node \texttt{N} to its parent \texttt{M} where in infinite precision math, $\textbf{v} = \textbf{n}-\textbf{w}$.  This switch happens at a distance $d$ from the current attachment node.  In IEEE 854 floating point math, this limits the relative transformations between parents as imprecisions here will lead to a camera jitter when switching between attachment nodes if too many details of the focus object are visible at the distance $d$ --- if $d$ is large, then the object will only be represented by a single pixel, any jittering of the camera will not be visible.  In the case of OpenSpace, the default value for $d$ is 10 $\times$ the object's bounding box, which provides reasonable results.
 
 While this mechanism solves the problem of rendering objects that are close to the camera, as the traversal in the scene graph does not involve large numbers, it does not inherently solve the challenge of rendering small objects that are far away as small variations in the object's geometry are still subject to catastrophic cancellation.  However, this situation rarely occurs in practice as small, distance objects will not be visible with normal field-of-view parameters.
 
@@ -790,30 +790,49 @@ While this mechanism solves the problem of rendering objects that are close to t
 \label{contributions:astro:gb:mars}
 \end{figure}
 
+\begin{figure}
+\centering
+\includegraphics[width=0.75\textwidth]{figures/empty.png}
+\caption{A non-spherical terrain model showing the comet Vesta.}
+\label{contributions:astro:gb:vesta}
+\end{figure}
+
 There has been a vast amount of information that has been gathered not just about Earth, but other planetary bodies in the solar system as well.  High-resolution images of terrain features are available for thee Earth, the Moon, Mercury, Mars, Pluto, and Charon.  Aside from showing visually appealing renderings of planets, these images are essential to provide other scientific discoveries in their proper context, for example the movement of rovers on Mars.  The rendering system presented in \paperef{paperH} was developed to provide this contextualization for all planetary bodies in the solar system by using adaptive, multiresolution data streaming to retrieve image data from online data sources and make it possible to render planetary scale and contextualized micrometer images simultaneously.
 
 
 \paragraph{Scientific Problem} \label{contributions:astro:gb:problem}
-Many institutions provide high-resolution imagery data as free online repositories on the internet.  For example, NASA's Global Imagery Browse Services provides over 200 different image products showing different global aspects of Earth, many of which are updated at least daily.  An example of this is the Suomi NPP's VIIRS instrument (see \fref{contributions:astro:gb:earth}), which provides a daily image of the entire Earth.
+Many institutions provide high-resolution imagery data as free online repositories on the internet.  NASA's Global Imagery Browse Services provides over 200 different image products, many of which are updated at least daily, showing global time-varying aspects of Earth, for example global weather patterns (see \fref{contributions:astro:gb:earth}).  A second example is NOAA's Science on a Sphere, which is both a visualization technique as well as data set curation for scientific story telling~\cite{ma2012scientific}.  However, a system that enables the public and experts to combine all available repositories interactively for story telling was missing.  Such a system must enable the display of image data, digital terrain models (DTMs), and provide corrent blending information.
 
-NOAA science on a sphere
+Aside from global time-varying datasets, a second use case is the display of high resolution terrain models that can be used as context for the dissemination of science.  Also here, no freely available system was present to display global datasets in the same context as submeter resolution terrain models.  These datasets are available on the Moon or on Mars, where they are used for mission planning (see \fref{contributions:astro:gb:mars}).
 
-High-resolution structrues on Mars\fref{contributions:astro:gb:mars}
+A further limitation of previous systems is the restriction to near-spherical geometries.  Some bodies where high-resolution images are available are, for example, comets such as Vesta (see \fref{contributions:astro:gb:vesta}).  Handling these more complex triaxial ellipsoid geometries in the same system is desireable.
 
-Arbitrary planetary surfaces (triaxial ellipsoid) (for example Vesta)
 
-\paragraph{Image Access} \label{contributions:astro:gb:access}
-GDAL
+\paragraph{Data Access} \label{contributions:astro:gb:access}
+All data in the system is provided as \nD{2} images, which can encode a variety of data set types.  Image data can be natively displayed using either RGB or RGBA images;  heightmaps, used for DTMs, are greyscale images that encode the height offsets from a reference ellipsoid;  and masks are binary images that are used, for example, to restrict the specular shading to water surfaces only.  The most common access method for global image sources is an internet-based level of detail protocol called the \emph{Web Map Service} (WMS)~\cite{open2006opengis, maso2010opengis}.  This protocol provides discrete image tiles, the parametrization of which depends on the protocol variant.  The \emph{Tiled Web Map Service} (TWMS) variant, for instance, uses a \nD{3} coordinate $\textbf{c} = (x,y,level)$ that described each discrete tile on a globe.  $\textbf{c}$ can be constructed from the longitude and latitude of a point on the globe, whereas the level depends on the desired granulatity of the map.
+
+Local image data is often provided in the form of georeferenced Tagged Image File Format (GeoTIFF) files, which provide embedded longitude and latitude information~\cite{ritter2000geotiff}.  The image products of the Lunar Reconnaisaince Orbiter (LRO)~\cite{vondrak2010lunar} or the Mars Reconnaisance Orbiter (MRO)~\cite{mcewen2016people} are provided to the public in this method.  Other providers utilize other image formats, such as Portable Network Graphics (PNG) files, which are not georeferenced, but how global phenomena instead.
+
+The \emph{Geospatial Data Abstraction Library} is a freely available library that provides a layer of abstraction between the usage of these image formats and their concrete implementation~\cite{warmerdam2008geospatial}.  This makes it possible for application to support a large variety of data formats without the requirement of implementing a large number of concrete protocols.  The library also provides the ability to reproject images between a large number of available map projections.  Restricting the rendering system to a single map projection (the latitude/longitude projection) increases resilience and performance of the system.
 
 
 \paragraph{Rendering} \label{contributions:astro:gb:rendering}
-lgorithm based on chunked Level-of-detail by Cozzi and Ring \cite{cozzi20113d} and Ulrich \cite{ulrich2002rendering}
-Chunk rendering  (model space , camera space)
-Different layers (Color layers, height layers, water masks, night layers, overlay layers)
-Culling
-Time-varying data
+\begin{figure}
+\centering
+\includegraphics[width=0.75\textwidth]{figures/contributions/gb/culling.png}
+\caption{The chunked level-of-detail algorithm used in the terrain renderer renders higher resolution images close to the camera and enables the culling based on the view frustum and the horizon.}
+\label{contributions:astro:gb:culling}
+\end{figure}
 
+The rendering system is based on a chunked level-of-detail algorithm presented by Cozzi and Ring~\cite{cozzi20113d} and Ulrich~\cite{ulrich2002rendering}.  All chunks are organized in a quad-tree in which the level of tree determines the extent of the geographic area that is covered by chunks at that level.  The tree is traversed using the current camera location and distance which determines whether a node in the quad-tree should be subdivided or not.  After the evaluation, all leaf nodes of the tree are then rendered using skirted grids (see \fref{contributions:astro:gb:culling}).  The chunks only represent geometry information and provide texture coordinates.  The images that are used for the chunks are organized in a separate tile tree in order to enable dynamic data loading and enable the rendering of geometry even when images of a desired resolution are not yet available.  In addition, this separation enables the combination of data sources of different resolution, such that lower resolution textures can be used until a desired level has been requested, if it is available at all.
 
+The rendering supports a number of different layer types, where the type determines the way a layer information is used in the rendering.  If multiple layers of a single type are enabled simultaneously, layers are stacked on top one another, similar to a layer feature in popular image editing softwares.  The \emph{Color Layer} is interpreted as a, potentially transparent, color texture that is applied to the chunk.  A \emph{Height Layer}'s texture information is used to offset the vertices of a chunk in order to generate a high-resolution local terrain model.  The skirts that are added to the chunks then prevent holes in the model where chunks of different resolution are next to each other.  The \emph{Water Mask} is a binary image that masks water on a planetary surface.  This information is used in the lighting model to determine the specularity of each location.  The \emph{Night Layer} is similar to the \emph{Color Layer} as it represents a native image texture.  However it is only used on the side of the planet that is facing away from the primary light source.  On Earth, this is used to show the night time illumination of the major cities and the reflection of the Moon.  Finally, the \emph{Overlay Layer} is a transparent layer that is rendered on top of both the \emph{Color Layer} and the \emph{Night Layer} and is used for informative overviews, such as country or city names, or reference labels to natural sights.
+
+Time-varying datasets are handled by creating a separate tile tree for each time step that is requested and keeping a cache for all image tiles that have been requested, thus conceptually increasing the access coordinates to $\textbf{c} = (x,y,level,t)$.  No other change to any of the rendering has to be performed due to the way the image tiles are created and stored separately from the geometry.  This holds true for all image layers that are employed, thus natively enabling time-varying color images, as well as, terrain information.
+
+The evaluation of the chunk tree also includes two culling steps that can remove leaf nodes if they are not visible in the final rendering.  The \emph{frustum culling} uses the camera view frustum and the bounding box of each chunk to determine whether a chunk will be visible using the current camera parameters.  The \emph{horizon culling} removes chunks that would not contribute to the final rendering when they are in the view frustum, but below the horizon --- meaning that they are occluded by other chunks closer to the camera.  \fref{contributions:astro:gb:culling} shows this culling on an example rendering on Mars.
+
+Even through the Dynamic Scene Graph method as described above would enable the rendering of high-resolution surface terrains, it would require the dynamic generation of nodes in the scene graph tree, which would be prohibitive to real-time rendering.  Using only a single scene graph node for the Earth, however, is insufficient as the Earth's radius is 6371\,km, which would leads to floating point precision errors below $6.371\cdot 10^7 \cdot 2^{-24} \approx 3.8$ meters.  As there are data products with much higher resolution than this, a straightforward rendering of chunks would thus result in floating point jittering artifacts.  In order to deal with this, the rendering system only renders chunks in \emph{model space} until a certain subdivision level is reached.  In this rendering mode, the vertices of the chunk's geometry are projected from the georeferenced map projectino into the Cartesian model space of the globe, resulting in a curved surface model.  Below the cutoff level, the chunks are rendered in \emph{camera space}, in which only the corners of the chunk are projected in double floating point precision and then linearly interpolated on the GPU.  The interpolation leads to flat chunks, but as this rendering method is only employed when close to the surface, the missing curvature of the globe is not noticable.  The cutoff level that determines which rendering method is used depends on the radius of the globe that is being rendered.
 
 
 
@@ -828,17 +847,66 @@ Time-varying data
 %     \item Glacial movement data (integrating radar measurements with global heightmap)
 % \end{itemize}
 
-\subsubsection{Space Craft Missions} \label{contributions:astro:openspace:spacecraft}
-\begin{itemize}
-    \item Image projection by Everitt \cite{everitt2001hardware}
-    \item Vis Poster\cite{bock15openspace}
-    \item AGU presentation \cite{bock15bopenspace}
-    \item New Horizons
-    \item Rosetta
-    \item Osiris-REx
-    \item Hackathon
-    \begin{itemize}
-        \item Messenger
-        \item Cassini
-    \end{itemize}
-\end{itemize}
+\subsubsection{Spacecraft Missions and Dissemination} \label{contributions:astro:sc}
+Spacecraft operations in the solar system are another astronomical scenary that greatly benefits from the visualization in its accurate spatiotemporal context and the ability for dissemination to the general public.  \paperef{paperI} provides a high-level overview of the \emph{OpenSpace} framework with a focus on three spacecraft missions and their usage as showcases for public dissemination.  The work in that paper has been based on previous poster presentations at IEEE Vis~\cite{bock15openspace} and the American Geophysical Union~\cite{bock15bopenspace}.
+
+\paragraph{Scientific Problem} \label{contributions:astro:gb:problem}
+The motivation to visualize spacecraft missions in detail stems directly from their design and engineering complexity.  Particularly with missions that do not occur in the vicinity of Earth, there is no possibility to directly control a spacecraft's action in a timely fashion due to limited speed of light.  Instead, all movements and operations, especially if it is a flyby mission, have to be preprogrammed by the spacecraft controller and are executed by the spacecraft accordingly.  These operations are carefully designed years in advance, at a time in which public interest in the particular mission is minimal.  When the main goal of a mission is approaching, the public interest peaks, but the challenges faced by the engineers are rarely mentioned when the final results of the spacecraft mission are being discussed in the media.  Visualization can provide a valuable tool to explain to the general public the acquisition of the final result, but at the same time use the audiences attention to highlight the complexity of the engineering that was necessary to arrive at the final results.
+
+While the Dynamic Scene Graph enables an accurate placement of spacecraft relative to their object of study, a deeper insight into the spacecraft's operation requires the visualization of instrument activity.  Many of the interplanetary spacecraft contain imagers sensitive to the visible part of the electromagnetic spectrum.  Displaying these images in their correct context can benefit an audience as it shows how a distant place looks like if a human observer were present instead of the spacecraft.  Showing the process of image acquisition, on the other hand, provides an intuition into the planning of the spacecraft's actions ahead of time.  Many of the planetary global images that are presented to the public are the result of, mostly manual, calibration of mosaicked images taken by the spacecraft and do not adequately accurately portray imaging conditions or necessary post-production.
+
+\paragraph{Image Projections} \label{contributions:astro:sc:projections}
+\begin{figure}
+\centering
+\includegraphics[width=0.75\textwidth]{figures/contributions/sc/single_projection.png}
+\caption{Showing a single image projected onto the curved surface of a planet.}
+\label{contributions:astro:sc:singleprojection}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics[width=0.75\textwidth]{figures/contributions/sc/new_horizons_projection.png}
+\caption{Using multiple projections during a flyby provides images of varying spatial resolution on the surface.}
+\label{contributions:astro:sc:newhorizonsprojection}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics[width=0.75\textwidth]{figures/contributions/sc/intercept.png}
+\caption{The instrument's field-of-view is rendered as a polygon that is modified to follow the surface of the object of study.}
+\label{contributions:astro:sc:intercept}
+\end{figure}
+
+
+In order to better explain to the general public how the spacecraft's image acquisition operates, a rendering system was developed in collaboration with the New Horizons science team, that utilizes the accurate position and orientation of a spacecraft to project the instrument's images onto a target body (see \fref{contributions:astro:sc:singleprojection}).  This method utilizes a projection method presented by Segal~\cite{segal1992fast} and revisited by Everitt \cite{everitt2001projective} that computes texture coordinates using the spacecraft's location and orientation to compute a view matrix and the instrument parameters to compute a projection matrix for the algorithm and thus treats the imaging instrument as a slide projector.  Given the acquisition time for each image, it is then possible to retain previously acquired images on the surface of the object in order to interactively show the construction of a full mosaic and better explain why there is a difference in spatial resolution in different areas of the object (see \fref{contributions:astro:sc:newhorizonsprojection}).
+
+This method consists of two components; 1. the visualization of the instruments field-of-view, which especially for non-imaging instruments is not always rectangular; 2. the image projection onto the object itself.  For the first component, the current instrument's boresight pointing vector in a global coordinate system is required alongside its horizontal and vertical field-of-view parameters.  This information is available through use of the SPICE library~\cite{acton1996ancillary} which requires science-level accurate datasets. Fortunately, these are already created by the mission scientists and engineers in their regular workflow for a number of mission profiles in order to compare the expected image results for these different profiles.  SPICE provides the boresight direction in the spacecrafts inertial reference frame, which can then converted into the desired global reference frame, for example J2000.  The SPICE datasets also include information about the field-of-view settings for rectangular imagers, which can be used immediately.  For non-rectangular instruments, the vertex positions of the boundary polygon are returned instead.  The vertices of the field-of-view representations are then radially extended from the spacecraft to the center of the observed object.  If the field-of-view polygon intersects the geometry of the object of study, the vertices are offset to follow the curvature of the object.  \fref{contributions:astro:sc:intercept} shows the reprojection of the field-of-view vertices $P_a$ and $P_d$ into $I_a$ and $I_d$ by using the known radius of the object (if the object is a planet), or by casting a probe ray (if the object is a complex shape).  All intermediate points are then similarly reprojected in order to provide smooth transitions.
+
+In order for the image projections to occur, a list of all planned or performed image acquisitions is generated.  In the case of future missions, such as OSIRIS-REx at the time of writing, this information is taken from a mission playbook that is generated by the scientists.  The playbook includes, among others, information about the start and end times of the image acquisition as well as the object that is the target of the image.  For historical missions, such as Rosetta, a hybrid approach is utilized that combines information from the playbook with metadata information included with the acquired images.  If an image for a particular acquisition is already available, it is used in the projection step, otherwise a placeholder image is displayed instead.  The image projections are rendered to a separate layer in order to provide the ability to fade the image projections in order to show a comparsion with an underlying global, preprocessed image.
+
+\begin{figure}
+\centering
+\includegraphics[width=0.75\textwidth]{figures/contributions/sc/newhorizons.png}
+\caption{Projecting individual images of the New Horizons flyby show the composistion of a complicated mosaicked image that is released to the public in its entirety.  Showing individual images shows the engineering effort required to create the final image.}
+\label{contributions:astro:sc:newhorizons}
+\end{figure}
+
+When an image projection is required, the projection layer texture of the object is attached to a framebuffer and the object is rendered using the view-projection matrix of the instrument.  The currently projected image, placeholder or real image, is then blitted into the texture where the normalized device coordinates are between 0 and 1, that is, where the object is inside the field-of-view of the instrument.  This replaces the previous contents of the texture in these locations in order to show a progressive improvement in spatial resolution for missions where this is desireable.
+
+\fref{contributions:astro:sc:newhorizons} shows this approach on an image mosaic of New Horizons on Pluto during the flyby on July 14t$^{\textrm{th}}$, 2015.  The complete mosaic consists of 16 separate images that were taken in quick succession.  A public event using this system held on the day of closest approach that included 13 locations on all 5 continents in which the mission scientists described the actions of the spacecraft live as they were unfolding.  A streamed video of this is available and was dubbed ``Breakfast at Pluto''.
+
+\begin{figure}
+\centering
+\includegraphics[width=0.75\textwidth]{figures/contributions/sc/rosetta.jpg}
+\caption{The Rosetta orbiter was in orbit around 67P/Churyumov–Gerasimenko for 2 years and acquired tens of thousands of images.}
+\label{contributions:astro:sc:rosetta}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics[width=0.75\textwidth]{figures/contributions/sc/osiris_rex.png}
+\caption{The OSIRIS-REx mission will arrive at the asteroid Bennu in August 2018 and depart in 2021 with a sample that is returned to Earth.}
+\label{contributions:astro:sc:osirisrex}
+\end{figure}
+
+Figures~\ref{contributions:astro:sc:rosetta} and \ref{contributions:astro:sc:osirisrex} show two missions, the Rosetta and OSIRIS-REx respectively, that either have orbited or will orbit around an irregular body.  Rosetta's mission has ended in September 2016 with all images being released, whereas OSIRIS-REx' mission will end in September 2023 with its return to Earth.

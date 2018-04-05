@@ -1,0 +1,17 @@
+A. Bock, E. Sundén, B. Liu, B. Wuensche, and T. Ropinski. Coherency-Based Curve Compression for High-Order Finite Element Model Visualization. IEEE Transactions on Visualization and Computer Graphics, 18(12):2315–2324, 2012
+
+A. Bock, N. Lang, G. Evangelista, R. Lehrke, and T. Ropinski. Guiding Deep Brain Stimulation Interventions by Fusing Multimodal Uncertainty Regions. Proceedings of the 2013 IEEE Pacific Visualization Symposium (PacificVis), pages 97–104, 2013
+
+A. Bock, A. Kleiner, J. Lundberg, and T. Ropinski. Supporting Urban Search & Rescue Mission Planning through Visualization-Based Analysis. In Vision, Modeling, and Visualization, 2014
+
+A. Bock, A. Kleiner, J. Lundberg, and T. Ropinski. An Interactive Visualization System for Urban Search & Rescue Mission Planning. In International Symposium on Safety, Security, and Rescue Robotics. IEEE, 2014
+
+A. Bock, Å. Svensson, A. Kleiner, J. Lundberg, and T. Ropinski. A visualization-based analysis system for urban search & rescue mission planning support. In Computer Graphics Forum. Wiley Online Library, 2016, in press
+
+A. Bock, A. Pembroke, M. L. Mays, L. Rastaetter, A. Ynnerman, and T. Ropinski. Visual Verification of Space Weather Ensemble Simulations. In Proceedings of the IEEE Vis, 2015
+
+E. Axelsson, J. Costa, C. Silva, C. Emmart, A. Bock, and A. Ynnerman. Dynamic Scene Graph: Enabling Scaling, Positioning,and Navigation in the Universe. Computer Graphics Forum, 36(3), 2017
+
+K. Bladin, E. Axelsson, E. Broberg, C. Emmart, P. Ljung, A. Bock, and A. Ynnerman. Globe Browsing: Contextualized Spatio-Temporal Planetary Surface Visualization. IEEE Transactions on Visualization and Computer Graphics, 24(1), 2018
+
+A. Bock, C. Emmart, M. Kuznetsova, C. Hansen, and A. Ynnerman. OpenSpace: Changing the narrative of public disseminations in astronomical visualization from What to How. In IEEE Computer Graphics and Applications, 2018, accepted
