@@ -80,17 +80,18 @@ There is a variety of methods to structure the data acquired by the aforemention
 
 \paragraph{Point Cloud. }  Sparse point cloud data is the least structured of these data types and consists of, potentially multi-dimensional, measurements in a \nD{2} or \nD{3} space.  Lidar scanners are a prime example of a modality that generates unstructured point cloud.  Point clouds, due to their unstructured storage, are notoriously difficult to handle and thus pose unique visualization challenges, such as handling transparency, occlusion, and the need for efficient rendering techniques.
 
-\paragraph{Cartesian. }  Multidimensional Cartesian grids are the most widely used form of structured data, with \nD{3} volumetric grids being the most applicable to this thesis.  The uniform structured grid makes it possible to efficiently handle a large amount of data.  A large number of techniques to render this data type exist, for example isosurface rendering or \emph{direct volume rendering}.  The ubiquitious nature of Cartesian volumetric grids also provides a major drawback.  Since it is the \emph{de facto} standard data format in Scientific Visualization, it is often used in domains that are not space-filling or where an adaptive resolution would be more appropriate, thus resulting in suboptimal storage and access methods where an adaptive grid or a different underlying geometry would be better suited.
+\paragraph{Cartesian. }  Multidimensional Cartesian grids are the most widely used form of structured data, with \nD{3} volumetric grids being the most applicable to this thesis.  The uniform structured grid makes it possible to efficiently handle a large amount of data.  A large number of techniques to render this data type exist, for example isosurface rendering or \emph{direct volume rendering}.  The ubiquitious nature of Cartesian volumetric grids also provides a major drawback.  Since it is the de facto standard data format in Scientific Visualization, it is often used in domains that are not space-filling or where an adaptive resolution would be more appropriate, thus resulting in suboptimal storage and access methods where an adaptive grid or a different underlying geometry would be better suited.
 
 \paragraph{Spherical. }  One non-Cartesian grid structure that is used in this work is a grid based on spherical coordinates.  Simulations of the Sun inside our solar system produce higher resolution closer to the origin and automatically possess a spherical symmetry which can be utilized to optimize storage capacity.  In these cases, a spherical data set is a \nD{3} volume, where each of the three spherical coordinate axis, $r$, $\phi$, and $\theta$ is mapped to a Cartesian axis respectively.  When applying direct volume rendering techniques to these datasets, interesting characteristics, such as automatic adaptive sampling or spherical linear interpolation schemes, can be observed~\cite{balabanian2007sonar}.
 
 \subsection{Direct Volume Rendering} \label{cha:intro:vp:dvr}
-\begin{figure}
-  \centering
-  \fbox{\includegraphics[width=0.5\textwidth]{figures/intro/rendering_integral.png}}
-  % \caption{A }
-  \label{fig:intro:dvr}
-\end{figure}
+
+\begin{wrapfigure}{o}{0.4\textwidth}
+\centering
+\includegraphics[width=0.39\textwidth]{figures/intro/rendering_integral.pdf}
+\caption{Illustration of the rendering integral for a ray with entry point $\vec{x_0}$, exit point $\vec{x_D}$ and an exemplary sampling point $\vec{x}$}
+\label{fig:intro:dvr}
+\end{wrapfigure}
 
 Most of the work presented in this thesis deals with \nD{3} volumetric data sets for which \emph{direct volume rendering}~(DVR) is a very well-suited and well-established rendering algorithm. It was derived from simplifying general ray tracing algorithms and thus enabling the possibility to be computed at interactive frame rates.  Traditionally, DVR uses a simple emission/absorption model that assumes that the volume is composed of small particles that each have the ability to emit and absorb light, and thus is considered a participating medium~\cite{levoy1988display, drebin1988volume, sabella1988rendering}.  The mathematical formulation of the incoming radiance $I$ was first described by Max~\cite{max1995optical, max2010local}.  Using the definitions in \fref{fig:intro:dvr}, this his descriptions result in:
 \begin{equation}
@@ -129,14 +130,14 @@ Kirby and Meyer provided a great overview about different types of visualization
 
 \begin{figure}
   \centering
-  \fbox{\includegraphics[width=\textwidth]{figures/empty.png}}
-  \caption{The nested model of application visualization design introduced by Munzner~\cite{munzner2009nested}.}
+  \fbox{\includegraphics[width=\abfboximagewidth]{figures/intro/design_model.pdf}}
+  \caption{The nested model of application visualization design introduced by Munzner~\cite{munzner2009nested}\textsuperscript{1}}
   \label{fig:intro:appl:nested}
 \end{figure}
 
 
 \subsection{Application Design} \label{cha:intro:appl:design}
-Tamara Munzner introduced a nested four-layer model that describes the design of visualization applications in 2009~\cite{munzner2009nested}.  Following this model, the design of an application consists of four sequential layers.  An error in validity of a layer impacts the downstream layers, similar to the waterfall modeling in software engineering~\cite{royce1987managing} (see \fref{fig:intro:appl:nested}).  These layers are the \emph{Domain Problem and Data Characterization}, in which the visualization designer immerses themselves in the target domain and vocabulary in order to characterize the workflow of the tasks.  In the \emph{Operation and Data Type Abstraction} layer, this knowledge is converted into a more generic computer science description of the challenges and operations that are required by the desired workflow of the domain expert.  These operations are then converted into visualization components in the \emph{Visual Encoding and Interaction Design} phase in which either novel visualization techniques are designed or previously published techniques are combined to solve the expert's particular problem.  In the last step, the \emph{Algorithm Design} all desired visual encodings are implemented to create the final system, solving potential technical challenges.
+Tamara Munzner introduced a nested four-layer model that describes the design of visualization applications in 2009~\cite{munzner2009nested}.  Following this model, the design of an application consists of four sequential layers.  An error in validity of a layer impacts the downstream layers, similar to the waterfall modeling in software engineering~\cite{royce1987managing} (see \fref{fig:intro:appl:nested}\footnote{Visualization Analysis and Design. Tamara Munzner, with illustrations by Eamonn Maguire. A K Peters Visualization Series, CRC Press, 2014.}).  These layers are the \emph{Domain Problem and Data Characterization}, in which the visualization designer immerses themselves in the target domain and vocabulary in order to characterize the workflow of the tasks.  In the \emph{Operation and Data Type Abstraction} layer, this knowledge is converted into a more generic computer science description of the challenges and operations that are required by the desired workflow of the domain expert.  These operations are then converted into visualization components in the \emph{Visual Encoding and Interaction Design} phase in which either novel visualization techniques are designed or previously published techniques are combined to solve the expert's particular problem.  In the last step, the \emph{Algorithm Design} all desired visual encodings are implemented to create the final system, solving potential technical challenges.
 
 Each layer in this nested model has unique threats to its validity that influence the subsequent layers.  For example, a threat to the \emph{Domain Problem} layer would be a misclassification of the domain expert's desired workflow.  Even if the subsequent steps performed successful, the designed application will be unable to fulfill the expert's desires and thus ultimately fail.  However, some of the validation of outer layers can only occur after the downstream layers have already been valided leading to a cascading error if the downstream layers' validation fails.
 

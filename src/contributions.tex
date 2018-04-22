@@ -105,7 +105,7 @@ A sampling of the $|F|$ faces of the $|E|$ elements of the model using $n$ point
 % \hspace{2cm}
 % \begin{subfigure}[b]{0.4\textwidth}
 %     \fbox{\includegraphics[width=0.99\textwidth]{figures/contributions/fem/metric.pdf}}
-%     \caption{A representation of the metric that is used in the K-Means clustering algorithm, approximating the area between the two rays by a sum of the triangle areas.}
+%     \caption{A representation of the metric that is used in the K-Means clustering algorithm, approximating the area between the two rays by a sum of the triangleresponders to manually create a map  areas.}
 %     \label{contributions:fem:metric}
 % \end{subfigure}
 % \end{figure}
@@ -161,13 +161,13 @@ The ray marching then interpolates along the Catmull-Rom spline to retrieve the 
 \begin{figure}
 \centering
 \begin{subfigure}[b]{0.4\textwidth}
-    \fbox{\includegraphics[width=\abfboximagewidth]{figures/contributions/fem/heart-5.png}}
+    \fbox{\includegraphics[width=\abfboximagewidth]{figures/contributions/fem/heart-5.jpg}}
     \caption{Using no inter-ray or intra-ray interpolation.}
     \label{contributions:fem:raw}
 \end{subfigure}
 \hspace{2cm}
 \begin{subfigure}[b]{0.4\textwidth}
-    \fbox{\includegraphics[width=\abfboximagewidth]{figures/contributions/fem/heart-5-rr-ii.png}}
+    \fbox{\includegraphics[width=\abfboximagewidth]{figures/contributions/fem/heart-5-rr-ii.jpg}}
     \caption{Using inter-ray and intra-ray interpolation.}
     \label{contributions:fem:interpolation}
 \end{subfigure}
@@ -238,7 +238,7 @@ This \nD{3} view combines the preoperational CT and MRI scans together with the 
 
 The visual representation of the MER measurements is displayed to the user in two separate views.  The collaborators of the project used a microelectrode cluster that contains five electrodes, each of which is recording a separate signal from their specific location.  Thus, correlating the difference in measurements between electrodes provides information about the borders between brain regions, making it important to register the measurement locations.  A combination of two views presents the user with the MER measurements and at the same time provides the spatial mapping between recording and electrode location.
 
-The first view shows an augmented visualization similar to an oscilloscope that presents the direct measurements from the electrodes.  As only the amplitude and frequency are important to the user during the procedure, we emphasize measurements that exceed a user-defined threshold and deemphasize the values below that threshold~(see~\fref{contributions:medbio:dbs:sound:2d}). This highlights potentially important measurements and reduces the visual noise from the less important low intensity signals.
+The first view shows an augmented visualization similar to an oscilloscope that presents the direct measurements from the electrodes.  As only the amplitude and frequency are important to the user during the procedure, we emphasize measurements that exceed a user-defined threshold and deemphasize the values below that threshold~(see~\fref{contributions:dbs:sound:2d}). This highlights potentially important measurements and reduces the visual noise from the less important low intensity signals.
 
 The second view displays a \nD{3} representation of the electrodes' orientations and their measurements~(see~\fref{contributions:dbs:sound:3d}).  The camera orientations of this view and the \emph{Contextual View} are linked such that the mental registration between the two views is not broken.  In this view, each electrodes' measurements that exceed a user-defined threshold are shown as concentric discs that start at the electrodes moving away from the base with increasing time.  The size of the disc corresponds to the amplitude of the detected signal and thus show the strength of the measured signal.  This enables the surgeon to inspect the amplitude and frequency for each electrode in their current spatial location.  The color of each disc is determined by the same classification algorithm that is used on the beads in the \emph{Contextual View}, but is simplified to show red if the electrode is outside of the STN and green if it is inside.
 
@@ -293,8 +293,9 @@ We performed an initial evaluation of the system using a qualitative user study 
 \section{Urban Search \& Rescue} \label{contributions:usar}
 The work presented in \paperVMV, \paperSSRR, and \paperCGF\ was developed in the domain of \emph{Urban Search \& Rescue}~(USAR), a field of civil security that involves the location and extraction of victims that are trapped in collapsed buildings.  The goal of the work was to design a visualization application in collaboration with the Myndigheten f\"or samh\"allsskydd och beredskap, the Swedish Civil Contingencies Agency, that expedites the location and extraction of vicims in buildings through the use of sensor-equipped autonomous drones.
 
-
 \subsection{Domain and Scientific Problems} \label{contributions:usar:background}
+Traditionally, in the case of a partial building collapse in an urban environment, a country's civil contingency agency will perform an USAR operation in order to search the building for potentially injured survivors or victims and perform a rescue of these victims.  This operation entails \emph{responders} to enter the building being directed and coordinated by an \emph{incident commander}~(IC).  The major obstacle during these rescue operations is the fact that previous structural plans of the building are no longer usable and new unknown hazardous environments may have been created by the incident.  In addition, the viewing distance is usually restricted as debris and smoke impede the responders' progress.  During the rescue operation, the IC relies on the descriptions of the responders to manually create a map~(see \fref{contributions:usar:map:hand}).  This map is important for the IC in order to; 1. optimally coordinate the available rescuers as time-to-rescue is the dominating factor in determining victims' survivability; 2. due to the collapses in the buiding entire parts of the building might be inaccessible without removing rubble.  These \emph{voids} are prime locations of trapped victims and their detection on an unstructured \nD{2} map is difficult.
+
 \begin{wrapfigure}{o}{0.4\textwidth}
 \centering
 \fbox{\includegraphics[width=0.38\textwidth]{figures/contributions/usar/map_drawing.jpg}}
@@ -302,14 +303,13 @@ The work presented in \paperVMV, \paperSSRR, and \paperCGF\ was developed in the
 \label{contributions:usar:map:hand}
 \end{wrapfigure}
 
-Traditionally, in the case of a partial building collapse in an urban environment, a country's civil contingency agency will perform an USAR operation in order to search the building for potentially injured survivors or victims and perform a rescue of these victims.  This operation entails \emph{responders} to enter the building being directed and coordinated by an \emph{incident commander}~(IC).  The major obstacle during these rescue operations is the fact that previous structural plans of the building are no longer usable and new unknown hazardous environments may have been created by the incident.  In addition, the viewing distance is usually restricted as debris and smoke impede the responders' progress.  During the rescue operation, the IC relies on the descriptions of the responders to manually create a map~(see \fref{contributions:usar:map}).  This map is important for the IC in order to; 1. optimally coordinate the available rescuers as time-to-rescue is the dominating factor in determining victims' survivability; 2. due to the collapses in the buiding entire parts of the building might be inaccessible without removing rubble.  These \emph{voids} are prime locations of trapped victims and their detection on an unstructured \nD{2} map is difficult.
-
 \begin{wrapfigure}{o}{0.4\textwidth}
 \centering
 \fbox{\includegraphics[width=0.38\textwidth]{figures/contributions/usar/map_pointcloud.jpg}}
 \caption{A na\"ive rendering of the point cloud makes it difficult to inspect details in the building.}
 \label{contributions:usar:map:pointcloud}
 \end{wrapfigure}
+
 
 The robotics community, for a long time, has been advancing research into drones equipped with sensors and autonomous control in the usage for urban search \& rescue~\cite{liu2013robotic} that enable the improvement of the current workflow and creation of a system that supports the IC during a rescue operation.  While traversing the building, the rescue robots carry a variety of scanners, for example Lidar, heat sensors, heartbeat detectors, or scanners to detect gas leaks.  These scans are combined to create a complete \nD{3} point cloud map of the structure that the IC can use to plan a more efficient path for the responders.  The maps in their native form (see \fref{contributions:usar:map:pointcloud}), however, are difficult to interpret due to the lack of occlusion and other visual queues.  Furthermore, important aspect of the map for determining a path for responder, such as location and dangerous environments, the slope of terrain, the existence of overhangs and the available space for a responder's body are difficult to extract in the maps' current state.  Therefore, \paperVMV, \paperSSRR, and \paperCGF\ set out to make the inspection and analysis of the \nD{3} point cloud data easier for the IC and suggest a variety of paths in order to move the current ad hoc decision process into a better planning mode.  As the data is likely to be noisy and the domain knowledge of the IC is important in the decision making, a fully automatic algorithm is not desireable, but rather to generate a set of suggestions and the visualization tools enabling the IC to make a good selection out of a set of suggestions.
 
@@ -384,7 +384,7 @@ m(\vec{x_1}, \vec{x_2}) = & L_2(\vec{x_1},\vec{x_2}) + w_h \cdot \textrm{hazard}
 \begin{figure}
 \centering
 \begin{subfigure}[b]{0.4\textwidth}
-    \fbox{\includegraphics[width=\abfboximagewidth, height=4.5cm]{figures/contributions/usar/adaptive_sampling_space.png}}
+    \includegraphics[width=\textwidth, height=4.5cm]{figures/contributions/usar/adaptive_sampling_space.png}
     \caption{The hazard-overhead subspace of the parameter search space $\mathcal{P}$ shows three path classes.}
     \label{contributions:usar:adaptive:space}
 \end{subfigure}
@@ -398,7 +398,7 @@ m(\vec{x_1}, \vec{x_2}) = & L_2(\vec{x_1},\vec{x_2}) + w_h \cdot \textrm{hazard}
 \label{contributions:usar:adaptive}
 \end{figure}
 
-\textbf{Adaptive sampling.}  As there is no prior information available about $\mathcal{P}$, providing an optimal sampling strategy is not trivial.  A regular grid sampling is insufficient as plausible boundary values for each dimension are not known, thus incurring the risk of oversampling or undersampling the path space.  In order to sample $\mathcal{P}$ more efficiently, the system utilizes a binary space partitioning such that new samples are only generated in those regions of $\mathcal{P}$ that have the highest potential of providing a new class of path.  This assumes a continuity of paths inside of $\mathcal{P}$, meaning that \astar $\left( \vec{p} \right) = i$ and \astar $\left( \vec{q} \right) = i$, \astar $\left( \vec{r} \right) = i \quad \forall \vec{p} < \vec{r} < \vec{q} \in \mathcal{P}$
+\textbf{Adaptive sampling.}  As there is no prior information available about $\mathcal{P}$, providing an optimal sampling strategy is not trivial.  A regular grid sampling is insufficient as plausible boundary values for each dimension are not known, thus incurring the risk of oversampling or undersampling the path space.  In order to sample $\mathcal{P}$ more efficiently, the system utilizes a binary space partitioning such that new samples are only generated in those regions of $\mathcal{P}$ that have the highest potential of providing a new class of path.  This assumes a continuity of paths inside of $\mathcal{P}$, meaning that \astar $\left( \vec{p} \right) = i$ and \astar $\left( \vec{q} \right) = i$, \astar $\left( \vec{r} \right) = i \quad \forall \vec{p} < \vec{r} < \vec{q} \in \mathcal{P}$.
 
 Using the previously computed paths, the space $\mathcal{P}$ is divided such that new samples of $\mathcal{P}$ are only created where there is the potential of generating novel paths.  All potential samples are classified into either non-recursive or recursive samples.  In each interation, each dimension is bisected and the each recursive sample is tested against the neighboring samples to determine whether a region should be subdivided.  The subdivision will continue until all recursive samples return non-novel paths or until the distance between samples is smaller than a predefined threshold $\epsilon$.  This threshold is necessary as the subdivision would otherwise converge to the boundary and result in an arbitrary large number of samples.   This method only requires the specification of arbitrary initial bounds for the weights and the adaptive sampling method will only perform new computations where necessary.  \fref{contributions:usar:adaptive} shows the subspace of hazard-overhead penalty and shows the three groups of paths that are present when visually inspecting the data.
 
@@ -436,7 +436,7 @@ Using the previously computed paths, the space $\mathcal{P}$ is divided such tha
 
 There are a number of technical challenges that are involved in providing an interactive rendering of the resampled point cloud together with a representation of the path classes and their analysis tools in the same view.  The following paragraphs cover the majority of challenges that had to be overcome.
 
-\textbf{Point cloud visualization. }  The results of the original point cloud binning is a new, regularly spaced point cloud where the center of each voxel is represented by a single \nD{3} position and one global value for the voxel size.  This new point cloud is rendered by the GPU by creating an axis-aligned box for each of the points.  In order to deal with occluding structures, for example roofs, the IC can interactively modify clipping planes that remove parts of the point cloud.  \fref{contributions:usar:rendering} shows different rendering stages and options that are applied to the visualization; to increase the spatial awareness, we apply a Phong shading based on the face of the cube using a camera-fixed setup of multiple light sources~\ref{phong1975illumination} and decided to employ two image-space enhancement methods.  The first method is a contour-enhancement that increases local contrast in areas of high depth changes~\cite{luft2006image}.  This is a post-processing step that uses the depth buffer of the rendering, applies an unsharp masking on the value and then uses the result to visually enhance areas of the image with a high depth value gradient.  This allows the IC to intuitively gain a better understanding of the scene by emphasizing voxel boundaries.  The second method that is also a image-based post-processing is a depth-based attenuation.  The farther a voxel is from the camera the darker it will be rendered, thus providing an intuitive distance cue for the IC.  As an optional method, we provide a simulated depth image resembling the output of range imaging cameras that is already familiar to the IC.
+\textbf{Point cloud visualization. }  The results of the original point cloud binning is a new, regularly spaced point cloud where the center of each voxel is represented by a single \nD{3} position and one global value for the voxel size.  This new point cloud is rendered by the GPU by creating an axis-aligned box for each of the points.  In order to deal with occluding structures, for example roofs, the IC can interactively modify clipping planes that remove parts of the point cloud.  \fref{contributions:usar:rendering} shows different rendering stages and options that are applied to the visualization; to increase the spatial awareness, we apply a Phong shading based on the face of the cube using a camera-fixed setup of multiple light sources~\cite{phong1975illumination} and decided to employ two image-space enhancement methods.  The first method is a contour-enhancement that increases local contrast in areas of high depth changes~\cite{luft2006image}.  This is a post-processing step that uses the depth buffer of the rendering, applies an unsharp masking on the value and then uses the result to visually enhance areas of the image with a high depth value gradient.  This allows the IC to intuitively gain a better understanding of the scene by emphasizing voxel boundaries.  The second method that is also a image-based post-processing is a depth-based attenuation.  The farther a voxel is from the camera the darker it will be rendered, thus providing an intuitive distance cue for the IC.  As an optional method, we provide a simulated depth image resembling the output of range imaging cameras that is already familiar to the IC.
 
 \textbf{Projective Texturing. }  An additional method to increase immersion, the system uses a projective texturing to provide access to images from robots and provide more detailed information about the building~\cite{segal1992fast, everitt2001projective}.  Provided with the robot's orientation and location, information that is readily available, the images or videos are projected onto the voxels~\cite{zhao2005alignment}.  This method enables the optional inclusion of details where the IC requires them, without overloading the user with information.
 
@@ -448,7 +448,7 @@ There are a number of technical challenges that are involved in providing an int
 
 \begin{figure}
 \centering
-\fbox{\includegraphics[width=0.75\textwidth]{figures/contributions/usar/profile_plot.png}}
+\includegraphics[width=0.75\textwidth]{figures/contributions/usar/profile_plot.png}
 \caption{The \emph{Profile Plot} component in the system shows the evolution of a user-selectable parameter over the length of all path classes.}
 \label{contributions:usar:rendering:profile}
 \end{figure}
@@ -510,7 +510,7 @@ The work in \paperCME\ was performed in order to provide the scientists with bet
 
 This approach is based on having access to ground-truth measurements of the arrival time, speed, and geoeffectivity recorded on or close to Earth as well as being able to derive values from the simulations and compare these on different granularities.  The predictive strength of the simulation depends on the difference between the simulated quantity and the ground truth.  The arrival time and geoeffectivity are only known for a single measurements, but the CME is visible in the optical telescopes on-board the observing spacecraft, making it feasible to compare the velocity of the CME at multiple points during transit.
 
-This leads to a series of challenges that the system presented in \paperCME\ addresses;  1. The system must present the user with the ability to quickly inspect the relationship between simulation input parameters and the prediction accuracy of each ensemble member.  This requires an intuitive visual representation of the \nD{4} input parameter space;  2. The user must be capable to inspect the evolution of individual ensemble members over time.  This particularly requires the comparison of reconstructed velocity information with the simulated velocity over a large number of timesteps and taking into account the different time resolutions of available data;  3. For single timesteps of individual ensemble members, it must be possible for the user to view a representation of the volumetric data in its correct relation to the satellites, the Sun, and Earth, making it necessary to accurately position astronomical positions with respect to the simulation data and be able to render transparent geometries combines with rendering multiple volumetric datasets~(\textbf{C3}).
+This leads to a series of challenges that the system presented in \paperCME\ addresses;  1. The system must present the user with the ability to quickly inspect the relationship between simulation input parameters and the prediction accuracy of each ensemble member.  This requires an intuitive visual representation of the \nD{4} input parameter space;  2. The user must be capable to inspect the evolution of individual ensemble members over time.  This particularly requires the comparison of reconstructed velocity information with the simulated velocity over a large number of timesteps and taking into account the different time resolutions of available data;  3. For single timesteps of individual ensemble members, it must be possible for the user to view a representation of the volumetric data in its correct relation to the satellites, the Sun, and Earth, making it necessary to accurately position astronomical positions with respect to the simulation data and be able to render transparent geometries combines with rendering multiple volumetric datasets.
 
 
 \subsection{Ensemble Glyph Mapping} \label{contributions:astro:spaceweather:glyphs}
@@ -657,60 +657,60 @@ The \emph{OpenSpace} project was started in 2014 with the goal of creating an op
 
 In order to support this effort, the software targets a variety of display systems, such as home computers, virtual reality headsets, and multi-pipeline display systems like planetarium domes or powerwalls.  This flexibility is one of the enabling factors to shorten the deployment cycle between the three pillars of the application as reasearchers, in most cases, do not have to invest any time to convert their data or algorithms to switch between any of the display modalities.
 
-The papers that were published in this ongoing effort are described in the rest of the section.  \paperDSG\ describes the development of a dynamic scene graph that enables the display of objects across large scales (see \SC{contributions:astro:openspace:dsg}), \paperGB\ describes the efforts on creating a system for a high-fidelity rendering system of planetary surfaces that support up to micrometer resolutions in order to be able to display geo-spatial discoveries in their correct spatial context (see \SC{contributions:astro:openspace:globebrowsing}), and \paperOS\ presents the visualization of spacecraft operations and image projections using OpenSpace.
+The papers that were published in this ongoing effort are described in the rest of the section.  \paperDSG\ describes the development of a dynamic scene graph that enables the display of objects across large scales (\SC{contributions:astro:dsg}), \paperGB\ describes the efforts on creating a system for a high-fidelity rendering system of planetary surfaces that support up to micrometer resolutions in order to be able to display geo-spatial discoveries in their correct spatial context (\SC{contributions:astro:gb}), and \paperOS\ presents the visualization of spacecraft operations and image projections using OpenSpace (\SC{contributions:astro:sc}).
 
 
 
 
 
 \subsection{Dynamic Scene Graph} \label{contributions:astro:dsg}
-One major feature of OpenSpace is the ability to display every available dataset in a single common reference frame in their correct context.  This necessitates the ability to express the position of objects across enormous scale differences and provide the ability to render these simultaneously.  One example of this is the ability to render an Earth-orbiting satellite while also seeing the Cosmic Microwave Background radiation as the edge of the Observable Universe, a scene that covers a scale difference of $10^26\,$m.  The usefulness of portraying these scale differences can be seen in the \emph{Powers of Ten} animation by Eames and Eames~\cite{morrison1982powers}.
+One major feature of OpenSpace is the ability to display every available dataset in a single common reference frame in their correct context.  This necessitates the ability to express the position of objects across enormous scale differences and provide the ability to render these simultaneously.  One example of this is the ability to render an Earth-orbiting satellite while also seeing the Cosmic Microwave Background radiation as the edge of the Observable Universe, a scene that covers a scale difference of $10^{26}\,$m.  The usefulness of portraying these scale differences can be seen in the \emph{Powers of Ten} animation by Eames and Eames~\cite{morrison1982powers}.
 
 \subsubsection{Scientific Problem} \label{contributions:astro:dsg:problem}
-\begin{figure}
-\centering
-\includegraphics[width=0.75\textwidth]{figures/empty.png}
-\caption{This image illustrates an example where catastrophic cancellation can occur.  If both large and small numbers are involved in addition and substraction of IEEE~854 floating point numbers, small components might completely disappear.}
-\label{contributions:astro:dsg:cc}
-\end{figure}
+% \begin{figure}
+% \centering
+% \includegraphics[width=0.75\textwidth]{figures/empty.png}
+% \caption{This image illustrates an example where catastrophic cancellation can occur.  If both large and small numbers are involved in addition and substraction of IEEE~854 floating point numbers, small components might completely disappear.}
+% \label{contributions:astro:dsg:cc}
+% \end{figure}
 
 One intrinsic challenge of handling these vast scale differences is embedded into the traditional way of organizing a scene through a \emph{scene graph} by contructing a directed, acyclic graph that describes a hierarchy of nodes in which each node's position is expressed relative to its parent's position.  During a traversal of the scene graph, the relative positions are orientations for each node and its ancestors are accumulated in order to transform an object into the coordinate system defined by the root node.  The camera, on the other hand, is only expressed as a single offset vector and orientation relative to the root node.  
 
-This provides a problem if the camera is pointed at an object that is at a great distance from the coordinate system origin as the construction of the view matrix in this case can lead to catastrophic cancellation~(see \fref{contributions:astro:dsg:cc})~\cite{cuyt2001remarkable}.  32 bit floating point numbers standardized in IEEE~854 have a machine epsilon of $2^{-24} \approx 6 \cdot 10^{-8}$, which places an lower limit on the minimum expressable distance between two subsequent numbers.  For any number $n$, any number $\left[ n - n \cdot 2^{-24}, n + n \cdot 2^{-24}\right] \setminus{n}$ is ill-defined and will be rounded to the nearest representable value.  As an example, the distance from the Sun to the center of the Milky Way (a plausible coordinate system origin) is 8\,kpc or $\approx 2.5 \cdot 10^{20}\,$m.  One method of defining the size of the solar system is the distance to the heliopause, the area in which the Sun's solar wind is no longer dominant, which provides a size of 120\,AU or $\approx 1.8 \cdot 10^{13}$.  Given these values and a na\"ive scene graph implementation, the bounded distance between floating point values at the Solar System would be $2.5 \cdot 10^{20}\,\textrm{m} / 6 \cdot 10^{-8} = 1.5 \cdot 10^{13}$, which means that there would only be a single valid floating point number for the entirety of our solar system, which is insufficient for any meaningful visualization.
+This provides a problem if the camera is pointed at an object that is at a great distance from the coordinate system origin as the construction of the view matrix in this case can lead to catastrophic cancellation~\cite{cuyt2001remarkable}.  32 bit floating point numbers standardized in IEEE~854 have a machine epsilon of $2^{-24} \approx 6 \cdot 10^{-8}$, which places an lower limit on the minimum expressable distance between two subsequent numbers.  For any number $n$, any number $\left[ n - n \cdot 2^{-24}, n + n \cdot 2^{-24}\right] \setminus{n}$ is ill-defined and will be rounded to the nearest representable value.  As an example, the distance from the Sun to the center of the Milky Way (a plausible coordinate system origin) is 8\,kpc or $\approx 2.5 \cdot 10^{20}\,$m.  One method of defining the size of the solar system is the distance to the heliopause, the area in which the Sun's solar wind is no longer dominant, which provides a size of 120\,AU or $\approx 1.8 \cdot 10^{13}$.  Given these values and a na\"ive scene graph implementation, the bounded distance between floating point values at the Solar System would be $2.5 \cdot 10^{20}\,\textrm{m} / 6 \cdot 10^{-8} = 1.5 \cdot 10^{13}$, which means that there would only be a single valid floating point number for the entirety of our solar system, which is insufficient for any meaningful visualization.
 
 \subsubsection{Algorithm} \label{contributions:astro:dsg:algorithm}
 \begin{figure}
 \centering
 \begin{subfigure}[b]{0.4\textwidth}
-    \fbox{\includegraphics[width=\abfboximagewidth]{figures/empty.png}}
+    \includegraphics[width=\abfboximagewidth]{figures/contributions/dsg/scenegraph_traditional.pdf}
     \caption{The traditional scene graph evaluation for an exemplary node.}
     \label{contributions:astro:dsg:sceengraph:traditional}
 \end{subfigure}
 \hspace*{1cm}
 \begin{subfigure}[b]{0.4\textwidth}
-    \fbox{\includegraphics[width=\abfboximagewidth]{figures/empty.png}}
+    \includegraphics[width=\abfboximagewidth]{figures/contributions/dsg/scenegraph_dynamic.pdf}
     \caption{The same node evaluated with the dynamic scene graph.}
     \label{contributions:astro:dsg:sceengraph:dsg}
 \end{subfigure}
 \caption{The traditional and the dynamic traversal methods appied to a sample scene graph.}
-\label{contributions:astro:dsg:sceengraph}
-\end{figure}
-
-\begin{figure}
-\centering
-\includegraphics[width=0.75\textwidth]{figures/empty.png}
-\caption{A rendering of the Voyager 1 spacecraft in the year XXX at XXX\, km from the Earth.}
-\label{contributions:astro:dsg:voyager}
-\end{figure}
-
-\begin{figure}
-\centering
-\includegraphics[width=0.75\textwidth]{figures/contributions/dsg/scenegraph.pdf}
-\caption{An exemplary scene graph layout of the solar system (1) with the Sun (2), the Earth system (3), Earth (4), and the Moon (5). The bottom figure shows two traversal paths for all nodes for two camera locations \texttt{A} and \texttt{B}.}
 \label{contributions:astro:dsg:scenegraph}
 \end{figure}
 
-\paperDSG\ presents a modification to the traversal algorithm employed in standard scene graph methods that enables a much larger range of values to be represented in the same scene.  Instead of being expressed relative to the root node of the scene graph, the camera is instead always attached to the closest scene graph node, which is called the \emph{attachment node}.  The traditional traversal is then replaced with a dynamic algorithm that can traverse the scene graph in both directions in order to project every object into the local coordinate system of the attached node (see \fref{contributions:astro:dsg:scenegraph}).  \fref{contributions:astro:dsg:voyager} shows the result of this in a real-world example of the Voyager spacecraft at a distance of approximately XXX\,km from the Earth.  The only additional limitation on the relative scene graph node transformations is that they can be inverted, which is trivially achievable for all regular transformations.
+\begin{figure}
+\centering
+\fbox{\includegraphics[width=0.75\textwidth]{figures/contributions/dsg/voyager1.png}}
+\caption{A rendering of the Voyager 1 spacecraft in the year 2018 at $21.1 \cdot 10^{15}\,$m or $19.5$ light hours from the Earth.}
+\label{contributions:astro:dsg:voyager}
+\end{figure}
+
+% \begin{figure}
+% \centering
+% \includegraphics[width=0.75\textwidth]{figures/contributions/dsg/scenegraph.pdf}
+% \caption{An exemplary scene graph layout of the solar system (1) with the Sun (2), the Earth system (3), Earth (4), and the Moon (5). The bottom figure shows two traversal paths for all nodes for two camera locations \texttt{A} and \texttt{B}.}
+% \label{contributions:astro:dsg:scenegraph}
+% \end{figure}
+
+\paperDSG\ presents a modification to the traversal algorithm employed in standard scene graph methods that enables a much larger range of values to be represented in the same scene.  Instead of being expressed relative to the root node of the scene graph, the camera is instead always attached to the closest scene graph node, which is called the \emph{attachment node}.  The traditional traversal is then replaced with a dynamic algorithm that can traverse the scene graph in both directions in order to project every object into the local coordinate system of the attached node (see \fref{contributions:astro:dsg:scenegraph}).  \fref{contributions:astro:dsg:voyager} shows the result of this in a real-world example of the Voyager spacecraft at a distance of approximately $21.1 \cdot 10^{15}\,$ from the Earth.  The only additional limitation on the relative scene graph node transformations is that they can be inverted, which is trivially achievable for all regular transformations.
 
 The dynamic traversal of the scene graph operates by finding the shortest path between each scene graph node and the current attached node in the graph.  The final transformation uses the stored relative transformations for each traversal step towards the leaves, and the inverse of a transformation for each movement towards the root.
 
@@ -748,9 +748,9 @@ While this mechanism solves the problem of rendering objects that are close to t
 
 \begin{figure}
 \centering
-\includegraphics[width=0.75\textwidth]{figures/empty.png}
-\caption{A non-spherical terrain model showing the comet Vesta.}
-\label{contributions:astro:gb:vesta}
+\includegraphics[width=0.75\textwidth]{figures/contributions/gb/prometheus.png}
+\caption{A non-spherical terrain model showing Saturn's moon Prometheus.}
+\label{contributions:astro:gb:prometheus}
 \end{figure}
 
 There has been a vast amount of information that has been gathered not just about Earth, but other planetary bodies in the solar system as well.  High-resolution images of terrain features are available for the Earth, the Moon, Mercury, Mars, Pluto, and Charon.  Aside from showing visually appealing renderings of planets, these images are essential to provide other scientific discoveries in their proper context, for example the movement of rovers on Mars.  The rendering system presented in \paperGB\ was developed to provide this contextualization for all planetary bodies in the solar system by using adaptive, multiresolution data streaming to retrieve image data from online data sources and make it possible to render planetary scale and contextualized micrometer images simultaneously.
@@ -761,7 +761,7 @@ Many institutions provide high-resolution imagery data as free online repositori
 
 Aside from global time-varying datasets, a second use case is the display of high resolution terrain models that can be used as context for the dissemination of science.  Also here, no freely available system was present to display global datasets in the same context as submeter resolution terrain models.  These datasets are available on the Moon or on Mars, where they are used for mission planning (see \fref{contributions:astro:gb:mars}).
 
-A further limitation of previous systems is the restriction to near-spherical geometries.  Some bodies where high-resolution images are available are, for example, comets such as Vesta (see \fref{contributions:astro:gb:vesta}).  Handling these more complex triaxial ellipsoid geometries in the same system is desireable.
+A further limitation of previous systems is the restriction to near-spherical geometries.  Some bodies where high-resolution images are available are, for example, minor moons such as Saturn's moon Prometheus (see \fref{contributions:astro:gb:prometheus}).  Handling these more complex triaxial ellipsoid geometries in the same system is desireable.
 
 
 \subsubsection{Data Access} \label{contributions:astro:gb:access}
@@ -840,7 +840,7 @@ In order for the image projections to occur, a list of all planned or performed 
 
 When an image projection is required, the projection layer texture of the object is attached to a framebuffer and the object is rendered using the view-projection matrix of the instrument.  The currently projected image, placeholder or real image, is then blitted into the texture where the normalized device coordinates are between 0 and 1, that is, where the object is inside the field-of-view of the instrument.  This replaces the previous contents of the texture in these locations in order to show a progressive improvement in spatial resolution for missions where this is desireable.
 
-\fref{contributions:astro:sc:newhorizons} shows this approach on an image mosaic of New Horizons on Pluto during the flyby on July 14t$^{\textrm{th}}$, 2015.  The complete mosaic consists of 16 separate images that were taken in quick succession.  A public event using this system held on the day of closest approach that included 13 locations on all 5 continents in which the mission scientists described the actions of the spacecraft live as they were unfolding.  A streamed video of this is available and was dubbed ``Breakfast at Pluto''.
+\fref{contributions:astro:sc:newhorizons} shows this approach on an image mosaic of New Horizons on Pluto during the flyby on July 14$^{\textrm{th}}$, 2015.  The complete mosaic consists of 16 separate images that were taken in quick succession.  A public event called ``Breakfast at Pluto'' using this system held on the day of closest approach that included 13 locations on all 5 continents and live streaming in which the mission scientists described the actions of the spacecraft live as they were unfolding.
 
 \begin{figure}
 \centering
