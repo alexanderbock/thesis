@@ -66,11 +66,9 @@ For each viewing ray, a large number of sampling points have to be retrieved for
 \label{contributions:fem:workflow}
 \end{figure}
 
-In order to improve the performance of the rendering, the expensive coordinate transformations have to be computed off-line prior to the rendering and then retrieved efficiently.  The algorithm described in \paperFEM\ utilizes a Catmull-Rom spline based representation of the rays and $\xi$ material space, which can be efficiently stored and retrieved at rendering time~\cite{catmull1974class}.  A number of approximation steps are performed in order to increase the similarity between different rays and represent these by a reduced set of \emph{proxy rays}, which drastically reduces the number of rays that need to be stored and still maintain a high quality rendering.  \fref{contributions:fem:workflow} shows the workflow of the algorithm in detail, with the first two steps being precomputed once for each finite element model in order to improve the performance of the third real-time rendering step.
-
-The algorithm consists of 5 steps, which are described in the following sections:
+In order to improve the performance of the rendering, the expensive coordinate transformations have to be computed off-line prior to the rendering and then retrieved efficiently.  The algorithm described in \paperFEM\ utilizes a Catmull-Rom spline based representation of the rays and $\xi$ material space, which can be efficiently stored and retrieved at rendering time~\cite{catmull1974class}.  A number of approximation steps are performed in order to increase the similarity between different rays and represent these by a reduced set of \emph{proxy rays}, which drastically reduces the number of rays that need to be stored and still maintain a high quality rendering.  \fref{contributions:fem:workflow} shows the workflow of the algorithm in detail, with the first two steps being precomputed once for each finite element model in order to improve the performance of the third real-time rendering step.  The algorithm consists of 5 steps, which are described in the following sections:
 \begin{description}[leftmargin=10em,style=nextline]
-  \item[Point Generation]  A fixed number of points are generated for all faces of each element.  For each point, a \emph{proxy ray} is created to every other point that is in the same element but not the same face.
+  \item[Point Generation]  A fixed number of points are generated for all faces of each element.  For each point, a \emph{proxy ray} is created to every other point in the same element but not the same face.
   \item[Ray computation]  The \emph{proxy rays} for each pair of points is sampled using a fixed sampling rate that is independent from the rendering sampling rate.  For each sample, the expensive coordinate transformation is performed).
   \item[Curve Similarity]  Through renormalization and alignment, the similarity between all \emph{proxy rays} is improved without losing information.
   \item[Curve Clustering]  Using k-means clustering, a representative subset of \emph{proxy rays} is created.  Each original entry-exit point pair references its new representative path.
@@ -88,7 +86,7 @@ The following two sections describe the method used in the curve clustering and 
 \subsubsection{Curve Clustering} \label{contributions:fem:curves}
 \begin{figure}
 \centering
-\fbox{\includegraphics[width=\abfboximagewidth]{figures/contributions/fem/splinetransformation.pdf}}
+\fbox{\includegraphics[width=0.75\textwidth]{figures/contributions/fem/splinetransformation.pdf}}
 \caption{Increasing the similarity between splines through a lossless conversion into a common coordinate system.}
 \label{contributions:fem:splines}
 \end{figure}
@@ -114,7 +112,7 @@ The first step is to increase the similarity between proxy rays while maintainin
 
 \begin{figure}
 \centering
-\fbox{\includegraphics[width=\abfboximagewidth]{figures/contributions/fem/metric.pdf}}
+\includegraphics[width=0.75\textwidth]{figures/contributions/fem/metric.pdf}
 \caption{A representation of the metric that is used in the k-means clustering algorithm, approximating the area between the two rays by a sum of the triangle areas.}
 \label{contributions:fem:metric}
 \end{figure}
@@ -132,20 +130,21 @@ Using this metric, all proxy rays are then clustered into $k$ representatives.  
 
 
 \subsubsection{Rendering} \label{contributions:fem:rendering}
-\begin{figure}
-    \centering
-    \includegraphics[width=0.5\textwidth]{figures/contributions/fem/heartfine.jpg}
-    \caption{The insets show potential rendering artifacts when applying the depth peeling algorithm to finite element methods.}
-    \label{contributions:fem:peeling}
-\end{figure}
-During the rendering step of the algorithm, the geometries for all elements of the finite element model are rendered.  Its coordinates are mapped to the RGB channel, as described in the DVR technique by Kr\"uger and Westermann~\cite{kruger2003acceleration}, and the face identifier and element identifier are encoded in the transparency channel.  The entire scene is then rendered in multiple passes, employing a modified depth peeling approach as described by Everitt~\cite{everitt2001interactive} for each rendering pass.  In each pass, the entry and exit point geometries are rendered which trigger the fragment shader of the GPU that performs the rendering as described in the rest of this section.
-
 \begin{wrapfigure}{o}{0.4\textwidth}
 \centering
 \includegraphics[width=0.39\textwidth]{figures/contributions/fem/arclength.pdf}
 \caption{The desire to uniformly sample the view ray in world space requires an arclength parametrization of the proxy ray.}
 \label{contributions:fem:arclength}
 \end{wrapfigure}
+
+During the rendering step of the algorithm, the geometries for all elements of the finite element model are rendered.  Its coordinates are mapped to the RGB channel, as described in the DVR technique by Kr\"uger and Westermann~\cite{kruger2003acceleration}, and the face identifier and element identifier are encoded in the transparency channel.  The entire scene is then rendered in multiple passes, employing a modified depth peeling approach as described by Everitt~\cite{everitt2001interactive} for each rendering pass.  In each pass, the entry and exit point geometries are rendered which trigger the fragment shader of the GPU that performs the rendering as described in the rest of this section.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.5\textwidth]{figures/contributions/fem/heartfine.jpg}
+    \caption{The insets show potential rendering artifacts when applying the depth peeling algorithm to finite element methods.}
+    \label{contributions:fem:peeling}
+\end{figure}
 
 For each of the peeling rendering steps, the color information for each pair of fragments is used to access the entry and exit points as well as the face and element ID. Using this information, we can retrieve the cluster ID and the angle $\theta$ of the proxy ray that is closest to the fragment pair.  The previous transformations of the proxy ray are undone by scaling the proxy ray by the distance between the entry and exit points in world coordinates, translating and rotating the ray such that $P_1$ coincides with the entry point and $P_n$ coincides with the entry point, and finally rotating the proxy ray around the axis connecting $P_0$ and $P_n$ by $\theta$.
 
@@ -161,13 +160,13 @@ The ray marching then interpolates along the Catmull-Rom spline to retrieve the 
 \begin{figure}
 \centering
 \begin{subfigure}[b]{0.4\textwidth}
-    \fbox{\includegraphics[width=\abfboximagewidth]{figures/contributions/fem/heart-5.jpg}}
+    \includegraphics[width=\abfboximagewidth]{figures/contributions/fem/heart-5.jpg}
     \caption{Using no inter-ray or intra-ray interpolation.}
     \label{contributions:fem:raw}
 \end{subfigure}
 \hspace{2cm}
 \begin{subfigure}[b]{0.4\textwidth}
-    \fbox{\includegraphics[width=\abfboximagewidth]{figures/contributions/fem/heart-5-rr-ii.jpg}}
+    \includegraphics[width=\abfboximagewidth]{figures/contributions/fem/heart-5-rr-ii.jpg}
     \caption{Using inter-ray and intra-ray interpolation.}
     \label{contributions:fem:interpolation}
 \end{subfigure}
@@ -303,6 +302,8 @@ Traditionally, in the case of a partial building collapse in an urban environmen
 \label{contributions:usar:map:hand}
 \end{wrapfigure}
 
+The robotics community, for a long time, has been advancing research into drones equipped with sensors and autonomous control in the usage for urban search \& rescue~\cite{liu2013robotic} that enable the improvement of the current workflow and creation of a system that supports the IC during a rescue operation.  While traversing the building, the rescue robots carry a variety of scanners, for example Lidar, heat sensors, heartbeat detectors, or scanners to detect gas leaks.  These scans are combined to create a complete \nD{3} point cloud map of the structure that the IC can use to plan a more efficient path for the responders.
+
 \begin{wrapfigure}{o}{0.4\textwidth}
 \centering
 \fbox{\includegraphics[width=0.38\textwidth]{figures/contributions/usar/map_pointcloud.jpg}}
@@ -310,8 +311,7 @@ Traditionally, in the case of a partial building collapse in an urban environmen
 \label{contributions:usar:map:pointcloud}
 \end{wrapfigure}
 
-
-The robotics community, for a long time, has been advancing research into drones equipped with sensors and autonomous control in the usage for urban search \& rescue~\cite{liu2013robotic} that enable the improvement of the current workflow and creation of a system that supports the IC during a rescue operation.  While traversing the building, the rescue robots carry a variety of scanners, for example Lidar, heat sensors, heartbeat detectors, or scanners to detect gas leaks.  These scans are combined to create a complete \nD{3} point cloud map of the structure that the IC can use to plan a more efficient path for the responders.  The maps in their native form (see \fref{contributions:usar:map:pointcloud}), however, are difficult to interpret due to the lack of occlusion and other visual queues.  Furthermore, important aspect of the map for determining a path for responder, such as location and dangerous environments, the slope of terrain, the existence of overhangs and the available space for a responder's body are difficult to extract in the maps' current state.  Therefore, \paperVMV, \paperSSRR, and \paperCGF\ set out to make the inspection and analysis of the \nD{3} point cloud data easier for the IC and suggest a variety of paths in order to move the current ad hoc decision process into a better planning mode.  As the data is likely to be noisy and the domain knowledge of the IC is important in the decision making, a fully automatic algorithm is not desireable, but rather to generate a set of suggestions and the visualization tools enabling the IC to make a good selection out of a set of suggestions.
+\noindent The maps in their native form (see \fref{contributions:usar:map:pointcloud}), however, are difficult to interpret due to the lack of occlusion and other visual queues.  Furthermore, important aspect of the map for determining a path for responder, such as location and dangerous environments, the slope of terrain, the existence of overhangs and the available space for a responder's body are difficult to extract in the maps' current state.  Therefore, \paperVMV, \paperSSRR, and \paperCGF\ set out to make the inspection and analysis of the \nD{3} point cloud data easier for the IC and suggest a variety of paths in order to move the current ad hoc decision process into a better planning mode.  As the data is likely to be noisy and the domain knowledge of the IC is important in the decision making, a fully automatic algorithm is not desireable, but rather to generate a set of suggestions and the visualization tools enabling the IC to make a good selection out of a set of suggestions.
 
 
 \subsection{Application Requirements} \label{contributions:usar:requirements}
@@ -328,19 +328,19 @@ The robotics community, for a long time, has been advancing research into drones
 \subsection{Voxel Binning} \label{contributions:usar:binning}
 \begin{figure}
 \centering
-\begin{subfigure}[b]{0.28\textwidth}
+\begin{subfigure}[b]{0.3\textwidth}
     \fbox{\includegraphics[width=0.99\textwidth]{figures/contributions/usar/bin_4.png}}
     \caption{Binning of a dataset with a voxel size of 4\,cm.}
     \label{contributions:usar:binning:4}
 \end{subfigure}
-\hspace*{5mm}
-\begin{subfigure}[b]{0.28\textwidth}
+\hspace*{3mm}
+\begin{subfigure}[b]{0.3\textwidth}
     \fbox{\includegraphics[width=0.99\textwidth]{figures/contributions/usar/bin_10.png}}
     \caption{Binning of a dataset with a voxel size of 10\,cm.}
     \label{contributions:usar:binning:10}
 \end{subfigure}
-\hspace*{5mm}
-\begin{subfigure}[b]{0.28\textwidth}
+\hspace*{3mm}
+\begin{subfigure}[b]{0.3\textwidth}
     \fbox{\includegraphics[width=0.99\textwidth]{figures/contributions/usar/bin_25.png}}
     \caption{Binning of a dataset with a voxel size of 25\,cm.}
     \label{contributions:usar:binning:25}
@@ -448,7 +448,7 @@ There are a number of technical challenges that are involved in providing an int
 
 \begin{figure}
 \centering
-\includegraphics[width=0.75\textwidth]{figures/contributions/usar/profile_plot.png}
+\includegraphics[width=0.65\textwidth]{figures/contributions/usar/profile_plot.png}
 \caption{The \emph{Profile Plot} component in the system shows the evolution of a user-selectable parameter over the length of all path classes.}
 \label{contributions:usar:rendering:profile}
 \end{figure}
@@ -561,7 +561,7 @@ In order to be able to retrieve a comparable velocity from the volumetric simula
 \subsection{Rendering} \label{contributions:astro:spaceweather:rendering}
 \begin{figure}
 \centering
-\fbox{\includegraphics[width=\abfboximagewidth]{figures/contributions/spaceweather/rendering.png}}
+\fbox{\includegraphics[width=\abfboximagewidth, height=6.5cm]{figures/contributions/spaceweather/rendering.png}}
 \caption{The rendering of this scene requires the support of accurate locations as well as the ability to render transparent geometry together with the volume data.}
 \label{contributions:astro:spaceweather:rendering:rendering}
 \end{figure}
@@ -734,23 +734,9 @@ While this mechanism solves the problem of rendering objects that are close to t
 \subsection{Planetary Rendering} \label{contributions:astro:gb}
 \begin{figure}
 \centering
-\includegraphics[width=0.75\textwidth]{figures/contributions/gb/earth.png}
+\includegraphics[width=\abfboximagewidth]{figures/contributions/gb/earth.png}
 \caption{A global rendering of the Suomi-NPP's VIIRS instrument.}
 \label{contributions:astro:gb:earth}
-\end{figure}
-
-\begin{figure}
-\centering
-\includegraphics[width=0.75\textwidth]{figures/contributions/gb/mars.png}
-\caption{High resolution terrain model on Mars showing structures up to 25\,cm resolution.}
-\label{contributions:astro:gb:mars}
-\end{figure}
-
-\begin{figure}
-\centering
-\includegraphics[width=0.75\textwidth]{figures/contributions/gb/prometheus.png}
-\caption{A non-spherical terrain model showing Saturn's moon Prometheus.}
-\label{contributions:astro:gb:prometheus}
 \end{figure}
 
 There has been a vast amount of information that has been gathered not just about Earth, but other planetary bodies in the solar system as well.  High-resolution images of terrain features are available for the Earth, the Moon, Mercury, Mars, Pluto, and Charon.  Aside from showing visually appealing renderings of planets, these images are essential to provide other scientific discoveries in their proper context, for example the movement of rovers on Mars.  The rendering system presented in \paperGB\ was developed to provide this contextualization for all planetary bodies in the solar system by using adaptive, multiresolution data streaming to retrieve image data from online data sources and make it possible to render planetary scale and contextualized micrometer images simultaneously.
@@ -763,6 +749,21 @@ Aside from global time-varying datasets, a second use case is the display of hig
 
 A further limitation of previous systems is the restriction to near-spherical geometries.  Some bodies where high-resolution images are available are, for example, minor moons such as Saturn's moon Prometheus (see \fref{contributions:astro:gb:prometheus}).  Handling these more complex triaxial ellipsoid geometries in the same system is desireable.
 
+\begin{figure}
+\centering
+\includegraphics[width=\abfboximagewidth]{figures/contributions/gb/mars.png}
+\caption{High resolution terrain model on Mars showing structures up to 25\,cm resolution.}
+\label{contributions:astro:gb:mars}
+\end{figure}
+
+
+\begin{figure}[b]
+\centering
+\includegraphics[width=0.7\textwidth]{figures/contributions/gb/prometheus.png}
+\caption{A non-spherical terrain model showing Saturn's moon Prometheus.}
+\label{contributions:astro:gb:prometheus}
+\end{figure}
+
 
 \subsubsection{Data Access} \label{contributions:astro:gb:access}
 All data in the system is provided as \nD{2} images, which can encode a variety of data set types.  Image data can be natively displayed using either RGB or RGBA images;  DTMs are greyscale images that encode the height offsets from a reference ellipsoid;  and masks are binary images that are used, for example, to restrict the specular highlights to water surfaces.  The most common access method for global image sources is an internet-based level of detail protocol called the \emph{Web Map Service} (WMS)~\cite{open2006opengis, maso2010opengis}.  This protocol provides discrete image tiles, the parametrization of which depends on the protocol variant.  The \emph{Tiled Web Map Service} (TWMS) variant, for instance, uses a \nD{3} coordinate $\textbf{c} = (x,y,level)$ that described each discrete tile on a globe.  $\textbf{c}$ can be constructed from the longitude and latitude of a point on the globe, whereas the level depends on the desired granulatity of the map.
@@ -773,13 +774,6 @@ The \emph{Geospatial Data Abstraction Library} is a freely available library tha
 
 
 \subsubsection{Rendering} \label{contributions:astro:gb:rendering}
-\begin{figure}
-\centering
-\includegraphics[width=0.75\textwidth]{figures/contributions/gb/culling.png}
-\caption{The chunked level-of-detail algorithm used in the terrain renderer renders higher resolution images close to the camera and enables the culling based on the view frustum and the horizon.}
-\label{contributions:astro:gb:culling}
-\end{figure}
-
 The rendering system is based on a chunked level-of-detail algorithm presented by Ulrich~\cite{ulrich2002rendering} and Cozzi and Ring~\cite{cozzi20113d}.  All chunks are organized in a quadtree in which the level of tree determines the extent of the geographic area that is covered by chunks at that level.  The tree is traversed using the current camera location and distance which determines whether a node in the quadtree should be subdivided or not.  After the evaluation, all leaf nodes of the tree are then rendered using skirted grids (see \fref{contributions:astro:gb:culling}).  The chunks only represent geometry information and provide texture coordinates.  The images that are used for the chunks are organized in a separate tile tree in order to enable dynamic data loading and enable the rendering of geometry even when images of a desired resolution are not yet available.  In addition, this separation enables the combination of data sources of different resolution, such that lower resolution textures can be used until a desired level has been requested, if it is available .
 
 The rendering supports a number of different layer types, which determine the way it is used in the rendering step.  If multiple layers of a single type are enabled simultaneously, layers are stacked on top one another, similar to a layer feature in image editing applications.  The \emph{Color Layer} is interpreted as a, potentially transparent, color texture that is applied to the chunk.  A \emph{Height Layer}'s texture information is used to offset the vertices of a chunk in order to generate a high-resolution \nD{2.5} local terrain model.  A tile's skirts are inversely proportional to the tile level and are added to the chunks to prevent holes in the model where adjacent chunks are rendered at a different resolution.  The \emph{Water Mask} is a binary image that masks water on a planetary surface.  This information is used in the lighting model to determine the specularity of each location.  The \emph{Night Layer} is similar to the \emph{Color Layer} as it represents a native image texture.  However it is only used on the side of the planet that is facing away from the primary light source.  On Earth, this is used to show the night time illumination of the major cities and the illumination of the moonlight.  Finally, the \emph{Overlay Layer} is a transparent layer that is rendered on top of both the \emph{Color Layer} and the \emph{Night Layer} and is used for informative overviews, such as country or city names, or reference labels to natural landmarks.
@@ -787,6 +781,13 @@ The rendering supports a number of different layer types, which determine the wa
 Time-varying datasets are handled by creating a separate tile tree for each time step that is requested and keeping a cache for all image tiles that have been requested, thus conceptually increasing the access coordinates to $\textbf{c'} = (x,y,level,t)$.  No other change to any of the rendering has to be performed due to the way the image tiles are created and stored separately from the geometry.  This holds true for all image layers that are employed, thus natively enabling time-varying color images, as well as, terrain information.
 
 The evaluation of the chunk tree also includes two culling steps that can remove quadtree nodes if they are not visible in the final rendering.  The \emph{frustum culling} uses the camera view frustum and the bounding box of each chunk to determine whether a chunk will be visible using the current camera parameters.  The \emph{horizon culling} removes chunks that would not contribute to the final rendering when they are in the view frustum, but below the horizon --- meaning that they are occluded by other chunks closer to the camera.  \fref{contributions:astro:gb:culling} shows this culling on an example rendering on Mars.
+
+\begin{figure}
+\centering
+\includegraphics[width=0.75\textwidth]{figures/contributions/gb/culling.png}
+\caption{The chunked level-of-detail algorithm used in the terrain renderer renders higher resolution images close to the camera and enables the culling based on the view frustum and the horizon.}
+\label{contributions:astro:gb:culling}
+\end{figure}
 
 Even through the Dynamic Scene Graph method as described above would enable the rendering of high-resolution surface terrains, it would require the dynamic generation of nodes in the scene graph tree, which would be prohibitive to real-time rendering.  Using only a single scene graph node for the Earth, however, is insufficient as the Earth's radius is 6371\,km, which would lead to floating point precision errors below $6.371\cdot 10^7 \cdot 2^{-24} \approx 3.8$ meters.  As there are data products with much higher resolution than this, a straightforward rendering of chunks would thus result in floating point jittering artifacts.  In order to deal with this, the rendering system only renders chunks in \emph{model space} until a certain subdivision level is reached.  In the model space rendering, the vertices of the chunk's geometry are projected from the georeferenced map projection into the Cartesian model space of the globe, resulting in a curved surface model.  Below the cutoff level, the chunks are rendered in \emph{camera space}, in which only the corners of the chunk are projected in double floating point precision and then linearly interpolated on the GPU.  The interpolation leads to flat chunks, but as this rendering method is only employed when close to the surface, the missing curvature of the globe is not noticable.  The cutoff level that determines which rendering method is used depends on the radius of the globe that is being rendered.
 
@@ -817,6 +818,11 @@ While the Dynamic Scene Graph supports an accurate placement of spacecraft relat
 \label{contributions:astro:sc:newhorizonsprojection}
 \end{figure}
 
+
+In order to better explain to the general public how the spacecraft's image acquisition operates, a rendering system was developed in collaboration with the New Horizons science team, that utilizes the accurate position and orientation of a spacecraft to project the instrument's images onto a target body (see \fref{contributions:astro:sc:singleprojection}).  This method utilizes a projection method presented by Segal~\cite{segal1992fast} and revisited by Everitt \cite{everitt2001projective} that computes texture coordinates using the spacecraft's location and orientation to compute a view matrix and the instrument parameters to compute a projection matrix for the algorithm and thus treats the imaging instrument as a slide projector.  Given the acquisition time for each image, it is then possible to retain previously acquired images on the surface of the object in order to interactively show the construction of a full mosaic and better explain why there is a difference in spatial resolution in different areas of the object (see \fref{contributions:astro:sc:newhorizonsprojection}).
+
+This method consists of two components;  1. the visualization of the instruments field-of-view, which especially for non-imaging instruments is not always rectangular;  2. the image projection onto the object itself.  For the first component, the current instrument's boresight pointing vector in a global coordinate system is required alongside its horizontal and vertical field-of-view parameters.  This information is available through use of the SPICE library~\cite{acton1996ancillary} which requires science-level accurate datasets. Fortunately, these are already created by the mission scientists and engineers in their regular workflow for a number of mission profiles in order to compare the expected image results for these different profiles.  SPICE provides the boresight direction in the spacecrafts inertial reference frame, which can then converted into the desired global reference frame, for example J2000.  The SPICE datasets also include information about the field-of-view settings for rectangular imagers, which can be used immediately.  For non-rectangular instruments, the vertex positions of the boundary polygon are returned instead.  The vertices of the field-of-view representations are then radially extended from the spacecraft to the center of the observed object.  If the field-of-view polygon intersects the geometry of the object of study, the vertices are offset to follow the curvature of the object.  \fref{contributions:astro:sc:intercept} shows the reprojection of the field-of-view vertices $P_a$ and $P_d$ into $I_a$ and $I_d$ by using the known radius of the object (if the object is a planet), or by casting a probe ray (if the object is a complex shape).  All intermediate points are then similarly reprojected in order to provide smooth transitions.
+
 \begin{figure}
 \centering
 \includegraphics[width=0.75\textwidth]{figures/contributions/sc/intercept.png}
@@ -824,16 +830,11 @@ While the Dynamic Scene Graph supports an accurate placement of spacecraft relat
 \label{contributions:astro:sc:intercept}
 \end{figure}
 
-
-In order to better explain to the general public how the spacecraft's image acquisition operates, a rendering system was developed in collaboration with the New Horizons science team, that utilizes the accurate position and orientation of a spacecraft to project the instrument's images onto a target body (see \fref{contributions:astro:sc:singleprojection}).  This method utilizes a projection method presented by Segal~\cite{segal1992fast} and revisited by Everitt \cite{everitt2001projective} that computes texture coordinates using the spacecraft's location and orientation to compute a view matrix and the instrument parameters to compute a projection matrix for the algorithm and thus treats the imaging instrument as a slide projector.  Given the acquisition time for each image, it is then possible to retain previously acquired images on the surface of the object in order to interactively show the construction of a full mosaic and better explain why there is a difference in spatial resolution in different areas of the object (see \fref{contributions:astro:sc:newhorizonsprojection}).
-
-This method consists of two components;  1. the visualization of the instruments field-of-view, which especially for non-imaging instruments is not always rectangular;  2. the image projection onto the object itself.  For the first component, the current instrument's boresight pointing vector in a global coordinate system is required alongside its horizontal and vertical field-of-view parameters.  This information is available through use of the SPICE library~\cite{acton1996ancillary} which requires science-level accurate datasets. Fortunately, these are already created by the mission scientists and engineers in their regular workflow for a number of mission profiles in order to compare the expected image results for these different profiles.  SPICE provides the boresight direction in the spacecrafts inertial reference frame, which can then converted into the desired global reference frame, for example J2000.  The SPICE datasets also include information about the field-of-view settings for rectangular imagers, which can be used immediately.  For non-rectangular instruments, the vertex positions of the boundary polygon are returned instead.  The vertices of the field-of-view representations are then radially extended from the spacecraft to the center of the observed object.  If the field-of-view polygon intersects the geometry of the object of study, the vertices are offset to follow the curvature of the object.  \fref{contributions:astro:sc:intercept} shows the reprojection of the field-of-view vertices $P_a$ and $P_d$ into $I_a$ and $I_d$ by using the known radius of the object (if the object is a planet), or by casting a probe ray (if the object is a complex shape).  All intermediate points are then similarly reprojected in order to provide smooth transitions.
-
 In order for the image projections to occur, a list of all planned or performed image acquisitions is generated.  In the case of future missions, such as OSIRIS-REx at the time of writing, this information is taken from a mission playbook that is generated by the scientists.  The playbook includes, among others, information about the start and end times of the image acquisition as well as the object that is the target of the image.  For historical missions, such as Rosetta, a hybrid approach is utilized that combines information from the playbook with metadata information included with the acquired images.  If an image for a particular acquisition is already available, it is used in the projection step, otherwise a placeholder image is displayed instead.  The image projections are rendered to a separate layer in order to provide the ability to fade the image projections in order to show a comparsion with an underlying global, preprocessed image.
 
 \begin{figure}
 \centering
-\includegraphics[width=0.75\textwidth]{figures/contributions/sc/newhorizons.png}
+\includegraphics[width=0.85\textwidth]{figures/contributions/sc/newhorizons.png}
 \caption{Projecting individual images of the New Horizons flyby show the composistion of a complicated mosaicked image that is released to the public in its entirety.  Showing individual images shows the engineering effort required to create the final image.}
 \label{contributions:astro:sc:newhorizons}
 \end{figure}
@@ -845,7 +846,7 @@ When an image projection is required, the projection layer texture of the object
 \begin{figure}
 \centering
 \includegraphics[width=0.75\textwidth]{figures/contributions/sc/rosetta.jpg}
-\caption{The Rosetta orbiter was in orbit around 67P/Churyumov–Gerasimenko for 2 years and acquired tens of thousands of images.}
+\caption{The Rosetta orbiter was in orbit around 67P/Churyumov-Gerasimenko for 2 years and acquired tens of thousands of images.}
 \label{contributions:astro:sc:rosetta}
 \end{figure}
 
