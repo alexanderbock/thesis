@@ -2,7 +2,7 @@
 
 \chapter{Visualization Application Design (contributions)} \label{cha:contributions}
 
-This chapter describes the contributions of the papers that are included in this thesis in four different application domains.  This section describes the partition of papers into the domains and the subsequent sections contain each a description of the problem domain and then elaborate on the contributions of the included papers.
+This chapter describes the contributions of the papers that are included in this thesis in five different application domains.  This section describes the partition of papers into the domains and the subsequent sections contain each a description of the problem domain and then elaborate on the contributions of the included papers.
 
 \textbf{Finite Element Models. } \paperFEM\ deals with algorithmic challenges to efficiently render non-linear finite element models, in this case exemplified on a high-resolution simulation of stress inside a heart muscle, a deformation model of the breast muscle, and a simultion of the muscle fibers in the tongue~(\SC{contributions:fem}).
 
@@ -12,19 +12,19 @@ This chapter describes the contributions of the papers that are included in this
 
 \textbf{Space Weather. } The work presented in \paperCME\ describes a visualization application used to compare simulations and real world observations in the context of space weather.  Space Weather is the collective term for the study of the overall plasma conditions in our solar system and how they impact the Earth, humans, and satellites.~(\SC{contributions:spaceweather})
 
-\textbf{Astrophysical Visualization. } The papers in this topic deal with visualization systems that were designed with a focus on public dissemination of astronomical and astrophysical phenomen\ae. \paperDSG, \paperGB, and \paperOS\ describe components in the development of \emph{OpenSpace}, an open-source visualization framework enabling the public dissemination of astronomical data.~(\SC{contributions:astro})
+\textbf{Astrophysical Visualization. } \paperDSG, \paperGB, and \paperOS\  describe a visualization system called \emph{OpenSpace} that was designed with a focus on public dissemination of astronomical and astrophysical phenomen\ae.~(\SC{contributions:astro})
 
-Each of the topics provides a short introduction into the domain and, then, elaborate on the work that has been done in the respective papers.
+Each of the sections provide a short introduction into the domain and, then, elaborate on the work that has been done in the respective papers.
 
 
 
 
 
 \section{Finite Element Models} \label{contributions:fem}
-The work of \paperFEM\ describes the creation of an algorithm to efficiently render non-linear finite element models that traditionally require expensive calculations during the rendering to be represented correctly.  The paper describes an algorithm that utilizes an efficient storage and look-up of precalculated rays, improving the rendering performance by an order of magnitude.
+The work of \paperFEM\ describes the creation of an algorithm to efficiently render non-linear finite element models that traditionally require expensive calculations during the rendering to be represented correctly.  The paper describes an algorithm that utilizes an efficient storage and look-up of precalculated rays, thus improving the rendering performance by an order of magnitude.
 
 \subsection{Domain and Scientific Problems} \label{contributions:fem:background}
-Finite element models (FEM) methods are used extensively in a large number of fields, such as engineering, construction, or biology, as an approach to solve complex problems numerically by separating the problem domain into a finite number of cells, each with their own local coordinate system, over which the numerical simulation can be performed independently and efficiently.  Two coordinate system are associated with each element; the location and deformation of an element is specified in Cartesian \emph{world coordinates}, whereas the computed values of the element are represented in a material coordinate system $\xi$ which, in most cases, is not Cartesian but can be of arbitrary geometry that simplifies the underlying computation (see Figures~\ref{contributions:fem:rays:world} and \ref{contributions:fem:rays:xi}).  The vertex coordinates of each element can be expressed in either coordinate system through a bilinear transformation; in many cases, however, an analytical solution does not exist for arbitrary coordinates inside the element and the transformation involves computationally expensive iterative solvers, such as the Newton method.  For more information on finite element models can be found in Bathe and Wilson's book~\cite{bathe1976numerical}.
+Finite element models (FEM) methods are used extensively in a large number of fields, such as engineering, construction, or biology, as an approach to solve complex problems numerically by separating the problem domain into a finite number of cells, each with their own local coordinate system, over which the numerical simulation can be performed independently and efficiently.  Two coordinate systems are associated with each element; the location and deformation of an element is specified in Cartesian \emph{world coordinates}, whereas the computed values of the element are represented in a material coordinate system $\xi$ which, in most cases, is not Cartesian but can be of arbitrary geometry that simplifies the underlying computation (see Figures~\ref{contributions:fem:rays:world} and \ref{contributions:fem:rays:xi}).  The vertex coordinates of each element can be expressed in either coordinate system through a bilinear transformation; in many cases, however, an analytical solution does not exist for arbitrary coordinates inside the element and the transformation involves computationally expensive iterative solvers, such as the Newton method.  For more information on finite element models can be found in the book by Bathe and Wilson~\cite{bathe1976numerical}.
 
 \begin{figure}
 \centering
@@ -91,7 +91,7 @@ The following two sections describe the method used in the curve clustering and 
 \label{contributions:fem:splines}
 \end{figure}
 
-A sampling of the $|F|$ faces of the $|E|$ elements of the model using $n$ points per face results in $r_t = \left( n^2 \cdot |F| \right) ^2 \cdot |E|$ proxy rays.  Without a further reduction this number is prohibitely large to store all precomputed rays on the GPU.  However, since there is a potential for a high degree of similarity between rays due to symmetries in the finite model elements and bounded ray complexity as each ray has to stay inside the boundaries of an element.  Thus, it is possible to utilize a clustering algorithm to reduce the number of representative \emph{proxy rays} necessary during the rendering without introducing large errors.
+A sampling of the $|F|$ faces of the $|E|$ elements of the model using $n$ points per face results in $r_t = \left( n^2 \cdot |F| \right) ^2 \cdot |E|$ proxy rays.  Without further reductions this number is prohibitely large to store all precomputed rays on the GPU.  However, since there is a potential for a high degree of similarity between rays due to symmetries in the finite model elements and bounded ray complexity as each ray has to stay inside the boundaries of an element.  Thus, it is possible to utilize a clustering algorithm to reduce the number of representative \emph{proxy rays} necessary during the rendering without introducing large errors.
 
 % \begin{figure}
 % \centering
