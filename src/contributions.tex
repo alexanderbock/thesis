@@ -29,21 +29,24 @@ Finite element models (FEM) methods are used extensively in a large number of fi
 \begin{figure}
 \centering
 \begin{subfigure}[b]{0.3\textwidth}
+    \centering
     \fbox{\includegraphics[width=\abfboximagewidth, height=4cm]{figures/contributions/fem/splines-world-space.pdf}}
     \caption{Rays and element geometry shown in Cartesian world space.}
     \label{contributions:fem:rays:world}
 \end{subfigure}
-\hfill
+\hspace*{0.15cm}
 \begin{subfigure}[b]{0.3\textwidth}
+    \centering
     \fbox{\includegraphics[width=\abfboximagewidth, height=4cm]{figures/contributions/fem/splines-xi-space.pdf}}
     \caption{Rays and element geometry shown in material space.}
     \label{contributions:fem:rays:xi}
 \end{subfigure}
-\hfill
+\hspace*{0.15cm}
 \begin{subfigure}[b]{0.3\textwidth}
-   \fbox{\includegraphics[width=\abfboximagewidth, height=4cm]{figures/contributions/fem/viewingrays.pdf}}
-   \caption{Converting between coordinate systems converts the straight viewing rays into curved rays.}
-   \label{contributions:fem:rays:rays}
+    \centering
+    \fbox{\includegraphics[width=2.91cm, height=4cm]{figures/contributions/fem/viewingrays.pdf}}
+    \caption{Converting coordinate systems turns straight viewing rays into curved rays.}
+    \label{contributions:fem:rays:rays}
 \end{subfigure}
 \caption{Transformation between world coordinates and material coordinates for a set of viewing rays when viewing the element geometry and the viewing rays from the world (a) or the material (b) coordinate system.}
 \label{contributions:fem:rays}
@@ -698,8 +701,8 @@ This provides a problem if the camera is pointed at an object that is at a great
 
 \begin{figure}
 \centering
-\fbox{\includegraphics[width=0.75\textwidth]{figures/contributions/dsg/voyager1.png}}
-\caption{A rendering of the Voyager 1 spacecraft in the year 2018 at $21.1 \cdot 10^{15}\,$m or $19.5$ light hours from the Earth.}
+\fbox{\includegraphics[width=\textwidth]{figures/contributions/dsg/voyager1.png}}
+\caption{A rendering of the Voyager 1 spacecraft in the year 2018 at $21.17 \cdot 10^{15}\,$m or $19.6$ light hours from the Earth.}
 \label{contributions:astro:dsg:voyager}
 \end{figure}
 
@@ -710,7 +713,7 @@ This provides a problem if the camera is pointed at an object that is at a great
 % \label{contributions:astro:dsg:scenegraph}
 % \end{figure}
 
-\paperDSG\ presents a modification to the traversal algorithm employed in standard scene graph methods that enables a much larger range of values to be represented in the same scene.  Instead of being expressed relative to the root node of the scene graph, the camera is instead always attached to the closest scene graph node, which is called the \emph{attachment node}.  The traditional traversal is then replaced with a dynamic algorithm that can traverse the scene graph in both directions in order to project every object into the local coordinate system of the attached node (see \fref{contributions:astro:dsg:scenegraph}).  \fref{contributions:astro:dsg:voyager} shows the result of this in a real-world example of the Voyager spacecraft at a distance of approximately $21.1 \cdot 10^{15}\,$ from the Earth.  The only additional limitation on the relative scene graph node transformations is that they can be inverted, which is trivially achievable for all regular transformations.
+\paperDSG\ presents a modification to the traversal algorithm employed in standard scene graph methods that enables a much larger range of values to be represented in the same scene.  Instead of being expressed relative to the root node of the scene graph, the camera is instead always attached to the closest scene graph node, which is called the \emph{attachment node}.  The traditional traversal is then replaced with a dynamic algorithm that can traverse the scene graph in both directions in order to project every object into the local coordinate system of the attached node (see \fref{contributions:astro:dsg:scenegraph}).  \fref{contributions:astro:dsg:voyager} shows the result of this in a real-world example of the Voyager spacecraft at a distance of approximately $21.17 \cdot 10^{15}\,$m from the Earth.  The only additional limitation on the relative scene graph node transformations is that they can be inverted, which is trivially achievable for all regular transformations.
 
 The dynamic traversal of the scene graph operates by finding the shortest path between each scene graph node and the current attached node in the graph.  The final transformation uses the stored relative transformations for each traversal step towards the leaves, and the inverse of a transformation for each movement towards the root.
 
@@ -759,8 +762,8 @@ A further limitation of previous systems is the restriction to near-spherical ge
 
 \begin{figure}[b]
 \centering
-\includegraphics[width=0.7\textwidth]{figures/contributions/gb/prometheus.png}
-\caption{A non-spherical terrain model showing Saturn's moon Prometheus.}
+\includegraphics[width=\textwidth]{figures/contributions/gb/prometheus.png}
+\caption{A non-spherical terrain model showing Saturn's moon Prometheus in the front and it's companion Atlas on the right.}
 \label{contributions:astro:gb:prometheus}
 \end{figure}
 
@@ -784,7 +787,7 @@ The evaluation of the chunk tree also includes two culling steps that can remove
 
 \begin{figure}
 \centering
-\includegraphics[width=0.75\textwidth]{figures/contributions/gb/culling.png}
+\includegraphics[width=\textwidth]{figures/contributions/gb/culling.png}
 \caption{The chunked level-of-detail algorithm used in the terrain renderer renders higher resolution images close to the camera and enables the culling based on the view frustum and the horizon.}
 \label{contributions:astro:gb:culling}
 \end{figure}
@@ -852,7 +855,7 @@ When an image projection is required, the projection layer texture of the object
 
 \begin{figure}
 \centering
-\includegraphics[width=0.75\textwidth]{figures/contributions/sc/osiris_rex.png}
+\includegraphics[width=\textwidth]{figures/contributions/sc/osiris_rex.png}
 \caption{The OSIRIS-REx mission will arrive at the asteroid Bennu in August 2018 and depart in 2021 with a sample that is returned to Earth.}
 \label{contributions:astro:sc:osirisrex}
 \end{figure}
